@@ -1,0 +1,15 @@
+button[data-type="primary"] {
+    appearance: none;
+    color: #e0e0e0;
+    background-color: #262c3b;
+    border: 1px solid #202531;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+button:hover {
+    cursor: pointer;
+    color: #e0e1e5;
+    border-color: #666c7b;
+}
