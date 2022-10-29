@@ -3,13 +3,14 @@ import './Button.css';
 export interface ButtonProps {
   type: 'primary' | 'secondary';
   label: string;
+  onClick?: () => void;
 }
 
 function Button(props: ButtonProps) {
-  const { type, label } = props;
+  const { type, label, onClick } = props;
 
   return (
-    <button data-type={type}>
+    <button data-type={type} onClick={onClick}>
       {label}
     </button>
   );
