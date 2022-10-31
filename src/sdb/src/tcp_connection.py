@@ -1,4 +1,4 @@
-import src.connection as connection
+import connection
 import socket
 
 class TcpConnection(connection.Connection):

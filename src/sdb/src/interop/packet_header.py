@@ -1,9 +1,7 @@
-import src.utils.byte_utils as byte_utils
+import utils.byte_utils as byte_utils
 
-"""
-Represets packet header. For more information see:
-https://www.mono-project.com/docs/advanced/runtime/docs/soft-debugger-wire-format
-"""
+# For more information see:
+# https://www.mono-project.com/docs/advanced/runtime/docs/soft-debugger-wire-format
 class PacketHeader:
     # defined size of the packet header. See more wire format documentation
     length = 11

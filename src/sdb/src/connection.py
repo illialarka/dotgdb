@@ -1,4 +1,4 @@
-import src.interop.packet_header as packet_header
+import interop.packet_header as packet_header
 import socket
 
 class Connection:
