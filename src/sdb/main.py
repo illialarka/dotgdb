@@ -1,4 +1,6 @@
 import argparse
+import logging 
+import utils
 
 # entry point for application which will read from stdin and write to stdout
 # parsing commands and sending them to debugger in proer format
@@ -10,10 +12,6 @@ import argparse
 # 4. send response to stdout
 # 5. repeat 1-4
 def main():
-    welcome_message = """Welcome to SDB debugger.
-Type 'help' to get list of available commands.
-Type 'quit' to exit.
-"""
     argument_parser = argparse.ArgumentParser(
             prog = "SDB",
             description = "Mono Soft Debugger agent")
@@ -23,8 +21,9 @@ Type 'quit' to exit.
     argument_parser.add_argument("-p", "--port", help= "port to connect in case of attaching")
 
     args = argument_parser.parse_args()
+    utils.configure_logger(args.verbose)
 
-    print (args)
+
 
 if __name__ == "__main__":
     main()
