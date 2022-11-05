@@ -1,6 +1,7 @@
 import argparse
 import logging 
 import utils
+import session
 
 # entry point for application which will read from stdin and write to stdout
 # parsing commands and sending them to debugger in proer format
@@ -20,10 +21,11 @@ def main():
     argument_parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose logging level")
     argument_parser.add_argument("-p", "--port", help= "port to connect in case of attaching")
 
-    args = argument_parser.parse_args()
-    utils.configure_logger(args.verbose)
+    arguments = argument_parser.parse_args()
+    utils.configure_logger(arguments.verbose)
 
-
+    debugger_session = session.DebuggerSession()
+    debugger_session.run_session(arguments)
 
 if __name__ == "__main__":
     main()
