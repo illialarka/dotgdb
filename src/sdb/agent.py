@@ -161,8 +161,7 @@ class Agent:
             try:
                 suspend_policy, events_data = self._events_queue.get(timeout=1)
                 print ("event queue loop")
-            except Exception as exc:
-                prin (exc)
+            except Empty:
                 continue
 
             self._on_event_set(suspend_policy, events_data)

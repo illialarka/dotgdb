@@ -1,9 +1,11 @@
 import argparse
-import logging 
+import logging
 import utils
 import session
 import exceptions
 import logging
+import agent
+import commands.selector as selector
 
 logger = logging.getLogger()
 
@@ -18,8 +20,8 @@ logger = logging.getLogger()
 # 5. repeat 1-4
 def main():
     argument_parser = argparse.ArgumentParser(
-            prog = "SDB",
-            description = "Mono Soft Debugger agent")
+            prog = "SDB Client",
+            description = "Mono Soft Debugger client")
 
     argument_parser.add_argument("executable")
     argument_parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose logging level")
@@ -29,18 +31,33 @@ def main():
     arguments = argument_parser.parse_args()
     utils.configure_logger(arguments.verbose)
 
-    debugger_session = session.DebuggerSession()
+    dbg_session = session.DbgSession()
 
     try:
-        debugger_session.run_session(arguments)
+        dbg_session.run(arguments)
+        dbg_agent = agent.Agent()
+        dbg_agent.start(True, dbg_session.port)
+
+        while True:
+            input_command = input("sdb> ")
+
+            command = selector.select_command(input_command)
+
+            if command is None:
+                print("Unknown command")
+                continue
+
+            print (command.execute(dbg_agent.vm, []))
+
+        # implement interactive mode
+        # infinite loop with reading commands from stdin
+        # and processing them using agent
     except exceptions.ExecutableNotFound:
-        logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.") 
+        logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
     except Exception as unhandled_exception:
         logger.error(unhandled_exception)
         logger.info("Closing all session on exception.")
-        debugger_session.exit() 
-
+        dbg_session.exit()
 
 if __name__ == "__main__":
     main()
-
