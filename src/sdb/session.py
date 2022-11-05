@@ -1,35 +1,54 @@
+import os.path as path
 import logging
 import utils
 import subprocess
+import exceptions
+import agent
+import time
 
 logger = logging.getLogger()
 
 class DebuggerSession:
+    debug_process = None
+    debug_agent = None
+    port = None
+    executable = None
+    address = "127.0.0.1"
 
-    def __init__(self):
-        self.port = None
-        self._debug_process = None
-        
-    # Based on aguments perform certain actions
     def run_session(self, arguments):
         if arguments.port is not None:
-            # here we should implement attaching to debugger
             pass
 
-        # here we should run debugger agent and  
+        # here we should run debugger agent and
         if arguments.executable is not None:
-            logger.debug("run mono debugger for executable")
-            self._run_debugger_agent(arguments.executable)
 
-    def _run_debugger_agent(self, executable):
-        self.port = utils.find_port()
-        logger.debug(f"debug server is going to run on {self.port}")
+            if not path.exists(arguments.executable):
+                raise exceptions.ExecutableNotFound()
 
-        command = f'mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:{self.port} /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll'
+            self._run_debug_server(arguments.executable)
+            self._run_debug_agent()
 
-        logger.debug(command)
+    def exit(self):
+        if DebuggerSession.debug_process is None:
+            return
 
-        self._debug_process = subprocess.Popen(
+        DebuggerSession.debug_process.kill()
+        DebuggerSession.debug_agent.stop()
+        DebuggerSession.debug_process = None
+        DebuggerSession.debug_agent = None
+
+    def _run_debug_server(self, executable):
+        DebuggerSession.port = utils.find_port()
+        logger.debug(f"debug server is going to run on {DebuggerSession.address}:{DebuggerSession.port}")
+
+        command = f"mono --debug --debugger-agent=transport=dt_socket,server=y,address={DebuggerSession.address}:{DebuggerSession.port} {executable}"
+
+        logger.debug(f"command: {command}")
+
+        # well, it should wait until we connect to server
+        # for now leave as is
+        # in future will add checking to make sure it is still alive
+        DebuggerSession.debug_process = subprocess.Popen(
                 [ command ],
                 shell=True,
                 stdin=subprocess.PIPE,
@@ -37,11 +56,13 @@ class DebuggerSession:
                 stderr=subprocess.STDOUT,
                 close_fds=True)
 
-        while True:
-            output = self._debug_process.stdout.readline()
-            if output == '' and slef._debug_process.poll() is not None:
-                break
-            if output:
-                print (output.strip())
-        result_code = self._debug_process.poll()
+        time.sleep(5)
 
+        return_code = DebuggerSession.debug_process.poll()
+
+    def _run_debug_agent(self):
+        DebuggerSession.debug_agent = agent.Agent()
+        DebuggerSession.debug_agent.start(True, DebuggerSession.port, 50)
+
+        ag = DebuggerSession.debug_agent
+        print (ag.vm.get_root_appdomain())

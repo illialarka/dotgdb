@@ -12,12 +12,9 @@ def find_port():
         sock.close()
 
 def configure_logger(is_verbose):
-    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-
     logging_level = logging.DEBUG if is_verbose else logging.INFO 
 
     handler = logging.StreamHandler() 
-    handler.setFormatter(formatter);
     handler.setLevel(logging_level) 
 
     logger = logging.getLogger()
