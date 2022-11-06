@@ -4,7 +4,7 @@
   --primary-color: #262c3b;
   --primary-accent-color: #202531;
   --primary-text-color: #e0e0e0;
-  --primary-hightlight-color: #666c7b;
+  --primary-highlight-color: #565c6a;
 }
 
 body {
@@ -24,5 +24,15 @@ code {
     monospace;
 }
 
+.text {
+  color: var(--primary-text-color);
+}
 
 
+.active-tab {
+  display: block;
+}
+
+.hidden-tab {
+  display: none;
+}
