@@ -49,10 +49,10 @@ class DbgAgent:
 
             max_attempts, success = 10, False
             while not success and max_attempts > 0:
-                print ("attempting to connect {0}".format(max_attempts))
+                logger.info ("attempting to connect {0}".format(max_attempts))
 
                 rc = self._server_socket.connect_ex(self._server_endpoint)
-                print ("rc {0}".format(rc))
+                logger.info ("connect response code {0}".format(rc))
                 if rc == 0:
                     success = True
                 else:

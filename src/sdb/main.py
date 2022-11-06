@@ -40,6 +40,10 @@ def main():
 
             print (command.execute(dbg_agent.vm, []))
 
+    except exceptions.ExitException:
+        logger.info("Exit requested. Closing session and kill processes.")
+        dbg_session.exit()
+        dbg_agent.stop()
     except exceptions.ExecutableNotFound:
         logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
     except Exception as unhandled_exception:

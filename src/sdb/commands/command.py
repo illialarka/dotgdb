@@ -6,5 +6,5 @@ class Command:
         self.description = "No description available"
         self.help = "No help available"
 
-    def run(self, args):
+    def execute(self, vm, args):
         raise NotImplementedError

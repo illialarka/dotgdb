@@ -33,6 +33,9 @@ class WrongILOffsetError(Exception):
 class ExecutableNotFound(Exception):
     pass
 
+class ExitException(Exception):
+    pass
+
 def error_code_to_exception(error_code):
     if error_code == constants.RESULT_INVALID_OBJECT:
         return InvalidObjectError()
