@@ -25,20 +25,38 @@ def main():
     dbg_session = session.DbgSession()
     dbg_agent = agent.DbgAgent()
 
+    # run debugger agent and debugger server
     try:
         dbg_session.run(arguments)
         dbg_agent.start(True, dbg_session.port, 10)
+    except Exception as error:
+        print ("An error occured during starting debugger session. Error:  {0}".format(error))
+        logger.error(error)
 
+    try:
         while True:
-            input_command = input("sdb> ")
+            input_command = input("sdb> ").split(" ")
 
-            command = selector.select_command(input_command)
+            command_alias = None
+            command_arguments = None
 
-            if command is None:
-                print("Unknown command")
+            if len(input_command) == 0:
+                print ("No command specified")
                 continue
 
-            print (command.execute(dbg_agent, []))
+            if len(input_command) >= 1:
+                command_alias = input_command[0]
+                command_arguments = input_command[1:]
+
+            print (f"command: {command_alias}, arguments: {command_arguments}")
+
+            command = selector.select_command(command_alias)
+
+            if command is None:
+                print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
+                continue
+
+            print (command.execute(dbg_agent, command_arguments))
 
     except exceptions.ExitException:
         logger.info("Exit requested. Closing session and kill processes.")
