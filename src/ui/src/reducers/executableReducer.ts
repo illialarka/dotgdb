@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../store';
-import { fetchCount } from './counterAPI';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 export interface ExecutableState {
   path?: string;
@@ -13,29 +12,19 @@ const initialState: ExecutableState = {
 export const executableSlice = createSlice({
   name: 'executable',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
+
   reducers: {
-/*
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    setExecutable: (state, action: PayloadAction<string>) => {
+      state.path = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
-    },
-  },
-  */
+
+    reset: (state) => {
+      state.path = undefined;
+    }
   }
 });
 
-export const {  } = executableSlice.actions;
+export const { reset, setExecutable } = executableSlice.actions;
 
 export const selectExecutable = (state: RootState) => state.executable;
 

@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Button from './components/Button';
-import Code from './components/Code';
-import FileInput from './components/FileInput';
 import Link from './components/Link';
 import Menu  from './components/Menu';
+import { selectExecutable } from './reducers/ExecutableReducer';
+import { useAppSelector } from './reducers/hooks';
 import Load from './views/Load';
-
-const tabs = ["load", "environment", "script"]
 
 function App() {
   const [activeTab, setActiveTab] = useState('load');
+  const [isExecutableSelected, setIsExecutableSelected] = useState(false);
+  const executable = useAppSelector(selectExecutable);
+
+  useEffect(() => {
+    console.log('asdas')
+    setIsExecutableSelected(!!executable.path && executable.path !== '');
+  }, [ executable ]);
+
+  const tabSelection = (tab: string) => {
+    if (executable.path && executable.path.length > 0) {
+      setActiveTab(tab);
+    }
+  }
 
   const tabContentClass = (tab: string) => {
     return activeTab === tab ? "active-tab" : "hidden-tab";
@@ -25,9 +36,9 @@ function App() {
         <div className="main-header">
           <Menu></Menu>
           <div className='text'>
-            <Button type='primary' styled={tabButtonStyle('load')} label='Load' onClick={() => setActiveTab('load')}></Button>
-            <Button type='primary' styled={tabButtonStyle('environment')} label='Environment' onClick={() => setActiveTab('environment')}></Button>
-            <Button type='primary' styled={tabButtonStyle('script')} label='Script' onClick={() => setActiveTab('script')}></Button>
+            <Button type='primary' styled={tabButtonStyle('load')} label='Load' disabled={false} onClick={() => tabSelection('load')}/>
+            <Button type='primary' styled={tabButtonStyle('environment')} disabled={!isExecutableSelected} label='Environment' onClick={() => tabSelection('environment')}/>
+            <Button type='primary' styled={tabButtonStyle('script')} disabled={!isExecutableSelected} label='Script' onClick={() => tabSelection('script')}/>
           </div>
         </div>
 
@@ -46,7 +57,7 @@ function App() {
 
         <div className="tools">
           Side tools
-          <Button type='primary' styled='default' label='Button'></Button>
+          <Button disabled={false} type='primary' styled='default' label='Button'></Button>
           <Link label='Link example' target='_blank'></Link>
           <div>
           </div>

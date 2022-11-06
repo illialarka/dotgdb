@@ -1,13 +1,19 @@
-button[data-type="primary"] {
+.btn[data-type="primary"] {
     appearance: none;
     color: var(--primary-text-color);
     border: 1px solid var(--primary-accent-color);
     padding: 0.5rem 1rem;
 }
 
-button:hover {
+.btn:disabled {
+    opacity: 1;
+    color: var(--primary-text-color);
+    border: 1px solid var(--primary-accent-color);
+    padding: 0.5rem 1rem;
+}
+
+.btn:not(:disabled) {
     cursor: pointer;
-    border-color: var(--primary-highlight-color);
 }
 
 .default {

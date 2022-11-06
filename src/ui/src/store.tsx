@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import executableReducer from './reducers/executableReducer';
+import executableReducer from './reducers/ExecutableReducer';
 
 export const store = configureStore({
   reducer: {
-    executable: executableReducer,
+    executable: executableReducer
   },
 });
 
