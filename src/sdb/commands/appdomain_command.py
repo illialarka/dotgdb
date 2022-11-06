@@ -7,6 +7,5 @@ class GetAppDomainCommand(cmd.Command):
         self.description = "Get the application domain name of an executable."
         self.help = "Usage: appdomain"
 
-    def execute(self, vm, args):
-        # ignores args
+    def execute(self, vm, args = None):
         return vm.get_root_appdomain().get_name()

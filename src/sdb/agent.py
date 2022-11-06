@@ -5,20 +5,20 @@ import events_data as ev
 import exceptions
 import buffer_stream
 import logging
+import time
 
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread, Event
 from queue import Queue, Empty
 from collections import namedtuple
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename='agent.log', encoding='utf-8', level=logging.INFO)
+logger = logging.getLogger()
 
 EventRequest = namedtuple("EventRequest", ["event_kind", "request_id"])
-
 Packet = namedtuple("Packet", ["header", "data"])
 
-class Agent:
+class DbgAgent:
+
     def __init__(self):
         self._socket = None
         self._server_socket = None
@@ -46,7 +46,19 @@ class Agent:
             logger.debug("connecting to {0}...".format(port))
             self._server_endpoint = ("127.0.0.1", port)
             self._server_socket = socket(AF_INET, SOCK_STREAM)
-            self._server_socket.connect(self._server_endpoint)
+
+            max_attempts, success = 10, False
+            while not success and max_attempts > 0:
+                print ("attempting to connect {0}".format(max_attempts))
+
+                rc = self._server_socket.connect_ex(self._server_endpoint)
+                print ("rc {0}".format(rc))
+                if rc == 0:
+                    success = True
+                else:
+                    self._server_socket = socket(AF_INET, SOCK_STREAM)
+                    max_attempts -= 1
+                    time.sleep(1)
 
         logger.debug(
             "receiving handhsake from {0}...".format(self._server_endpoint))
@@ -256,3 +268,16 @@ class Agent:
 
             if event_data.event_kind in self.events_callbacks:
                 self.events_callbacks[event_data.event_kind](event_data)
+
+    def _self_connect(self):
+        max_attempts, success = 10, False
+        while not success and max_attempts > 0:
+            logger.info("Attempting to connect {0}".format(max_attempts))
+
+            rc = self._server_socket.connect_ex(self._server_endpoint)
+            if rc == 0:
+                success = True
+            else:
+                self._server_socket = socket(AF_INET, SOCK_STREAM)
+                max_attempts -= 1
+                time.sleep(1)

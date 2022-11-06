@@ -55,7 +55,4 @@ class DbgSession:
                 stderr=subprocess.STDOUT,
                 close_fds=True)
 
-        # TODO: Refactor it asap
-        time.sleep(5)
-
         return_code = self.debug_process.poll()
