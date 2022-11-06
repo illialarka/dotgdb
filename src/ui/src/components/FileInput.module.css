@@ -1,0 +1,33 @@
+.control > input {
+    display: none;
+}
+
+.control > div[data-type="icon"] {
+    border-left: 1px solid var(--primary-highlight-color);
+    padding: 0.5rem 1rem;
+}
+
+.control > span {
+    padding: 0.5rem 1rem;
+}
+
+.control {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    gap: 1em;
+    appearance: none;
+    color: var(--primary-text-color);
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-highlight-color);
+    margin-bottom: 0.5rem;
+}
+
+.control:hover {
+    cursor: pointer;
+    border-color: var(--primary-text-color);
+}
+
+.control:hover > div[data-type="icon"] {
+    cursor: pointer;
+    border-color: var(--primary-text-color);
+}

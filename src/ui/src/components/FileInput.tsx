@@ -1,15 +1,11 @@
-import './FileInput.css';
+import classes from './FileInput.module.css';
 import { BiFolderOpen } from "react-icons/bi";
 
-export interface FileInputProps {
-  onClick?: () => void;
-}
-
-function FileInput(props: FileInputProps) {
+function FileInput() {
   return (
-    <label className="file-input">
+    <label className= {classes.control}>
       <span>
-        Selec file to open and debug
+        Open executable for debugging
       </span>
       <div data-type="icon">
         <BiFolderOpen/>
