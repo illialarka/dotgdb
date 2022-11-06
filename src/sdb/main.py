@@ -38,7 +38,7 @@ def main():
                 print("Unknown command")
                 continue
 
-            print (command.execute(dbg_agent.vm, []))
+            print (command.execute(dbg_agent, []))
 
     except exceptions.ExitException:
         logger.info("Exit requested. Closing session and kill processes.")
@@ -50,6 +50,7 @@ def main():
         logger.error(unhandled_exception)
         logger.info("Closing all session on exception.")
         dbg_session.exit()
+        dbg_agent.stop()
 
 if __name__ == "__main__":
     main()

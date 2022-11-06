@@ -2,7 +2,7 @@ import sdbtypes
 import constants
 import buffer_stream
 import appdomain_mirror as am
-import thread_mirror
+import thread_mirror as th_m
 import assembly_mirror
 import module_mirror
 import type_mirror
@@ -96,7 +96,7 @@ class VmMirror:
 
     def get_thread(self, thread_id):
         if thread_id not in self._threads_cache:
-            mirror = ThreadMirror(self._agent, thread_id)
+            mirror = th_m.ThreadMirror(self._agent, thread_id)
             self._threads_cache[thread_id] = mirror
 
         return self._threads_cache[thread_id]
