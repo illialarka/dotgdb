@@ -1,0 +1,66 @@
+ERROR:root:name 'debgger_session' is not defined
+INFO:root:Closing all session on exception.
+ERROR:root:name 'debgger_session' is not defined
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63053
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63053 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:name 'DebuggerSession' is not defined
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63123
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63123 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63164
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63164 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63189
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63189 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63319
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63319 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63470
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63470 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63509
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63509 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+ERROR:root:cannot access local variable 'agent' where it is not associated with a value
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:63635
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:63635 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+DEBUG:agent:connecting to 63635...
+DEBUG:agent:receiving handhsake from ('127.0.0.1', 63635)...
+DEBUG:agent:sending an answer...
+DEBUG:agent:running threads...
+DEBUG:agent:listening started
+DEBUG:agent:waiting for virtual machine start event...
+DEBUG:agent:incoming event: VM_START
+DEBUG:agent:fully started
+ERROR:root:'NoneType' object has no attribute 'execute'
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:64088
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:64088 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+DEBUG:agent:connecting to 64088...
+DEBUG:agent:receiving handhsake from ('127.0.0.1', 64088)...
+DEBUG:agent:sending an answer...
+DEBUG:agent:running threads...
+DEBUG:agent:listening started
+DEBUG:agent:waiting for virtual machine start event...
+DEBUG:agent:incoming event: VM_START
+DEBUG:agent:fully started
+ERROR:root:VmMirror.get_appdomain() missing 1 required positional argument: 'appdomain_id'
+INFO:root:Closing all session on exception.
+DEBUG:root:debug server is going to run on 127.0.0.1:64445
+DEBUG:root:command: mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:64445 /Users/illialarka/projects/DebuggableProgram/bin/Debug/net6.0/DebuggableProgram.dll
+DEBUG:agent:connecting to 64445...
+DEBUG:agent:receiving handhsake from ('127.0.0.1', 64445)...
+DEBUG:agent:sending an answer...
+DEBUG:agent:running threads...
+DEBUG:agent:listening started
+DEBUG:agent:waiting for virtual machine start event...
+DEBUG:agent:incoming event: VM_START
+DEBUG:agent:fully started
