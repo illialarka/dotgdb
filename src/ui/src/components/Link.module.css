@@ -1,4 +1,4 @@
-a {
+.link {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     text-align: center;
     color: hsl(205, 100%, 75%);
@@ -7,7 +7,7 @@ a {
     filter: brightness(117.5%);
 }
 
-a:hover {
+.link:hover {
     cursor: pointer;
     text-decoration: underline
 }

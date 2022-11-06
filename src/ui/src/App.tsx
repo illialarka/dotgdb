@@ -22,7 +22,6 @@ function App() {
 
   return (
     <div className="app">
-      <div className="main">
         <div className="main-header">
           <Menu></Menu>
           <div className='text'>
@@ -31,6 +30,8 @@ function App() {
             <Button type='primary' styled={tabButtonStyle('script')} label='Script' onClick={() => setActiveTab('script')}></Button>
           </div>
         </div>
+
+      <div className="main">
         <div className='main-view text'>
           <div className={tabContentClass('load')}>
             <Load ></Load>
@@ -42,12 +43,13 @@ function App() {
             Script Tab here
           </div>
         </div>
-      </div>
-      <div className="tools">
-        Side tools
-        <Button type='primary' styled='default' label='Button'></Button>
-        <Link label='Link example' target='_blank'></Link>
-        <div>
+
+        <div className="tools">
+          Side tools
+          <Button type='primary' styled='default' label='Button'></Button>
+          <Link label='Link example' target='_blank'></Link>
+          <div>
+          </div>
         </div>
       </div>
     </div>
