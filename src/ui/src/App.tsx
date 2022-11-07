@@ -13,7 +13,6 @@ function App() {
   const executable = useAppSelector(selectExecutable);
 
   useEffect(() => {
-    console.log('asdas')
     setIsExecutableSelected(!!executable.path && executable.path !== '');
   }, [ executable ]);
 
@@ -39,6 +38,7 @@ function App() {
             <Button type='primary' styled={tabButtonStyle('load')} label='Load' disabled={false} onClick={() => tabSelection('load')}/>
             <Button type='primary' styled={tabButtonStyle('environment')} disabled={!isExecutableSelected} label='Environment' onClick={() => tabSelection('environment')}/>
             <Button type='primary' styled={tabButtonStyle('script')} disabled={!isExecutableSelected} label='Script' onClick={() => tabSelection('script')}/>
+            <Button type='primary' styled={tabButtonStyle('debug-output')} disabled={!isExecutableSelected} label='Debug Output' onClick={() => tabSelection('debug-output')}/>
           </div>
         </div>
 
@@ -53,6 +53,10 @@ function App() {
           <div className={tabContentClass('script')}>
             Script Tab here
           </div>
+          <div className={tabContentClass('debug-output')}>
+            Debug Output
+          </div>
+ 
         </div>
 
         <div className="tools">
