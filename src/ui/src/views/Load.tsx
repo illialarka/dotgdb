@@ -1,9 +1,11 @@
 import Button from '../components/Button';
-import FileInput, { EmptyOnChange } from '../components/FileInput';
+import FileInput from '../components/FileInput';
 import Link from '../components/Link';
 import { selectExecutable, setExecutable } from '../reducers/ExecutableReducer';
 import { useAppDispatch, useAppSelector } from '../reducers/hooks';
 import classes from './Load.module.css';
+
+const allowedExtensions = [".dll", ".exe"]
 
 function Load() {
     const executable = useAppSelector(selectExecutable);
