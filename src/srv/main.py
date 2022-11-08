@@ -1,22 +1,20 @@
-from flask import Flask
+from flask import Flask,request
 import argparse
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return "Index!"
+@app.route("/run", methods=["POST"])
+def run_executable():
+    content_type = request.headers.get("Content-Type")
+    if content_type != "application/json":
+        return "Specified content type is not supported", 400 
+    request_body = request.get_json()
 
-@app.route("/hello")
-def hello():
-    return "Hello World!"
+    if request_body is None:
+        return "Body is not specified", 400
 
-@app.route("/members")
-def members():
-    return "Members"
+    executable_path = request_body["path"]
 
-@app.route("/members/<string:name>/")
-def getMember(name):
-  return "somename"
+    return executable_path
 
 if __name__ == "__main__":
     argument_parser = argparse.ArgumentParser(
