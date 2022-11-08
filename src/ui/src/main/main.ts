@@ -2,6 +2,8 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
+import { spawn } from 'child_process';
+
 let win: BrowserWindow | null;
 
 const installExtensions = async () => {
@@ -44,6 +46,7 @@ const createWindow = async () => {
     win.on('closed', () => {
         win = null;
     });
+
 };
 
 app.on('ready', createWindow);
