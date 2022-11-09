@@ -1,3 +1,4 @@
+import { io } from 'socket.io-client'; 
 import Button from '../components/Button';
 import FileInput from '../components/FileInput';
 import Link from '../components/Link';
@@ -11,8 +12,20 @@ function Load() {
     const executable = useAppSelector(selectExecutable);
     const dispatch = useAppDispatch();
 
+    const fileSelected = (path: string) => {
+        console.log(path);
+
+        const socket = io("http://localhost:5000");
+
+        socket.on("connect", () => {
+            console.log("Connection has been established");
+        });
+
+        dispatch(setExecutable(path));
+    };
+
     const fileInputView = (
-        <FileInput onChange={(path) => dispatch(setExecutable(path))}></FileInput>
+        <FileInput onChange={(path) => fileSelected(path)}></FileInput>
     );
 
     const selectedExecutableView = (
