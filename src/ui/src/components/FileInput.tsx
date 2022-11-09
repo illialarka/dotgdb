@@ -1,16 +1,13 @@
 import classes from './FileInput.module.css';
 import { BiFolderOpen } from "react-icons/bi";
 
-export function EmptyOnChange(_: any) {
-  // do nothing
-}
-
 export interface FileInputProps {
   onChange: (_: string) => void;
+  supportedTypes: string[];
 }
 
 function FileInput(props: FileInputProps) {
-  let { onChange } = props;
+  let { onChange, supportedTypes } = props;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const path = event.target.value;
@@ -28,7 +25,7 @@ function FileInput(props: FileInputProps) {
       <div data-type="icon">
         <BiFolderOpen/>
       </div>
-      <input type="file" className='hide' onChange={handleFileChange}/>
+      <input type="file" className='hide' onChange={handleFileChange} accept={`${supportedTypes.map(x => x + ' ')}`}/>
     </label>
   );
 }

@@ -3,3 +3,7 @@ build
 dist
 __pycache__
 .pytest_cache
+
+*.swn
+*.swo
+*.swp
