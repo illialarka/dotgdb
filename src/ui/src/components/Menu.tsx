@@ -1,4 +1,5 @@
 import classes from './Menu.module.css';
+import { ActionBar } from './ActionBar';
 
 function Menu() {
   return (
@@ -11,6 +12,9 @@ function Menu() {
       </div>
       <div className={classes.item}>
         <a>Help</a>
+      </div>
+      <div className={classes.item}>
+        <ActionBar></ActionBar>
       </div>
     </div>
   );

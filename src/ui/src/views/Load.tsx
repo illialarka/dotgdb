@@ -2,7 +2,7 @@ import { runExecutable } from '../services/ExecutableService';
 import Button from '../components/Button';
 import FileInput from '../components/FileInput';
 import Link from '../components/Link';
-import { selectExecutable, setExecutable } from '../reducers/ExecutableReducer';
+import { selectExecutable, setExecutable, setActive } from '../reducers/ExecutableReducer';
 import { useAppDispatch, useAppSelector } from '../reducers/hooks';
 import classes from './Load.module.css';
 
@@ -22,7 +22,11 @@ function Load() {
 
     const onRun = () => {
         if (executable.path) {
-            runExecutable(executable.path);
+            runExecutable(executable.path).then(response => {
+                if (response.status == 200) {
+                    dispatch(setActive(true));
+                }
+            })
         }
     }
 

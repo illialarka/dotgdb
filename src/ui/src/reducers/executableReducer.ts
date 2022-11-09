@@ -3,10 +3,12 @@ import { RootState } from '../store';
 
 export interface ExecutableState {
   path?: string;
+  active: boolean;
 }
 
 const initialState: ExecutableState = {
-  path: undefined
+  path: undefined,
+  active: false 
 };
 
 export const executableSlice = createSlice({
@@ -18,13 +20,18 @@ export const executableSlice = createSlice({
       state.path = action.payload;
     },
 
+    setActive: (state, action: PayloadAction<boolean>) => {
+      state.active = action.payload;
+    },
+
     reset: (state) => {
       state.path = undefined;
+      state.active = false;
     }
   }
 });
 
-export const { reset, setExecutable } = executableSlice.actions;
+export const { reset, setExecutable, setActive } = executableSlice.actions;
 
 export const selectExecutable = (state: RootState) => state.executable;
 
