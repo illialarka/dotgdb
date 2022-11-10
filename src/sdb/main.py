@@ -6,6 +6,7 @@ import exceptions
 import logging
 import agent
 import commands.selector as selector
+import traceback
 
 logger = logging.getLogger()
 
@@ -56,6 +57,7 @@ def cli():
     except exceptions.ExitException:
         logger.info("Exit requested. Closing session and kill processes.")
     except Exception as unhandled_exception:
+        print (traceback.format_exc())
         logger.error(unhandled_exception)
         logger.info("Closing all session on exception.")
     finally:
