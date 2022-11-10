@@ -1,8 +1,12 @@
+*.DS_Store*
 sdb.egg-info
 build
 dist
 __pycache__
 .pytest_cache
+
+# virtualenv
+*/*env/*
 
 *.swn
 *.swo

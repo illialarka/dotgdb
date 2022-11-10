@@ -9,7 +9,7 @@ import commands.selector as selector
 
 logger = logging.getLogger()
 
-def main():
+def cli():
     argument_parser = argparse.ArgumentParser(
             prog = "SDB Client",
             description = "Mono Soft Debugger client")
@@ -68,4 +68,4 @@ def main():
         dbg_agent.stop()
 
 if __name__ == "__main__":
-    main()
+    cli()
