@@ -16,12 +16,11 @@ def cli():
 
     argument_parser.add_argument("executable")
     argument_parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose logging level")
-    argument_parser.add_argument("-s", "--simplified", action="store_true", help="enables simplified flow")
     argument_parser.add_argument("-p", "--port", help= "port to connect in case of attaching")
     argument_parser.add_argument("-a", "--address", help="address to connect in case of attaching", default="127.0.0.1")
 
     arguments = argument_parser.parse_args()
-    utils.configure_logger(arguments.verbose, arguments.simplified)
+    utils.configure_logger(arguments.verbose)
 
     dbg_session = session.DbgSession()
     dbg_agent = agent.DbgAgent()
@@ -32,12 +31,9 @@ def cli():
     except exceptions.ExecutableNotFound:
         logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 
-    # do not display prefix if it is simplified mode
-    tool_prefix = "sdb> " if not arguments.simplified else "";
-
     try:
         while True:
-            input_command = input(tool_prefix).split(" ")
+            input_command = input("sdb> ").split(" ")
 
             command_alias = None
             command_arguments = None
@@ -59,11 +55,10 @@ def cli():
             print (command.execute(dbg_agent, command_arguments))
     except exceptions.ExitException:
         logger.info("Exit requested. Closing session and kill processes.")
-        dbg_session.exit()
-        dbg_agent.stop()
     except Exception as unhandled_exception:
         logger.error(unhandled_exception)
         logger.info("Closing all session on exception.")
+    finally:
         dbg_session.exit()
         dbg_agent.stop()
 

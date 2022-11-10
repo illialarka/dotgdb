@@ -41,6 +41,7 @@ class DbgAgent:
 
             logger.debug("waiting for debugger connection...")
             self._socket.settimeout(timeout)
+            print ("acept again")
             self._server_socket, self._server_endpoint = self._socket.accept()
         else:
             logger.debug("connecting to {0}...".format(port))
@@ -51,9 +52,8 @@ class DbgAgent:
             while not success and max_attempts > 0:
                 logger.info ("attempting to connect {0}".format(max_attempts))
 
-                rc = self._server_socket.connect_ex(self._server_endpoint)
-                logger.info ("connect response code {0}".format(rc))
-                if rc == 0:
+                response_code = self._server_socket.connect_ex(self._server_endpoint)
+                if response_code == 0:
                     success = True
                 else:
                     self._server_socket = socket(AF_INET, SOCK_STREAM)
@@ -103,10 +103,13 @@ class DbgAgent:
 
         self._is_listening = False
 
-        if self._socket is not None:
-            self._socket.close()
-        if self._server_socket is not None:
-            self._server_socket.close()
+        try:
+            if self._socket is not None:
+                self._socket.close()
+            if self._server_socket is not None:
+                self._server_socket.close()
+        except:
+            print ("Agent is stopped")
 
     def send_command(self, command_set, command_id, params=b""):
         packet = (

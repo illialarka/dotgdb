@@ -34,7 +34,11 @@ class DbgSession:
         if self.debug_process is None:
             return
 
-        self.debug_process.kill()
+        try:
+            self.debug_process.kill()
+        except Exception as ex:
+            print (ex) 
+
 
     def _run_debug_server(self, executable):
         self.port = utils.find_port()

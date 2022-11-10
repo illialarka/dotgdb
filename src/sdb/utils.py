@@ -11,7 +11,7 @@ def find_port():
     finally:
         sock.close()
 
-def configure_logger(is_verbose, is_simplified):
+def configure_logger(is_verbose):
     logging_level = logging.DEBUG if is_verbose else logging.INFO 
 
     handler = logging.StreamHandler() 
