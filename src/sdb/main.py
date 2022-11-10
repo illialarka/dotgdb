@@ -29,7 +29,7 @@ def cli():
     try:
         session.run(arguments)
         agent.start(True, session.port, 10)
-        #agent.vm.resume()
+        agent.vm.resume()
     except exceptions.ExecutableNotFound:
         logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 
@@ -57,8 +57,7 @@ def cli():
             print(command.execute(agent, command_arguments))
         except exceptions.ExitException:
             logger.info("Exit requested. Closing session and kill processes.")
-            session.exit()
-            agent.stop()
+            session.exit(), agent.stop()
             return
         except Exception:
             print (traceback.format_exc())
