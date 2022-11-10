@@ -1,10 +1,10 @@
 import argparse
 import logging
 import utils
-import session
+import dbg_session 
+import dbg_agent
 import exceptions
 import logging
-import agent
 import commands.selector as selector
 import traceback
 
@@ -23,25 +23,25 @@ def cli():
     arguments = argument_parser.parse_args()
     utils.configure_logger(arguments.verbose)
 
-    dbg_session = session.DbgSession()
-    dbg_agent = agent.DbgAgent()
+    session = dbg_session.DbgSession()
+    agent = dbg_agent.DbgAgent()
 
     try:
-        dbg_session.run(arguments)
-        dbg_agent.start(True, dbg_session.port, 10)
-        dbg_agent.vm.resume()
+        session.run(arguments)
+        agent.start(True, session.port, 10)
+        #agent.vm.resume()
     except exceptions.ExecutableNotFound:
         logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 
-    try:
-        while True:
+    while True:
+        try:
             input_command = input("sdb> ").split(" ")
 
             command_alias = None
             command_arguments = None
 
             if len(input_command) == 0:
-                print ("No command specified")
+                print ("No command specified.")
                 continue
 
             if len(input_command) >= 1:
@@ -54,16 +54,14 @@ def cli():
                 print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
                 continue
 
-            print (command.execute(dbg_agent, command_arguments))
-    except exceptions.ExitException:
-        logger.info("Exit requested. Closing session and kill processes.")
-    except Exception as unhandled_exception:
-        print (traceback.format_exc())
-        logger.error(unhandled_exception)
-        logger.info("Closing all session on exception.")
-    finally:
-        dbg_session.exit()
-        dbg_agent.stop()
+            print(command.execute(agent, command_arguments))
+        except exceptions.ExitException:
+            logger.info("Exit requested. Closing session and kill processes.")
+            session.exit()
+            agent.stop()
+            return
+        except Exception:
+            print (traceback.format_exc())
 
 if __name__ == "__main__":
     cli()

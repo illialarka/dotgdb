@@ -4,10 +4,10 @@ import buffer_stream
 import appdomain_mirror as am
 import thread_mirror as th_m
 import assembly_mirror as asm
-import module_mirror
+import module_mirror as mm
 import type_mirror
-import method_mirror
-import object_mirror
+import method_mirror as meth_m
+import object_mirror as om
 
 class VmMirror:
     def __init__(self, agent, root_domain_id):
@@ -117,7 +117,7 @@ class VmMirror:
 
     def get_module(self, module_id):
         if module_id not in self._modules_cache:
-            mirror = ModuleMirror(self._agent, module_id)
+            mirror = mm.ModuleMirror(self._agent, module_id)
             self._modules_cache[module_id] = mirror
 
         return self._modules_cache[module_id]
@@ -131,14 +131,14 @@ class VmMirror:
 
     def get_method(self, method_id):
         if method_id not in self._methods_cache:
-            mirror = MethodMirror(self._agent, method_id)
+            mirror = meth_m.MethodMirror(self._agent, method_id)
             self._methods_cache[method_id] = mirror
 
         return self._methods_cache[method_id]
 
     def get_object(self, object_id):
         if object_id not in self._objects_cache:
-            mirror = ObjectMirror(self._agent, object_id)
+            mirror = om.ObjectMirror(self._agent, object_id)
             self._objects_cache[object_id] = mirror
 
         return self._objects_cache[object_id]

@@ -6,6 +6,9 @@ class ThreadsCommand(cmd.Command):
         self.description = "Lists all threads in the process."
         self.help = "Usage: threads"
 
+    def register_subparser(self, parser):
+        pass
+
     def execute(self, agent, args = None):
         threads = agent.vm.get_all_threads()
         for thread in threads:

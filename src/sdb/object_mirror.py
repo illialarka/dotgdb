@@ -12,6 +12,13 @@ class ObjectMirror:
         self._array_dimensions = None
 
         self.id = id
+    
+    def __str__(self):
+        return """ObjectMirror,
+            type = {0}
+        """.format(
+            self.get_type()
+        )
 
     def get_type(self):
         if self._type_id is None:

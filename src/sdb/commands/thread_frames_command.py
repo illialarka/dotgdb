@@ -7,6 +7,9 @@ class ThreadFramesCommand(cmd.Command):
         self.description = "Gets thread frame by thread identifier."
         self.help = "Usage: thfs <id>"
 
+    def register_subparser(self, parser):
+        pass
+
     def execute(self, agent, args):
         if len(args) == 0:
             return "Thread id is not provideded."

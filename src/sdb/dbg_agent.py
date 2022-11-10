@@ -194,7 +194,6 @@ class DbgAgent:
             try:
                 header = self._server_socket.recv(constants.PACKET_HEADER_SIZE)
             except Exception as ex:
-                logger.error(ex)
                 self.stop()
                 break
             if len(header) == 0:
