@@ -29,6 +29,7 @@ def cli():
     try:
         dbg_session.run(arguments)
         dbg_agent.start(True, dbg_session.port, 10)
+        dbg_agent.vm.resume()
     except exceptions.ExecutableNotFound:
         logger.info("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 

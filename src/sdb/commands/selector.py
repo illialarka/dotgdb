@@ -3,13 +3,15 @@ import commands.exit_command as exit_cmd
 import commands.supported_commands as supported_cmd
 import commands.threads_command as threads_cmd
 import commands.thread_frames_command as thread_frames_cmd 
+import commands.get_assemblies_command as get_assemblies_cmd
 
 supported_commands = set([
     appdomain_cmd.GetAppDomainCommand(),
     exit_cmd.ExitCommand(),
     supported_cmd.SupportedCommands(),
     threads_cmd.ThreadsCommand(),
-    thread_frames_cmd.ThreadFramesCommand()
+    thread_frames_cmd.ThreadFramesCommand(),
+    get_assemblies_cmd.GetAssembliesCommand()
 ])
 
 # selects first command that matches the input command

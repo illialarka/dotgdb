@@ -3,7 +3,7 @@ import constants
 import buffer_stream
 import appdomain_mirror as am
 import thread_mirror as th_m
-import assembly_mirror
+import assembly_mirror as asm
 import module_mirror
 import type_mirror
 import method_mirror
@@ -110,7 +110,7 @@ class VmMirror:
 
     def get_assembly(self, assembly_id):
         if assembly_id not in self._assemblies_cache:
-            mirror = AssemblyMirror(self._agent, assembly_id)
+            mirror = asm.AssemblyMirror(self._agent, assembly_id)
             self._assemblies_cache[assembly_id] = mirror
 
         return self._assemblies_cache[assembly_id]
