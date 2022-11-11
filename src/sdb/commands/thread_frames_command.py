@@ -1,4 +1,5 @@
 import commands.command as cmd
+import argparse
 
 class ThreadFramesCommand(cmd.Command):
 
@@ -7,16 +8,22 @@ class ThreadFramesCommand(cmd.Command):
         self.description = "Gets thread frame by thread identifier."
         self.help = "Usage: thfs <id>"
 
-    def register_subparser(self, parser):
-        pass
+        self._argument_parser = argparse.ArgumentParser(
+                prog = ", ".join(self.aliases),
+                description = self.description)
 
-    def execute(self, agent, args):
-        if len(args) == 0:
-            return "Thread id is not provideded."
+        self._argument_parser.add_argument("-id", "--identifier", help="thread identifier", type=int)
 
-        thread_id = int(args[0])
-        thread = agent.vm.get_thread(thread_id)
-        frames = thread.get_stackframes()
+    def execute(self, agent, args = None):
+        arguments = None
+        try:
+            arguments = self._argument_parser.parse_args(args)
+        except:
+            pass
 
-        return frames
+        if arguments is None:
+            return
+        
+        print ('command disable due to deadlock')
 
+        #print (agent.vm.get_thread(arguments.identifier).get_stackframes())

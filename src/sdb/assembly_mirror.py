@@ -20,10 +20,12 @@ class AssemblyMirror:
          id = {0};
          name = {1};
          filename = {2};
+         entry = {3};
          """.format(
             self.id,
             self.get_name(),
-            self.get_filename())
+            self.get_filename(),
+            self.get_entry_point())
 
     def get_filename(self):
         if self._filename is None:

@@ -1,7 +1,7 @@
 import sdbtypes
 import constants
 import buffer_stream
-import stackframe_mirror
+import stackframe_mirror as sm
 
 class ThreadMirror:
     def __init__(self, agent, id):
@@ -57,7 +57,7 @@ class ThreadMirror:
             il_offset = sdbtypes.decode_int(buffer[8:]).object
             flags = sdbtypes.decode_byte(buffer[12:]).object
 
-            mirror = StackFrameMirror(
+            mirror = sm.StackFrameMirror(
                 self._agent, id, self.id, method_id, il_offset, flags)
 
             return sdbtypes.DecodeInfo(mirror, 13)

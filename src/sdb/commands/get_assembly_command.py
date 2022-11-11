@@ -4,9 +4,9 @@ import argparse
 class GetAssemblyCommand(cmd.Command):
 
     def __init__(self):
-        self.aliases = [ "get_assembly" ]
+        self.aliases = [ "assembly" ]
         self.description = "Gets assembly of an executable by assembly identifier."
-        self.help = "Usage: get_assembly"
+        self.help = "Usage: assembly"
 
         self._argument_parser = argparse.ArgumentParser(
                 prog = ", ".join(self.aliases),
