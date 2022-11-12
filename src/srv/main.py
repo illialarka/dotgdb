@@ -2,10 +2,15 @@ from flask import Flask,request
 from flask_cors import cross_origin 
 from flask_socketio import SocketIO
 import argparse
+import dbg_agent
+import dbg_session
 
 app = Flask(__name__)
 # TODO: make cors allowed origins configurable
 socketio = SocketIO(app, logger=True, cors_allowed_origins="http://localhost:3000")
+
+session = dbg_session.DbgSession()
+agent = dbg_agent.DbgAgent() 
 
 @socketio.on('connect')
 def connected():
@@ -13,7 +18,7 @@ def connected():
 
 @app.route("/run", methods=['POST'])
 @cross_origin()
-def run_executable():
+def run():
     content_type = request.headers.get("Content-Type")
     if content_type != "application/json":
         return "Specified content type is not supported", 400 
@@ -24,7 +29,17 @@ def run_executable():
 
     executable_path = request_body["path"]
 
-    return executable_path
+    #arguments = argparse.Namespace(executable=executable_path, port=None) 
+    #session.run(arguments) 
+    #agent.start(True, session.port, 10)
+    #agent.vm.resume()
+    # it means we are running and resuming
+    return "Iam runni'" #agent.vm.get_root_appdomain().__str__();
+
+@app.route("/stop", methods=['POST'])
+@cross_origin()
+def stop(): 
+    pass
 
 if __name__ == "__main__":
     argument_parser = argparse.ArgumentParser(

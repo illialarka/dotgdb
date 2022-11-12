@@ -1,13 +1,13 @@
 import sdbtypes
 import constants
-import buffer_stream
-import appdomain_mirror as am
-import thread_mirror as th_m
-import assembly_mirror as asm
-import module_mirror as mm
+import buffer_stream 
+import appdomain_mirror 
+import thread_mirror
+import assembly_mirror
+import module_mirror
 import type_mirror
-import method_mirror as meth_m
-import object_mirror as om
+import method_mirror
+import object_mirror
 
 class VmMirror:
     def __init__(self, agent, root_domain_id):
@@ -74,7 +74,7 @@ class VmMirror:
             sdbtypes.encode_int(flags) +
             sdbtypes.encode_int(method.id) +
             sdbtypes.encode_variant_value(this_value) +
-            sdbtypes.encode_array(params, sdbtypes.encode_variant_value))
+            sdbtypes.encode_array(params, sdb.sdbtypes.encode_variant_value))
         answer = self._agent.send_command(
             constants.CMDSET_VM,
             constants.CMD_VM_INVOKE_METHOD,
@@ -96,49 +96,49 @@ class VmMirror:
 
     def get_thread(self, thread_id):
         if thread_id not in self._threads_cache:
-            mirror = th_m.ThreadMirror(self._agent, thread_id)
+            mirror = thread_mirror.ThreadMirror(self._agent, thread_id)
             self._threads_cache[thread_id] = mirror
 
         return self._threads_cache[thread_id]
 
     def get_appdomain(self, appdomain_id):
         if appdomain_id not in self._appdomains_cache:
-            mirror = am.AppDomainMirror(self._agent, appdomain_id)
+            mirror = appdomain_mirror.AppDomainMirror(self._agent, appdomain_id)
             self._appdomains_cache[appdomain_id] = mirror
 
         return self._appdomains_cache[appdomain_id]
 
     def get_assembly(self, assembly_id):
         if assembly_id not in self._assemblies_cache:
-            mirror = asm.AssemblyMirror(self._agent, assembly_id)
+            mirror = assembly_mirror.AssemblyMirror(self._agent, assembly_id)
             self._assemblies_cache[assembly_id] = mirror
 
         return self._assemblies_cache[assembly_id]
 
     def get_module(self, module_id):
         if module_id not in self._modules_cache:
-            mirror = mm.ModuleMirror(self._agent, module_id)
+            mirror = module_mirror.ModuleMirror(self._agent, module_id)
             self._modules_cache[module_id] = mirror
 
         return self._modules_cache[module_id]
 
     def get_type(self, type_id):
         if type_id not in self._types_cache:
-            mirror = TypeMirror(self._agent, type_id)
+            mirror = type_mirror.TypeMirror(self._agent, type_id)
             self._types_cache[type_id] = mirror
 
         return self._types_cache[type_id]
 
     def get_method(self, method_id):
         if method_id not in self._methods_cache:
-            mirror = meth_m.MethodMirror(self._agent, method_id)
+            mirror = method_mirror.MethodMirror(self._agent, method_id)
             self._methods_cache[method_id] = mirror
 
         return self._methods_cache[method_id]
 
     def get_object(self, object_id):
         if object_id not in self._objects_cache:
-            mirror = om.ObjectMirror(self._agent, object_id)
+            mirror = object_mirror.ObjectMirror(self._agent, object_id)
             self._objects_cache[object_id] = mirror
 
         return self._objects_cache[object_id]

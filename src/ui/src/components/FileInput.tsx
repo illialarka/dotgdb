@@ -11,6 +11,7 @@ function FileInput(props: FileInputProps) {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const path = event.target.value;
+    console.log(event)
 
     if (path !== "") {
       onChange(path);
@@ -22,10 +23,7 @@ function FileInput(props: FileInputProps) {
       <span>
         Open executable for debugging
       </span>
-      <div data-type="icon">
-        <BiFolderOpen/>
-      </div>
-      <input type="file" className='hide' onChange={handleFileChange} accept={`${supportedTypes.map(x => x + ' ')}`}/>
+      <input placeholder='Enter path to binary' type="text" onChange={handleFileChange} accept={`${supportedTypes.map(x => x + ' ')}`}/>
     </label>
   );
 }

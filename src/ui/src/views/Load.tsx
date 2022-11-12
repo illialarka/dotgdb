@@ -30,31 +30,15 @@ function Load() {
         }
     }
 
-    const fileInputView = (
-        <FileInput onChange={(path) => fileSelected(path)} supportedTypes={allowedExtensions}></FileInput>
-    );
-
-    const selectedExecutableView = (
-        <>
-            <span>
-                {executable.path}
-            </span>
+    return (
+        <div className={classes.container}>
+            <FileInput onChange={(path) => fileSelected(path)} supportedTypes={allowedExtensions}></FileInput>
             <Button
                 disabled={!executable.path}
                 type='primary'
                 styled='default'
                 onClick={onRun}
                 label="Run"></Button>
-        </>
-    );
-
-    const preview = executable.path && executable.path !== ''
-        ? selectedExecutableView
-        : fileInputView;
-
-    return (
-        <div className={classes.container}>
-            {preview}
             <Link href='empty' label='Need help?' target='_blank'></Link>
             <span>v0.1.0</span>
         </div>

@@ -48,9 +48,6 @@ class DbgSession:
 
         logger.debug(f"command: {command}")
 
-        # well, it should wait until we connect to server
-        # for now leave as is
-        # in future will add checking to make sure it is still alive
         self.debug_process = subprocess.Popen(
                 [ command ],
                 shell=True,

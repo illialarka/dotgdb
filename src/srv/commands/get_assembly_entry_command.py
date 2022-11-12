@@ -1,5 +1,8 @@
 import commands.command as cmd
 import argparse
+import constants
+import sdbtypes
+import buffer_stream
 
 class GetAssemblyEntryCommand(cmd.Command):
 
@@ -24,4 +27,11 @@ class GetAssemblyEntryCommand(cmd.Command):
         if arguments is None:
             return
 
-        print (agent.vm.get_assembly(arguments.identifier).get_entry_point())
+        answer = agent.send_command(
+                constants.CMDSET_ASSEMBLY,
+                constants.CMD_ASSEMBLY_GET_NAME,
+                sdbtypes.encode_int(arguments.identifier))
+
+        print (buffer_stream.BufferStream(answer.data).get_array())
+
+        #print (agent.vm.get_assembly(arguments.identifier).get_entry_point())

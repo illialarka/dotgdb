@@ -67,11 +67,13 @@ class MethodMirror:
         return """Method Mirror,
             name = {0};
             code size = {1};
-            code_locs = {2}
+            code_locs = {2};
+            id = {3}
             """.format(
             self.get_name(),
             self.get_code_size(),
-            self.get_code_locations())
+            self.get_code_locations(),
+            self.id)
 
     def get_name(self):
         if self._name is None:

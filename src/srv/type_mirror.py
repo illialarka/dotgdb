@@ -1,8 +1,9 @@
 import sdbtypes
 import constants
 import buffer_stream
-import field_mirror
 import property_mirror
+import field_mirror
+import buffer_stream
 
 from collections import namedtuple
 
@@ -104,7 +105,7 @@ class TypeMirror:
                     sdbtypes.decode_int(buffer[4 + name_length:]).object)
                 field_attrs = (
                     sdbtypes.decode_int(buffer[8 + name_length:]).object)
-                mirror = FieldMirror(
+                mirror = field_mirror.FieldMirror(
                     self._agent, self.id,
                     field_id, field_name, field_type_id, field_attrs)
 
@@ -167,7 +168,7 @@ class TypeMirror:
                     buffer[8 + name_length:]).object
                 attrs = sdbtypes.decode_int(buffer[12 + name_length:]).object
 
-                mirror = PropertyMirror(
+                mirror = property_mirror.PropertyMirror(
                     self._agent, id, self.id, name,
                     getter_id, setter_id, attrs)
                 return sdbtypes.DecodeInfo(mirror, 16)
@@ -303,7 +304,7 @@ class TypeMirror:
                 constants.CMD_TYPE_GET_INFO,
                 sdbtypes.encode_int(self.id))
 
-            stream = BufferStream(answer.data)
+            stream = buffer_stream.BufferStream(answer.data)
             namespace = stream.get_string()
             name = stream.get_string()
             fullname = stream.get_string()

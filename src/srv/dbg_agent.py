@@ -1,9 +1,9 @@
-import sdbtypes
+import sdbtypes 
 import constants
-import vm_snapshot as VmMirror
-import events_data as ev
+import vm_snapshot 
+import events_data as ev 
 import exceptions
-import buffer_stream
+import buffer_stream 
 import logging
 import time
 
@@ -74,14 +74,14 @@ class DbgAgent:
         logger.debug("running threads...")
 
         self._listening_thread = Thread(target=self._listen)
-        self._listening_thread.name = "pymsdb listening thread"
+        self._listening_thread.name = "pymlistening thread"
         self._listening_thread.daemon = True
         self._listening_thread.start()
 
         self._listening_started_event.wait()
 
         self._events_thread = Thread(target=self._process_events)
-        self._events_thread.name = "pymsdb events thread"
+        self._events_thread.name = "pymevents thread"
         self._events_thread.daemon = True
         self._events_thread.start()
 
@@ -265,7 +265,7 @@ class DbgAgent:
                     constants.EVENT_FRIENDLY_NAME[event_data.event_kind]))
 
             if event_data.event_kind == constants.EVENT_KIND_VM_START:
-                self.vm = VmMirror.VmMirror(self, event_data.root_appdomain_id)
+                self.vm = vm_snapshot.VmMirror(self, event_data.root_appdomain_id)
                 self._vm_started_event.set()
 
             if event_data.event_kind in self.events_callbacks:

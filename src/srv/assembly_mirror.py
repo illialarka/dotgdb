@@ -21,11 +21,13 @@ class AssemblyMirror:
          name = {1};
          filename = {2};
          entry = {3};
+         module = {4}
          """.format(
             self.id,
             self.get_name(),
             self.get_filename(),
-            self.get_entry_point())
+            self.get_entry_point(),
+            self.get_manifest_module())
 
     def get_filename(self):
         if self._filename is None:
