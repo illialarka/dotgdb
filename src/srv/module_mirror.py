@@ -8,8 +8,8 @@ ModuleInfo = namedtuple(
     "ModuleInfo",
     ["basename", "scopename", "fullname", "guid", "assembly_id"])
 
-
 class ModuleMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._info = None

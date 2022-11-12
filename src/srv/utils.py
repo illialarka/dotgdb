@@ -11,11 +11,14 @@ def find_port():
     finally:
         sock.close()
 
-def configure_logger(is_verbose):
-    logging_level = logging.DEBUG if is_verbose else logging.INFO 
+def configure_logger(arguments):
+    logging_level = logging.DEBUG if arguments.verbose else logging.INFO
 
-    handler = logging.StreamHandler() 
-    handler.setLevel(logging_level) 
+    handler = logging.StreamHandler()
+    handler.setLevel(logging_level)
+
+    if arguments.logFile is not None:
+        logging.basicConfig(filename=arguments.logFile)
 
     logger = logging.getLogger()
     logger.setLevel(logging_level)

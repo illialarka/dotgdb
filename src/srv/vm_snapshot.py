@@ -10,6 +10,7 @@ import method_mirror
 import object_mirror
 
 class VmMirror:
+
     def __init__(self, agent, root_domain_id):
         self._agent = agent
         self._root_appdomain_id = root_domain_id
@@ -74,7 +75,7 @@ class VmMirror:
             sdbtypes.encode_int(flags) +
             sdbtypes.encode_int(method.id) +
             sdbtypes.encode_variant_value(this_value) +
-            sdbtypes.encode_array(params, sdb.sdbtypes.encode_variant_value))
+            sdbtypes.encode_array(params, sdbtypes.encode_variant_value))
         answer = self._agent.send_command(
             constants.CMDSET_VM,
             constants.CMD_VM_INVOKE_METHOD,
@@ -142,14 +143,3 @@ class VmMirror:
             self._objects_cache[object_id] = mirror
 
         return self._objects_cache[object_id]
-    
-    def get_types(self, type_name):
-        answer = self._agent.send_command(
-            constants.CMDSET_VM,
-            constants.CMD_VM_GET_TYPES,
-            b"Utils.Util")
-
-        ids = buffer_stream.BufferStream(answer.data).get_array(sdbtypes.decode_int)
-        print (ids)
-
-        return ids

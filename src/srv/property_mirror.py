@@ -1,4 +1,5 @@
 class PropertyMirror:
+
     def __init__(
             self, agent, id, parent_type_id, name,
             getter_id, setter_id, attrs):

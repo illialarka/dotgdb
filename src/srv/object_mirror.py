@@ -1,11 +1,9 @@
 import sdbtypes
 import constants
 import buffer_stream
-import logging
-
-logger = logging.getLogger()
 
 class ObjectMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._type_id = None
@@ -17,18 +15,9 @@ class ObjectMirror:
         self.id = id
     
     def __str__(self):
-        mths = self.get_type().get_methods()
-        mtst = "" 
-        for m in mths:
-            mtst += "\n" + m.__str__(); 
-        logger.info(mtst)
         return """ObjectMirror,
             type = {0}
-            experiment 2 = {1}
-        """.format(
-            self.get_type(),
-            mtst
-        )
+        """.format(self.get_type())
 
     def get_type(self):
         if self._type_id is None:

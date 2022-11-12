@@ -4,6 +4,7 @@ import buffer_stream
 import stackframe_mirror as sm
 
 class ThreadMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._name = None

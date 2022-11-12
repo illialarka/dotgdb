@@ -1,4 +1,5 @@
 class FieldMirror:
+
     def __init__(self, agent, parent_type_id, id, name, type_id, attrs):
         self._agent = agent
         self._parent_type_id = parent_type_id

@@ -2,6 +2,7 @@ import sdbtypes
 import constants
 
 class LocationModifier:
+
     def __init__(self, method_id, il_offset):
         self.method_id = method_id
         self.il_offset = il_offset

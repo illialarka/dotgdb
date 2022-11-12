@@ -21,6 +21,7 @@ MethodLocalsInfo = namedtuple(
 
 
 class MethodParam:
+
     def __init__(self, agent, type_id, name, index):
         self._agent = agent
         self._type_id = type_id
@@ -36,6 +37,7 @@ class MethodParam:
 
 
 class MethodLocal:
+
     def __init__(self, agent, type_id, name, scope, index):
         self._agent = agent
         self._type_id = type_id
@@ -52,6 +54,7 @@ class MethodLocal:
 
 
 class MethodMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._name = None

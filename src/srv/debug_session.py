@@ -3,7 +3,6 @@ import logging
 import utils
 import subprocess
 import exceptions
-import time
 
 logger = logging.getLogger()
 

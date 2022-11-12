@@ -3,6 +3,7 @@ import types
 import buffer_stream
 
 class StackFrameMirror:
+
     def __init__(
             self, agent, id, parent_thread_id,
             method_id, il_offset, flags):

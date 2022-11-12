@@ -2,15 +2,15 @@ from flask import Flask,request
 from flask_cors import cross_origin 
 from flask_socketio import SocketIO
 import argparse
-import dbg_agent
-import dbg_session
+import debug_agent 
+import debug_session 
 
 app = Flask(__name__)
 # TODO: make cors allowed origins configurable
 socketio = SocketIO(app, logger=True, cors_allowed_origins="http://localhost:3000")
 
-session = dbg_session.DbgSession()
-agent = dbg_agent.DbgAgent() 
+session = debug_session.DbgSession()
+agent = debug_agent.DbgAgent() 
 
 @socketio.on('connect')
 def connected():
