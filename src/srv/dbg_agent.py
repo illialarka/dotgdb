@@ -141,11 +141,14 @@ class DbgAgent:
             sdbtypes.encode_byte(len(modifiers)) +
             modifiers_data)
 
+        print("PRINT BEFORE SENDING")
         answer = self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_SET,
             params)
 
+        print("PRINT AFTER SENDING")
+        print(answer)
         error_code = buffer_stream.BufferStream(answer.header).skip(9).get_short()
         error = exceptions.error_code_to_exception(error_code)
         if error is not None:

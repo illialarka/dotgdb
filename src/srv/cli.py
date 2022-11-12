@@ -9,6 +9,7 @@ import commands.selector as selector
 import traceback
 
 logger = logging.getLogger()
+logging.basicConfig(filename="mylog.log")
 
 def cli():
     argument_parser = argparse.ArgumentParser(

@@ -1,6 +1,7 @@
 import sdbtypes
 import constants
 import buffer_stream
+import type_mirror
 
 class AssemblyMirror:
     def __init__(self, agent, id):
@@ -21,13 +22,11 @@ class AssemblyMirror:
          name = {1};
          filename = {2};
          entry = {3};
-         module = {4}
          """.format(
             self.id,
             self.get_name(),
             self.get_filename(),
-            self.get_entry_point(),
-            self.get_manifest_module())
+            self.get_entry_point()) 
 
     def get_filename(self):
         if self._filename is None:
