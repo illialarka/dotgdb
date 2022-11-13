@@ -3,6 +3,7 @@ import logging
 import utils
 import subprocess
 import exceptions
+import traceback
 
 logger = logging.getLogger()
 
@@ -34,10 +35,10 @@ class DbgSession:
             return
 
         try:
-            self.debug_process.kill()
-        except Exception as ex:
-            print (ex) 
-
+            return_code = self.debug_process.kill()
+            print ("Debugger process exited with {0} code.".format(return_code))
+        except:
+            print (traceback.format_exception()) 
 
     def _run_debug_server(self, executable):
         self.port = utils.find_port()
