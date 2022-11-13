@@ -6,7 +6,6 @@ import debug_agent
 import exceptions
 import logging
 import commands.selector as selector
-import traceback
 
 logger = logging.getLogger()
 

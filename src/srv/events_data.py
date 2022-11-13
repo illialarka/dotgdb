@@ -33,36 +33,28 @@ def create_event_data(stream):
 
     return event_data
 
-
 def _populate_vm_start_event_data(stream, event_data):
     event_data.root_appdomain_id = stream.get_int()
-
 
 def _populate_appdomain_event_data(stream, event_data):
     event_data.appdomain_id = stream.get_int()
 
-
 def _populate_method_event_data(stream, event_data):
     event_data.method_id = stream.get_int()
-
 
 def _populate_assembly_event_data(stream, event_data):
     event_data.assembly_id = stream.get_int()
 
-
 def _populate_type_event_data(stream, event_data):
     event_data.type_id = stream.get_int()
-
 
 def _populate_breakpoint_event_data(stream, event_data):
     event_data.method_id = stream.get_int()
     event_data.il_offset = stream.get_long()
 
-
 def _populate_step_event_data(stream, event_data):
     event_data.method_id = stream.get_int()
     event_data.il_offset = stream.get_long()
-
 
 def _populate_exception_event_data(stream, event_data):
     event_data.exception_id = stream.get_int()

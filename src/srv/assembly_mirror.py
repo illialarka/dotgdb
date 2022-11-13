@@ -4,6 +4,7 @@ import buffer_stream
 import type_mirror
 
 class AssemblyMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._filename = None
@@ -17,16 +18,18 @@ class AssemblyMirror:
         self.id = id
 
     def __str__(self):
-        return """Assembly Mirror
-         id = {0};
-         name = {1};
-         filename = {2};
-         entry = {3};
+        entry = self.get_entry_point()
+        entry_str = "None"
+
+        if entry is not None:
+            entry_str = "{0} at {1}".format(entry.get_name(), entry.get_code_locations()[0].il_offset)
+
+        return """{0} {1} {2} entry: {3};
          """.format(
             self.id,
             self.get_name(),
             self.get_filename(),
-            self.get_entry_point()) 
+            entry_str)
 
     def get_filename(self):
         if self._filename is None:

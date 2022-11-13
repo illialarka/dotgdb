@@ -13,5 +13,7 @@ class GetAssembliesCommand(cmd.Command):
                 description = self.description)
 
     def execute(self, agent, args = None):
+        counter = 0
         for assembly in agent.vm.get_root_appdomain().get_assemblies():
-            print (assembly)
+            print ("#{0} {1}".format(counter, assembly))
+            counter += 1
