@@ -6,6 +6,7 @@ import commands.thread_frames_command as thread_frames_cmd
 import commands.assemblies_command as get_assemblies_cmd
 import commands.assembly_command as get_assembly_cmd
 import commands.type_command as type_cmd
+import commands.method_command as method_command
 
 supported_commands = set([
     appdomain_cmd.GetAppDomainCommand(),
@@ -15,7 +16,8 @@ supported_commands = set([
     thread_frames_cmd.ThreadFramesCommand(),
     get_assemblies_cmd.AssembliesCommand(),
     get_assembly_cmd.AssemblyCommand(),
-    type_cmd.TypeCommand()
+    type_cmd.TypeCommand(),
+    method_command.MethodCommand()
 ])
 
 # selects first command that matches the input command
