@@ -1,7 +1,6 @@
 import sdbtypes
 import constants
 import buffer_stream
-import type_mirror
 
 class AssemblyMirror:
 
@@ -18,18 +17,14 @@ class AssemblyMirror:
         self.id = id
 
     def __str__(self):
-        entry = self.get_entry_point()
-        entry_str = "None"
+        return "#{0} name = {1}".format(self.id, self.get_name())
 
-        if entry is not None:
-            entry_str = "{0} at {1}".format(entry.get_name(), entry.get_code_locations()[0].il_offset)
-
-        return """{0} {1} {2} entry: {3};
-         """.format(
-            self.id,
-            self.get_name(),
-            self.get_filename(),
-            entry_str)
+    def __dict__(self):
+        return { 
+            "id": self.id,
+            "name": self.get_name(),
+            "filenam": self.get_filename()
+        }
 
     def get_filename(self):
         if self._filename is None:

@@ -1,10 +1,10 @@
 import commands.command as cmd
 import argparse
 
-class GetAssembliesCommand(cmd.Command):
+class AssembliesCommand(cmd.Command):
 
     def __init__(self):
-        self.aliases = [ "get_assemblies", "gas" ]
+        self.aliases = [ "assemblies" ]
         self.description = "Gets assemblies of an executable."
         self.help = "Usage: get_assemblies"
 
@@ -12,8 +12,6 @@ class GetAssembliesCommand(cmd.Command):
                 prog = ", ".join(self.aliases),
                 description = self.description)
 
-    def execute(self, agent, args = None):
-        counter = 0
+    def execute(self, agent, _ = None):
         for assembly in agent.vm.get_root_appdomain().get_assemblies():
-            print ("#{0} {1}".format(counter, assembly))
-            counter += 1
+            print (assembly)

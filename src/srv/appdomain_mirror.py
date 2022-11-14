@@ -3,6 +3,7 @@ import constants
 import buffer_stream
 
 class AppDomainMirror:
+
     def __init__(self, agent, id):
         self._agent = agent
         self._name = None
@@ -61,3 +62,6 @@ class AppDomainMirror:
             if assembly.get_name() == name:
                 return assembly
         return None
+
+    def dump():
+       pass 

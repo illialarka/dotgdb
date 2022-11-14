@@ -36,7 +36,9 @@ class DbgSession:
 
         try:
             return_code = self.debug_process.kill()
-            print ("Debugger process exited with {0} code.".format(return_code))
+
+            if return_code is not None:
+                print ("Debugger process exited with {0} code.".format(return_code))
         except:
             print (traceback.format_exception()) 
 
