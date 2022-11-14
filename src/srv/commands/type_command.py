@@ -12,8 +12,8 @@ class TypeCommand(cmd.Command):
             prog='type',
             description='manipulates type') 
         
-        self._argument_parser.add_argument('--assembly_id', help='specifies assembly identifier', required=True, type=int)
-        self._argument_parser.add_argument('--type_name', help='specifies type name', required=True, type=str)
+        self._argument_parser.add_argument('--assembly-id', help='specifies assembly identifier', required=True, type=int)
+        self._argument_parser.add_argument('--type-name', help='specifies type name', required=True, type=str)
         self._argument_parser.add_argument('subcommand', help='specifies subcommand', choices=['get', 'methods'], default='get')
 
     def execute(self, agent, args):

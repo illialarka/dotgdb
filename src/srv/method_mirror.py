@@ -1,7 +1,6 @@
 import sdbtypes
 import constants
 import buffer_stream
-
 from collections import namedtuple
 
 MethodDebugInfo = namedtuple(
@@ -19,7 +18,6 @@ MethodLocalsInfo = namedtuple(
     "MethodLocalsInfo",
     ["locals_count", "locals"])
 
-
 class MethodParam:
 
     def __init__(self, agent, type_id, name, index):
@@ -34,7 +32,6 @@ class MethodParam:
 
     def get_type(self):
         return self._agent.vm.get_type(self._type_id)
-
 
 class MethodLocal:
 
@@ -52,7 +49,6 @@ class MethodLocal:
     def get_type(self):
         return self._agent.vm.get_type(self._type_id)
 
-
 class MethodMirror:
 
     def __init__(self, agent, id):
@@ -67,16 +63,10 @@ class MethodMirror:
         self.id = id
 
     def __str__(self):
-        return """Method Mirror,
-            name = {0};
-            code size = {1};
-            code_locs = {2};
-            id = {3}
-            """.format(
+        return """Method Mirror, id = {0}, name = {1}, size = {2}""".format(
+            self.id,
             self.get_name(),
-            self.get_code_size(),
-            self.get_code_locations(),
-            self.id)
+            self.get_code_size())
 
     def get_name(self):
         if self._name is None:
