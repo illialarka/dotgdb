@@ -28,7 +28,7 @@ class TypeMirror:
         self.id = id
 
     def __str__(self):
-        return "Type Mirror, id={0}, fullname = {1}, namespace = {2}".format(
+        return "Type Mirror, id = {0}, fullname = {1}, namespace = {2}".format(
             self.id, self.get_fullname(), self.get_namespace())
 
     def get_namespace(self):
