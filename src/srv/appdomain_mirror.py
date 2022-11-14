@@ -62,6 +62,3 @@ class AppDomainMirror:
             if assembly.get_name() == name:
                 return assembly
         return None
-
-    def dump():
-       pass 
