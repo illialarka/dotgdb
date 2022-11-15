@@ -1,7 +1,5 @@
 import commands.command as cmd
 import argparse
-import assembly_mirror
-import method_mirror
 
 class AssemblyCommand(cmd.Command):
 
@@ -15,7 +13,7 @@ class AssemblyCommand(cmd.Command):
                 description = self.description)
 
         self._argument_parser.add_argument('-id', '--identifier', help='assembly identiifer', type=int, required=True)
-        self._argument_parser.add_argument('subcommand', choices=['get', 'entry', 'object'], default='get', type=str, nargs='?')
+        self._argument_parser.add_argument('subcommand', choices=['get', 'entry', 'object', 'manifest'], default='get', type=str, nargs='?')
 
     def execute(self, agent, args):
         arguments = None
@@ -31,9 +29,23 @@ class AssemblyCommand(cmd.Command):
         if arguments.subcommand == 'entry':
             print(self._get_assembly_entry(agent, arguments.identifier))
             return
+
+        if arguments.subcommand == 'object':
+            print(self._get_assembly_object(agent, arguments.identifier))
+            return
+
+        if arguments.subcommand == 'manifest':
+            print(self._get_assembly_manifest(agent, arguments.identifier))
+            return
         
-    def _get_assembly(self, agent, assembly_id) -> assembly_mirror.AssemblyMirror:
+    def _get_assembly(self, agent, assembly_id):
         return agent.vm.get_assembly(assembly_id)
 
-    def _get_assembly_entry(self, agent, assembly_id) -> method_mirror.MethodMirror: 
+    def _get_assembly_entry(self, agent, assembly_id):
         return agent.vm.get_assembly(assembly_id).get_entry_point() 
+ 
+    def _get_assembly_object(self, agent, assembly_id):
+        return agent.vm.get_assembly(assembly_id).get_object() 
+
+    def _get_assembly_manifest(self, agent, assembly_id):
+        return agent.vm.get_assembly(assembly_id).get_manifest_module() 
