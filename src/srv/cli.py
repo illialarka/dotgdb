@@ -68,7 +68,7 @@ def cli():
                     print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
                     continue
 
-                print (command.execute(agent, command_arguments))
+                command.execute(agent, command_arguments)
 
             # process domain exceptions
             except exceptions.ExitException:

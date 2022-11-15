@@ -14,4 +14,4 @@ class AssembliesCommand(cmd.Command):
 
     def execute(self, agent, _ = None):
         for assembly in agent.vm.get_root_appdomain().get_assemblies():
-            print (assembly)
+            print(assembly)
