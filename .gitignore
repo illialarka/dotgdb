@@ -13,3 +13,5 @@ mono_crash*.json
 *.swn
 *.swo
 *.swp
+
+.env
