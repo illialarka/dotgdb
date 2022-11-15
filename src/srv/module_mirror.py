@@ -17,11 +17,8 @@ class ModuleMirror:
         self.id = id
 
     def __str__(self):
-        return (
-            "Module Mirror: basename = {0}, scopename = {1}, "
-            "fullname = {2}, guid = {3}").format(
-            self.get_basename(), self.get_scopename(),
-            self.get_fullname(), self.get_guid())
+        return "id = {0}, basename = {1}, scopename = {2}".format(
+            self.id, self.get_basename(), self.get_scopename())
 
     def get_basename(self):
         return self._get_info().basename

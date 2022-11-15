@@ -1,6 +1,5 @@
 import commands.command as cmd
 import argparse
-import constants
 
 class ThreadsCommand(cmd.Command):
     def __init__(self):
@@ -13,5 +12,5 @@ class ThreadsCommand(cmd.Command):
                 description = self.description)
 
     def execute(self, agent, args = None):
-        for m in agent.vm.get_assembly(2).get_type_by_name("Utils.Util").get_methods():
-            print (m)
+        for thread in agent.vm.get_all_threads():
+            print(thread)

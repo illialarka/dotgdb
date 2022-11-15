@@ -10,7 +10,7 @@ class FieldMirror:
         self.attrs = attrs
 
     def __str__(self):
-        return "Field mirror, name = {0}, type fullname = {1}".format(
+        return "name = {0}, type fullname = {1}".format(
             self.name, self.get_type().get_fullname())
 
     def get_parent_type(self):

@@ -15,9 +15,7 @@ class ObjectMirror:
         self.id = id
     
     def __str__(self):
-        return """ObjectMirror,
-            type = {0}
-        """.format(self.get_type())
+        return "id = {0}, type = {1}, address = {2}".format(self.id, self.get_type(), self.get_address())
 
     def get_type(self):
         if self._type_id is None:

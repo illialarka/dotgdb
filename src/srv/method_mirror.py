@@ -63,10 +63,8 @@ class MethodMirror:
         self.id = id
 
     def __str__(self):
-        return """Method Mirror, id = {0}, name = {1}, size = {2}""".format(
-            self.id,
-            self.get_name(),
-            self.get_code_size())
+        return "id = {0}, name = {1}, size = {2}".format(
+            self.id, self.get_name(), self.get_code_size())
 
     def get_name(self):
         if self._name is None:

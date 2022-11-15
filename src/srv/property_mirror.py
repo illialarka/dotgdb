@@ -13,7 +13,7 @@ class PropertyMirror:
         self.id = id
 
     def __str__(self):
-        return "Property mirror, name = {0}, type fullname = {1}".format(
+        return "name = {0}, type fullname = {1}".format(
             self.name,
             self.get_parent_type().get_fullname())
 
