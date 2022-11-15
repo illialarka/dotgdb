@@ -19,7 +19,7 @@ class MethodCommand(cmd.Command):
         self._argument_parser.add_argument(
             'subcommand',
             help='specifies subcomand',
-            choices=['get', 'locations', 'body', 'signature'],
+            choices=['get', 'locations', 'body', 'signature', 'locals'],
             default='get',
             type=str,
             nargs='?')
@@ -31,8 +31,6 @@ class MethodCommand(cmd.Command):
         except:
             return
         
-        print(arguments)
-
         if arguments is None:
             return
 
@@ -53,6 +51,10 @@ class MethodCommand(cmd.Command):
             print(self._get_method_signature(agent, arguments.method_id))
             return
 
+        if arguments.subcommand == 'locals':
+            print(self._get_method_locals(agent, arguments.method_id))
+            return
+
     def _get_method(self, agent, method_id):
         return agent.vm.get_method(method_id)
 
@@ -70,3 +72,6 @@ class MethodCommand(cmd.Command):
         parameters = method.get_params()
 
         return MethodSignature(return_type, method_name, parameters)
+
+    def _get_method_locals(self, agent, method_id):
+        return agent.vm.get_method(method_id).get_locals()
