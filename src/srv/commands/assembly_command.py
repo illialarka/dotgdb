@@ -15,7 +15,7 @@ class AssemblyCommand(cmd.Command):
                 description = self.description)
 
         self._argument_parser.add_argument('-id', '--identifier', help='assembly identiifer', type=int, required=True)
-        self._argument_parser.add_argument('subcommand', choices=['get', 'entry', 'object'], default='get', type=str)
+        self._argument_parser.add_argument('subcommand', choices=['get', 'entry', 'object'], default='get', type=str, nargs='?')
 
     def execute(self, agent, args):
         arguments = None
