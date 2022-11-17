@@ -17,7 +17,7 @@ class AssemblyMirror:
         self.id = id
 
     def __str__(self):
-        return "id = {0}, name = {1}".format(self.id, self.get_name())
+        return "Assembly <(id = {0}), (name = {1})>".format(self.id, self.get_name())
 
     def get_filename(self):
         if self._filename is None:

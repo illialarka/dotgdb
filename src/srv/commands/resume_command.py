@@ -3,7 +3,7 @@ import commands.command as cmd
 class ResumeCommand(cmd.Command):
 
     def __init__(self):
-        self.aliases = ['resume']
+        self.aliases = ['resume', 'run']
         self.description = 'Runs/resumes virtual machine.'
         self.help = 'Usage: resume'
 

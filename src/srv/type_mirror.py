@@ -28,8 +28,8 @@ class TypeMirror:
         self.id = id
 
     def __str__(self):
-        return "id = {0}, fullname = {1}, namespace = {2}".format(
-            self.id, self.get_fullname(), self.get_namespace())
+        return "Type <(id = {0}), (name = {1}), (namespace = {2})> at {3}".format(
+            self.id, self.get_fullname(), self.get_namespace(), self.get_source_files())
 
     def get_namespace(self):
         return self._get_info().namespace

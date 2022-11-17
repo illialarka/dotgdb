@@ -13,7 +13,7 @@ class ThreadMirror:
         self.id = id
 
     def __str__(self):
-        return "name = {0}".format(self.get_name())
+        return "Thread {0}".format(self.id, self.get_name())
 
     def get_name(self):
         if self._name is None:
