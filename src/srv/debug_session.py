@@ -10,6 +10,7 @@ logger = logging.getLogger()
 class DbgSession:
 
     def __init__(self):
+        self.breakpoints = [] 
         self.debug_process = None
         self.port = None
         self.executable = None
@@ -41,6 +42,12 @@ class DbgSession:
                 print ("Debugger process exited with {0} code.".format(return_code))
         except:
             print (traceback.format_exception()) 
+    
+    def set_breakpoint(self):
+        pass
+     
+    def unset_breakpoint(self):
+        pass
 
     def _run_debug_server(self, executable):
         self.port = utils.find_port()

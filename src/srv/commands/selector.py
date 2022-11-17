@@ -7,6 +7,7 @@ import commands.assembly_command as get_assembly_cmd
 import commands.type_command as type_cmd
 import commands.method_command as method_command
 import commands.resume_command as resume_command
+import commands.breakpoint_command as breakpoint_command
 
 supported_commands = set([
     appdomain.AppDomainCommand(),
@@ -17,7 +18,8 @@ supported_commands = set([
     get_assembly_cmd.AssemblyCommand(),
     type_cmd.TypeCommand(),
     method_command.MethodCommand(),
-    resume_command.ResumeCommand()
+    resume_command.ResumeCommand(),
+    breakpoint_command.BreakpointCommand()
 ])
 
 # selects first command that matches the input command

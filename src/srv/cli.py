@@ -5,6 +5,7 @@ import debug_session
 import debug_agent 
 import exceptions
 import logging
+import constants
 import commands.selector as selector
 
 logger = logging.getLogger()
@@ -26,6 +27,8 @@ def cli():
     utils.configure_logger(arguments)
 
     session, agent = debug_session.DbgSession(), debug_agent.DbgAgent()
+
+    agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = handle_breakpoint_event 
 
     try:
         session.run(arguments), agent.start(True, session.port, 10)
@@ -62,6 +65,10 @@ def cli():
                 return
     finally:
         session.exit(), agent.stop()
+
+def handle_breakpoint_event(event):
+    print ("Event Happend <kind: {0}, data {1}, thread {2}>"
+        .format(constants.EVENT_FRIENDLY_NAME[event.event_kind], event.request_id, event.thread_id))
 
 if __name__ == "__main__":
     cli()

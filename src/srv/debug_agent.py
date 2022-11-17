@@ -25,6 +25,7 @@ class DbgAgent:
         self._is_listening = False
         self._packet_counter = 65536
         self._replies_events = {}
+        self._breakpoints = []
         self._events_queue = Queue()
         self._vm_started_event = Event()
         self._listening_started_event = Event()
@@ -141,21 +142,21 @@ class DbgAgent:
             sdbtypes.encode_byte(len(modifiers)) +
             modifiers_data)
 
-        print("PRINT BEFORE SENDING")
         answer = self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_SET,
             params)
 
-        print("PRINT AFTER SENDING")
-        print(answer)
         error_code = buffer_stream.BufferStream(answer.header).skip(9).get_short()
         error = exceptions.error_code_to_exception(error_code)
         if error is not None:
             raise error
 
         request_id = buffer_stream.BufferStream(answer.data).get_int()
-        return EventRequest(event_kind, request_id)
+        event_reuquest = EventRequest(event_kind, request_id)
+        self._breakpoints.append(event_reuquest)
+
+        return event_reuquest
 
     def disable_event(self, event_request):
         params = (
@@ -171,6 +172,7 @@ class DbgAgent:
         self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
+        self._breakpoints = []
 
     def _process_events(self):
         print ("process events")
