@@ -6,6 +6,7 @@ import commands.assemblies_command as get_assemblies_cmd
 import commands.assembly_command as get_assembly_cmd
 import commands.type_command as type_cmd
 import commands.method_command as method_command
+import commands.resume_command as resume_command
 
 supported_commands = set([
     appdomain.AppDomainCommand(),
@@ -15,7 +16,8 @@ supported_commands = set([
     get_assemblies_cmd.AssembliesCommand(),
     get_assembly_cmd.AssemblyCommand(),
     type_cmd.TypeCommand(),
-    method_command.MethodCommand()
+    method_command.MethodCommand(),
+    resume_command.ResumeCommand()
 ])
 
 # selects first command that matches the input command

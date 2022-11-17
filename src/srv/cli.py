@@ -7,19 +7,6 @@ import exceptions
 import logging
 import commands.selector as selector
 
-# Hi here! If someone ever get to this commit (by accident or whatever)
-# please, know, I do not have so much knowledge of python and may not know
-# something, something very useful and helpful, but I will figure out and 
-# start this open source project.
-
-# TODO
-# 1. Start with simple commands 
-# 1.1 Get type with codelocations
-# 1.2 Set breakpoint on type codeloc
-# 1.3 Catch entering bt
-# 1.4 Show locals on catching
-# 1.5 continue debugging
-
 logger = logging.getLogger()
 
 def cli():
@@ -42,7 +29,6 @@ def cli():
 
     try:
         session.run(arguments), agent.start(True, session.port, 10)
-        agent.vm.resume()
     except exceptions.ExecutableNotFound:
         print("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 
