@@ -15,7 +15,7 @@ class MethodCommand(cmd.Command):
 
         self._argument_parser = argparse.ArgumentParser(prog='method') 
 
-        self._argument_parser.add_argument('--method-id', help='specifies methods identifier', required=True, type=int)
+        self._argument_parser.add_argument('-id', '--identifier', help='method identiifer', type=int, required=True)
         self._argument_parser.add_argument(
             'subcommand',
             help='specifies subcomand',
@@ -35,24 +35,24 @@ class MethodCommand(cmd.Command):
             return
 
         if arguments.subcommand == 'get':
-            print(self._get_method(agent, arguments.method_id))
+            print(self._get_method(agent, arguments.identifier))
             return
         
         if arguments.subcommand == 'locations':
-            for location in self._get_method_locations(agent, arguments.method_id):
+            for location in self._get_method_locations(agent, arguments.identifier):
                 print(location)
             return
         
         if arguments.subcommand == 'body':
-            print(self._get_method_body(agent, arguments.method_id))
+            print(self._get_method_body(agent, arguments.identifier))
             return
         
         if arguments.subcommand == 'signature':
-            print(self._get_method_signature(agent, arguments.method_id))
+            print(self._get_method_signature(agent, arguments.identifier))
             return
 
         if arguments.subcommand == 'locals':
-            print(self._get_method_locals(agent, arguments.method_id))
+            print(self._get_method_locals(agent, arguments.identifier))
             return
 
     def _get_method(self, agent, method_id):

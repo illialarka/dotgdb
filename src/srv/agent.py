@@ -35,23 +35,21 @@ class Agent:
 
     def start(self, initiate, port, timeout=None):
         if not initiate:
-            logger.debug("starting at {0}...".format(port))
+            logger.debug("Starting at {0}...".format(port))
             self._socket = socket(AF_INET, SOCK_STREAM)
             self._socket.bind(("127.0.0.1", port))
             self._socket.listen(1)
 
-            logger.debug("waiting for debugger connection...")
             self._socket.settimeout(timeout)
-            print ("acept again")
             self._server_socket, self._server_endpoint = self._socket.accept()
         else:
-            logger.debug("connecting to {0}...".format(port))
+            logger.debug("Connecting to {0}".format(port))
             self._server_endpoint = ("127.0.0.1", port)
             self._server_socket = socket(AF_INET, SOCK_STREAM)
 
             max_attempts, success = 10, False
             while not success and max_attempts > 0:
-                logger.info ("attempting to connect {0}".format(max_attempts))
+                logger.info ("Attempting to connect {0}...".format(max_attempts))
 
                 response_code = self._server_socket.connect_ex(self._server_endpoint)
                 if response_code == 0:
@@ -175,12 +173,12 @@ class Agent:
         self._breakpoints = []
 
     def _process_events(self):
-        print ("process events")
+        print ("Processing events started")
         while self._is_listening:
             # Non-zero timeout to stop when listening will be stopped
             try:
                 suspend_policy, events_data = self._events_queue.get(timeout=1)
-                print ("event queue loop")
+                print ("An event received and passed to handler")
             except Empty:
                 continue
 

@@ -6,12 +6,8 @@ import agent
 import exceptions
 import logging
 import constants
+import event_handlers
 import commands.selector as selector
-
-# TODO for today
-
-# make input and output commands reliable
-# make outout informative and unify serialization way
 
 logger = logging.getLogger()
 
@@ -31,7 +27,8 @@ def cli():
     _session, _agent = session.Session(), agent.Agent()
 
     # set event handlers
-    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = handle_breakpoint_event 
+    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint 
+    _agent.events_callbacks[constants.EVENT_KIND_VM_START] = event_handlers.on_vm_start 
 
     try:
         _session.run(arguments), _agent.start(True, _session.port, 10)
@@ -72,11 +69,6 @@ def process_interaction(agent):
         except exceptions.ExitException:
             logger.info("Exit requested. Closing session and kill processes.")
             return
-
-
-def handle_breakpoint_event(event):
-    print ("Event Happend:<kind {0}, data {1}, thread {2}>"
-        .format(constants.EVENT_FRIENDLY_NAME[event.event_kind], event.request_id, event.thread_id))
 
 if __name__ == "__main__":
     cli()
