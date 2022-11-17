@@ -7,7 +7,7 @@ import traceback
 
 logger = logging.getLogger()
 
-class DbgSession:
+class Session:
 
     def __init__(self):
         self.breakpoints = [] 

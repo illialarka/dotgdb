@@ -1,8 +1,8 @@
 import argparse
 import logging
 import utils
-import debug_session 
-import debug_agent 
+import session 
+import agent 
 import exceptions
 import logging
 import constants
@@ -26,12 +26,12 @@ def cli():
     arguments = argument_parser.parse_args()
     utils.configure_logger(arguments)
 
-    session, agent = debug_session.DbgSession(), debug_agent.DbgAgent()
+    _session, _agent = session.Session(), agent.Agent()
 
-    agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = handle_breakpoint_event 
+    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = handle_breakpoint_event 
 
     try:
-        session.run(arguments), agent.start(True, session.port, 10)
+        _session.run(arguments), _agent.start(True, _session.port, 10)
     except exceptions.ExecutableNotFound:
         print("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
 
@@ -57,17 +57,17 @@ def cli():
                     print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
                     continue
 
-                command.execute(agent, command_arguments)
+                command.execute(_agent, command_arguments)
 
             # process domain exceptions
             except exceptions.ExitException:
                 logger.info("Exit requested. Closing session and kill processes.")
                 return
     finally:
-        session.exit(), agent.stop()
+        _session.exit(), _agent.stop()
 
 def handle_breakpoint_event(event):
-    print ("Event Happend <kind: {0}, data {1}, thread {2}>"
+    print ("Event Happend:<kind {0}, data {1}, thread {2}>"
         .format(constants.EVENT_FRIENDLY_NAME[event.event_kind], event.request_id, event.thread_id))
 
 if __name__ == "__main__":

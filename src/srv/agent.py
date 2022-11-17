@@ -17,7 +17,7 @@ logger = logging.getLogger()
 EventRequest = namedtuple("EventRequest", ["event_kind", "request_id"])
 Packet = namedtuple("Packet", ["header", "data"])
 
-class DbgAgent:
+class Agent:
 
     def __init__(self):
         self._socket = None

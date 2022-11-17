@@ -36,6 +36,10 @@ class BreakpointCommand(cmd.Command):
             pass
 
         if arguments.subcommand == 'set':
+            if arguments.method_id is None or arguments.il_offset is None:
+                print("Method id and IL offset should be specified")
+                return
+
             event_request = self._set_breakpoints(
                 agent,
                 event_modifiers.LocationModifier(arguments.method_id, arguments.il_offset))
