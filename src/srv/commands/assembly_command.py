@@ -23,20 +23,16 @@ class AssemblyCommand(cmd.Command):
             return
 
         if arguments.subcommand == 'get':
-            print(self._get_assembly(agent, arguments.identifier))
-            return
+            return self._get_assembly(agent, arguments.identifier)
         
         if arguments.subcommand == 'entry':
-            print(self._get_assembly_entry(agent, arguments.identifier))
-            return
+            return self._get_assembly_entry(agent, arguments.identifier)
 
         if arguments.subcommand == 'object':
-            print(self._get_assembly_object(agent, arguments.identifier))
-            return
+            return self._get_assembly_object(agent, arguments.identifier)
 
         if arguments.subcommand == 'manifest':
-            print(self._get_assembly_manifest(agent, arguments.identifier))
-            return
+            return self._get_assembly_manifest(agent, arguments.identifier)
         
     def _get_assembly(self, agent, assembly_id):
         return agent.vm.get_assembly(assembly_id)

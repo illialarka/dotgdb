@@ -8,6 +8,7 @@ import logging
 import constants
 import event_handlers
 import commands.selector as selector
+import table_formatter
 
 logger = logging.getLogger()
 
@@ -63,8 +64,10 @@ def process_interaction(agent):
                 print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
                 continue
 
-            command.execute(agent, command_arguments)
-
+            command_result = command.execute(agent, command_arguments)
+            if command_result is not None:
+                print(table_formatter.TableFormatter().format(command_result)) 
+           
         # process domain exceptions
         except exceptions.ExitException:
             logger.info("Exit requested. Closing session and kill processes.")

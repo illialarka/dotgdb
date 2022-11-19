@@ -61,6 +61,14 @@ class MethodMirror:
         self._body = None
 
         self.id = id
+    
+    def __dict__(self):
+        return {
+            'Id': self.id,
+            'Name': self.get_name(),
+            'Size': self.get_code_size(),
+            'File': self.get_source_filename()
+        }
 
     def __str__(self):
         return "Method <(id = {0}), (name = {1}), (size = {2})> at {3}".format(

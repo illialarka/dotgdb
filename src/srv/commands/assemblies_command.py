@@ -1,5 +1,6 @@
 import commands.command as cmd
 import argparse
+from tabulate import tabulate
 
 class AssembliesCommand(cmd.Command):
 
@@ -13,5 +14,4 @@ class AssembliesCommand(cmd.Command):
                 description = self.description)
 
     def execute(self, agent, _ = None):
-        for assembly in agent.vm.get_root_appdomain().get_assemblies():
-            print(assembly)
+        return agent.vm.get_root_appdomain().get_assemblies()

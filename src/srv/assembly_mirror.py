@@ -1,6 +1,7 @@
 import sdbtypes
 import constants
 import buffer_stream
+from tabulate import tabulate
 
 class AssemblyMirror:
 
@@ -16,8 +17,14 @@ class AssemblyMirror:
 
         self.id = id
 
+    def __dict__(self):
+        return {
+            'Id': self.id,
+            'Name': self.get_name()
+        }
+
     def __str__(self):
-        return "Assembly <(id = {0}), (name = {1})>".format(self.id, self.get_name())
+        return "Assembly <(id = {0}), (name = {1})>".format(self.id, self.get_name()) 
 
     def get_filename(self):
         if self._filename is None:
