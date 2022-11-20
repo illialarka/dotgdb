@@ -65,8 +65,9 @@ def process_interaction(agent):
                 continue
 
             command_result = command.execute(agent, command_arguments)
+
             if command_result is not None:
-                print(table_formatter.TableFormatter().format(command_result)) 
+                print (command_result)
            
         # process domain exceptions
         except exceptions.ExitException:

@@ -1,5 +1,6 @@
 import commands.command as cmd
 import argparse
+from tabulate import tabulate
 
 class AssemblyCommand(cmd.Command):
 
@@ -35,13 +36,29 @@ class AssemblyCommand(cmd.Command):
             return self._get_assembly_manifest(agent, arguments.identifier)
         
     def _get_assembly(self, agent, assembly_id):
-        return agent.vm.get_assembly(assembly_id)
+        assembly =  agent.vm.get_assembly(assembly_id)
+
+        return tabulate(
+            [[assembly.id, assembly.get_name()]],
+            headers=['id', 'name']) 
 
     def _get_assembly_entry(self, agent, assembly_id):
-        return agent.vm.get_assembly(assembly_id).get_entry_point() 
+        entry = agent.vm.get_assembly(assembly_id).get_entry_point() 
+
+        return tabulate(
+            [[entry.id, entry.get_name(), entry.get_code_size(), entry.get_source_filename()]],
+            headers=['id', 'name', 'size', 'source'])
  
     def _get_assembly_object(self, agent, assembly_id):
-        return agent.vm.get_assembly(assembly_id).get_object() 
+        object = agent.vm.get_assembly(assembly_id).get_object() 
+
+        return tabulate(
+            [[object.id, object.get_type(), object.get_address()]],
+            headers=['id', 'type', 'address'])
 
     def _get_assembly_manifest(self, agent, assembly_id):
-        return agent.vm.get_assembly(assembly_id).get_manifest_module() 
+        manifest = agent.vm.get_assembly(assembly_id).get_manifest_module() 
+
+        return tabulate(
+            [[manifest.id, manifest.get_basename(), manifest.get_scopename()]],
+            headers=['id', 'basename', 'scopename'])

@@ -4,7 +4,6 @@ class Command:
         self.aliases = []
         self.description = "No description available"
         self.help = "No help available"
-        self.subcommands = []
 
-    def execute(self, agent, args = None):
+    def execute(self, agent, args = None, output = None):
         raise NotImplementedError
