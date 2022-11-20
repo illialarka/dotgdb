@@ -21,11 +21,6 @@ class ModuleMirror:
         return "Module, <(id = {0}), (basename = {1}), (scopename = {2})>".format(
             self.id, self.get_basename(), self.get_scopename())
 
-    def dump(self):
-        return DumpInfo(
-            ['Id', '']
-        )
-
     def get_basename(self):
         return self._get_info().basename
 

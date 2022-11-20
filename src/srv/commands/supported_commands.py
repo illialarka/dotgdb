@@ -11,9 +11,6 @@ class SupportedCommands(cmd.Command):
         self.description = "Lists all supported commands."
         self.help = "Usage: supported_commands"
 
-    def register_subparser(self, parser):
-        pass
-
     def execute(self, agent, args = None):
         supported_commands = selector.supported_commands
 

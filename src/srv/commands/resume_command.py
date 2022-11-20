@@ -9,4 +9,4 @@ class ResumeCommand(cmd.Command):
 
     def execute(self, agent, args = None):
         agent.vm.resume()
-        print('Virtual Machine resumed.')
+        return 'Virtual Machine resumed.'

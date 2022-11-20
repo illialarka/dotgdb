@@ -1,5 +1,6 @@
 import commands.command as cmd
 import argparse
+from tabulate import tabulate, tabulate_formats
 
 class AppDomainCommand(cmd.Command):
 
@@ -10,7 +11,7 @@ class AppDomainCommand(cmd.Command):
 
         self._argument_parser = argparse.ArgumentParser(prog='appdomain')
 
-        self._argument_parser.add_argument('subcommand', choices=['root'], default='root', type=str)
+        self._argument_parser.add_argument('subcommand', choices=['root'], default='root', nargs='?', type=str)
 
     def execute(self, agent, args = None):
         arguments = None
@@ -23,8 +24,13 @@ class AppDomainCommand(cmd.Command):
             return
 
         if arguments.subcommand == 'root':
-            print(self._get_root_appdomain(agent))
-            return
+            return self._get_root_appdomain(agent)
     
     def _get_root_appdomain(sefl, agent):
-        return agent.vm.get_root_appdomain()
+        appdomain = agent.vm.get_root_appdomain()
+
+        return tabulate(
+            tablefmt='plain',
+            tabular_data=
+            [['Id:', appdomain.id],
+             ['Full name:', appdomain.get_name()]])

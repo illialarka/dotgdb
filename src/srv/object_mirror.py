@@ -43,7 +43,7 @@ class ObjectMirror:
         answer = self._agent.send_command(
             constants.CMDSET_OBJECT,
             constants.CMD_OBJ_IS_COLLECTED,
-            sdbtypes.encode_int(self.id)).wait()
+            sdbtypes.encode_int(self.id))
 
         is_collected = (buffer_stream.BufferStream(answer.data).get_int() == 1)
         return is_collected

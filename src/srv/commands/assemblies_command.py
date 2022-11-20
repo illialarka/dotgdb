@@ -1,6 +1,5 @@
 import commands.command as cmd
 import argparse
-import sys
 from tabulate import tabulate
 
 class AssembliesCommand(cmd.Command):
@@ -14,13 +13,10 @@ class AssembliesCommand(cmd.Command):
                 prog = ", ".join(self.aliases),
                 description = self.description)
 
-    def execute(self, agent, _ = None, output = None):
-        return self._format_output(output, agent.vm.get_root_appdomain().get_assemblies())
+    def execute(self, agent, _ = None):
+        return self._format_assemblies(agent.vm.get_root_appdomain().get_assemblies())
     
-    def _format_output(self, out, assemblies):
-        if out is None:
-            out = sys.stdout 
-
+    def _format_assemblies(self, assemblies):
         return tabulate(
-            [[assembly.id, assembly.get_name()] for assembly in assemblies],
+            tabular_data=[[assembly.id, assembly.get_name()] for assembly in assemblies],
             headers=['Id', 'Name'])

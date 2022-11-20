@@ -39,26 +39,35 @@ class AssemblyCommand(cmd.Command):
         assembly =  agent.vm.get_assembly(assembly_id)
 
         return tabulate(
-            [[assembly.id, assembly.get_name()]],
-            headers=['id', 'name']) 
+            [['Id', assembly.id],
+             ['Name', assembly.get_name()]],
+            tablefmt='simple') 
 
     def _get_assembly_entry(self, agent, assembly_id):
         entry = agent.vm.get_assembly(assembly_id).get_entry_point() 
 
         return tabulate(
-            [[entry.id, entry.get_name(), entry.get_code_size(), entry.get_source_filename()]],
-            headers=['id', 'name', 'size', 'source'])
+            [['Id', entry.id],
+             ['Entry', entry.get_name()],
+             ['Code size', entry.get_code_size()],
+             ['Source file path', entry.get_source_filename()]],
+            tablefmt='simple')
  
     def _get_assembly_object(self, agent, assembly_id):
         object = agent.vm.get_assembly(assembly_id).get_object() 
 
         return tabulate(
-            [[object.id, object.get_type(), object.get_address()]],
-            headers=['id', 'type', 'address'])
+            [['Id', object.id],
+            ['Name', object.get_type()],
+            ['Address', object.get_address()],
+            ['Collected', object.get_is_collected()]],
+            tablefmt='simple')
 
     def _get_assembly_manifest(self, agent, assembly_id):
         manifest = agent.vm.get_assembly(assembly_id).get_manifest_module() 
 
         return tabulate(
-            [[manifest.id, manifest.get_basename(), manifest.get_scopename()]],
-            headers=['id', 'basename', 'scopename'])
+            [['Id', manifest.id],
+            ['Basename', manifest.get_basename()],
+            ['Scopename', manifest.get_scopename()]],
+            tablefmt='plain')
