@@ -1,25 +1,13 @@
-import commands.appdomain_command as appdomain
-import commands.exit_command as exit_cmd
-import commands.supported_commands as supported_cmd
-import commands.threads_command as threads_cmd
-import commands.assemblies_command as get_assemblies_cmd
-import commands.assembly_command as get_assembly_cmd
-import commands.type_command as type_cmd
-import commands.method_command as method_command
-import commands.resume_command as resume_command
-import commands.breakpoint_command as breakpoint_command
+from commands.info_command import InfoCommand
+from commands.resume_command import ResumeCommand
+from commands.exit_command import ExitCommand
+from commands.breakpoint_command import BreakpointCommand
 
 supported_commands = set([
-    appdomain.AppDomainCommand(),
-    exit_cmd.ExitCommand(),
-    supported_cmd.SupportedCommands(),
-    threads_cmd.ThreadsCommand(),
-    get_assemblies_cmd.AssembliesCommand(),
-    get_assembly_cmd.AssemblyCommand(),
-    type_cmd.TypeCommand(),
-    method_command.MethodCommand(),
-    resume_command.ResumeCommand(),
-    breakpoint_command.BreakpointCommand()
+    InfoCommand(),
+    ResumeCommand(),
+    ExitCommand(),
+    BreakpointCommand()
 ])
 
 # selects first command that matches the input command

@@ -25,13 +25,13 @@ class Agent:
         self._is_listening = False
         self._packet_counter = 65536
         self._replies_events = {}
-        self._breakpoints = []
         self._events_queue = Queue()
         self._vm_started_event = Event()
         self._listening_started_event = Event()
 
         self.vm = None
         self.events_callbacks = {}
+        self.breakpoints = []
 
     def start(self, initiate, port, timeout=None):
         if not initiate:
@@ -152,7 +152,7 @@ class Agent:
 
         request_id = buffer_stream.BufferStream(answer.data).get_int()
         event_reuquest = EventRequest(event_kind, request_id)
-        self._breakpoints.append(event_reuquest)
+        self.breakpoints.append(event_reuquest)
 
         return event_reuquest
 
@@ -170,7 +170,7 @@ class Agent:
         self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
-        self._breakpoints = []
+        self.breakpoints = []
 
     def _process_events(self):
         print ("Processing events started")

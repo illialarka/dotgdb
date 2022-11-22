@@ -1,4 +1,5 @@
 import commands.command as cmd
+from cli_context import CliContext
 
 class ResumeCommand(cmd.Command):
 
@@ -9,4 +10,4 @@ class ResumeCommand(cmd.Command):
 
     def execute(self, agent, args = None):
         agent.vm.resume()
-        return 'Virtual Machine resumed.'
+        print(f'Starting program: {CliContext.executable}\n')

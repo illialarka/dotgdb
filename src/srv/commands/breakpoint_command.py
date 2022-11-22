@@ -73,16 +73,6 @@ class BreakpointCommand(cmd.Command):
         breakpoint_id = event_request.request_id
         print(f'Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.')
 
-    def _unset_all_breakpoints(self, agent):
-        agent.disable_all_breakpoints()
-    
-    def _list_breakpoints(self, agent):
-        breakpoints = agent.breakpoints
-        print('Breakpoints list\n')
-        for index in range(0, len(breakpoints)):
-            breakpoint = breakpoints[index] 
-            print(f'#{index} breakpoint at {breakpoint}')
-    
     def _parse_breakpoint_location(self, location):
         parts = location.split(':')
         return LocationParsed(

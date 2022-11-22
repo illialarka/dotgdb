@@ -1,4 +1,5 @@
 import commands.command as cmd
+from tabulate import tabulate
 import argparse
 
 class TypeCommand(cmd.Command):
@@ -28,12 +29,13 @@ class TypeCommand(cmd.Command):
             return
 
         if arguments.subcommand == 'methods':
-            for method in self._get_type_methods(agent, arguments.assembly_id, arguments.type_name):
-                print (method)
-            return
+            return self._get_type_methods(agent, arguments.assembly_id, arguments.type_name)
 
     def _get_type(self, agent, assembly_id, type_name):
         return agent.vm.get_assembly(assembly_id).get_type_by_name(type_name)
     
     def _get_type_methods(self, agent, assembly_id, type_name):
-        return agent.vm.get_assembly(assembly_id).get_type_by_name(type_name).get_methods()
+        methods = agent.vm.get_assembly(assembly_id).get_type_by_name(type_name).get_methods()
+        return tabulate(
+            tabular_data=[[method.id, method.get_name(), method.get_source_filename()] for method in methods],
+            headers=['Id', 'Name', 'Source'])

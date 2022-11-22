@@ -1,3 +1,4 @@
+from cli_context import CliContext 
 import argparse
 import logging
 import utils
@@ -8,7 +9,6 @@ import logging
 import constants
 import event_handlers
 import commands.selector as selector
-import table_formatter
 
 logger = logging.getLogger()
 
@@ -33,6 +33,7 @@ def cli():
 
     try:
         _session.run(arguments), _agent.start(True, _session.port, 10)
+        CliContext.executable = arguments.executable 
     except exceptions.ExecutableNotFound:
         print("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
