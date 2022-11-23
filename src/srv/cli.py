@@ -46,7 +46,7 @@ def cli():
 def process_interaction(agent):
     while True:
         try:
-            input_command = input("sdb> ").split(" ")
+            input_command = input(f"sdb{CliContext.state}> ").split(" ")
 
             command_alias = None
             command_arguments = None
