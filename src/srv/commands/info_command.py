@@ -1,4 +1,5 @@
 import commands.command as cmd
+from cli_context import CliContext
 import argparse
 import constants
 
@@ -23,15 +24,14 @@ class InfoCommand(cmd.Command):
             return
         
         if arguments.entity == 'break':
-            self._info_breakpoints(agent)
+            self._info_breakpoints()
             return
 
-    def _info_breakpoints(self, agent):
-        breakpoints = agent.breakpoints
-        if len(breakpoints) == 0:
-            print('There are no breakpoints')
+    def _info_breakpoints(self):
+        if len(CliContext.breakpoints) == 0:
+            print('There are no breakpoints.')
             return
 
-        for breakpoint in breakpoints:
-            event_kind = constants.EVENT_FRIENDLY_NAME[breakpoint.event_kind]
-            print(f'Breakpoint {breakpoint.request_id} kind {event_kind}.')
+        for breakpoint in CliContext.breakpoints:
+            event_kind = constants.EVENT_FRIENDLY_NAME[breakpoint.event.event_kind]
+            print(f'Breakpoint {breakpoint.event.request_id} kind {event_kind}.')

@@ -10,6 +10,7 @@ import time
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread, Event
 from queue import Queue, Empty
+from cli_context import CliContext
 from collections import namedtuple
 
 logger = logging.getLogger()
@@ -32,7 +33,6 @@ class Agent:
 
         self.vm = None
         self.events_callbacks = {}
-        self.breakpoints = []
 
     def start(self, initiate, port, timeout=None):
         if not initiate:
@@ -153,7 +153,7 @@ class Agent:
 
         request_id = buffer_stream.BufferStream(answer.data).get_int()
         event_reuquest = EventRequest(event_kind, request_id)
-        self.breakpoints.append(Breakpoint(event=event_reuquest))
+        CliContext.breakpoints.append(Breakpoint(event=event_reuquest))
 
         return event_reuquest
 
@@ -171,7 +171,7 @@ class Agent:
         self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
-        self.breakpoints = []
+        CliContext.breakpoints = []
 
     def _process_events(self):
         print ("Processing events started")
