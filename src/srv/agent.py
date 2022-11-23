@@ -15,6 +15,7 @@ from collections import namedtuple
 logger = logging.getLogger()
 
 EventRequest = namedtuple("EventRequest", ["event_kind", "request_id"])
+Breakpoint = namedtuple('Breakpoint', ['event'])
 Packet = namedtuple("Packet", ["header", "data"])
 
 class Agent:
@@ -152,7 +153,7 @@ class Agent:
 
         request_id = buffer_stream.BufferStream(answer.data).get_int()
         event_reuquest = EventRequest(event_kind, request_id)
-        self.breakpoints.append(event_reuquest)
+        self.breakpoints.append(Breakpoint(event=event_reuquest))
 
         return event_reuquest
 
