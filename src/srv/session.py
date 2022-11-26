@@ -65,4 +65,4 @@ class Session:
                 stderr=subprocess.PIPE,
                 close_fds=True)
 
-        return_code = self.debug_process.poll()
+        self.debug_process.poll()

@@ -23,4 +23,3 @@ def configure_logger(arguments):
     logger = logging.getLogger()
     logger.setLevel(logging_level)
     logger.addHandler(handler)
-

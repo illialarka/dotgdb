@@ -6,18 +6,18 @@ class CliContext:
     executable = None
     state = ''
     breakpoints = []
+
     # manages CLI state
     # When it is True CLI redirects all programm output to stdout
     # When it is False CLI can accept commands like 'info' 'break' etc.
     is_running = False
 
-    def _get_runinng():
-        st = None
+    def get_runinng():
+        running = None
         lock.acquire()
-        st = CliContext.is_running 
+        running = CliContext.is_running 
         lock.release()
-
-        return st
+        return running 
 
     def break_on():
         lock.acquire()

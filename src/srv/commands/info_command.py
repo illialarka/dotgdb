@@ -11,7 +11,7 @@ class InfoCommand(cmd.Command):
         self.help = 'Usage: info'
 
         self._argument_parser = argparse.ArgumentParser()
-        self._argument_parser.add_argument('entity', help='Specifies entity info about', choices=['break'])
+        self._argument_parser.add_argument('entity', help='Specifies entity info about', choices=['break', 'locals'])
 
     def execute(self, agent, args=None):
         arguments = None
@@ -35,3 +35,6 @@ class InfoCommand(cmd.Command):
         for breakpoint in CliContext.breakpoints:
             event_kind = constants.EVENT_FRIENDLY_NAME[breakpoint.event.event_kind]
             print(f'Breakpoint {breakpoint.event.request_id} kind {event_kind}.')
+
+    def _info_locals(self):
+        pass

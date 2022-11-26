@@ -33,6 +33,7 @@ def cli():
 
     try:
         _session.run(arguments), _agent.start(True, _session.port, 10)
+
         # those calls are required to create appdomain and load types
         _agent.vm.resume(), _agent.vm.suspend()
         CliContext.executable = arguments.executable 
@@ -50,7 +51,7 @@ def process_interaction(agent, session):
         try:
             # if process is running and we are not on breakpoint event
             # it redirects debugee process output to CLI stdout 
-            if CliContext._get_runinng():
+            if CliContext.get_runinng():
                 debug_process_output_line = session.debug_process.stdout.readline()
                 print(debug_process_output_line.decode('utf-8'), end='')
 
