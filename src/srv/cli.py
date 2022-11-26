@@ -39,13 +39,20 @@ def cli():
         return
 
     try:
-        process_interaction(_agent)
+        process_interaction(_agent, _session)
     finally:
         _session.exit(), _agent.stop()
 
-def process_interaction(agent):
+def process_interaction(agent, session):
     while True:
         try:
+            # if process is running and we are not on breakpoint event
+            # it redirects debugee process output to console
+            if CliContext.is_running:
+                debug_process_output_line = session.debug_process.stdout.readline()
+                print(debug_process_output_line)
+                continue
+
             input_command = input(f"sdb{CliContext.state}> ").split(" ")
 
             command_alias = None

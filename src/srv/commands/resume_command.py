@@ -10,4 +10,5 @@ class ResumeCommand(cmd.Command):
 
     def execute(self, agent, args = None):
         agent.vm.resume()
+        CliContext.is_running = True 
         print(f'Starting program: {CliContext.executable}\n')

@@ -51,7 +51,7 @@ class Session:
 
     def _run_debug_server(self, executable):
         self.port = utils.find_port()
-        logger.debug(f"debug server is going to run on {self.address}:{self.port}")
+        logger.debug(f"Debug server is going to run on {self.address}:{self.port}")
 
         command = f"mono --debug --debugger-agent=transport=dt_socket,server=y,address={self.address}:{self.port} {executable}"
 
