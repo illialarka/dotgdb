@@ -54,6 +54,7 @@ def process_interaction(agent, session):
             if CliContext.get_runinng():
                 debug_process_output_line = session.debug_process.stdout.readline()
                 print(debug_process_output_line.decode('utf-8'), end='')
+                continue
 
             input_command = input(f"sdb{CliContext.state}> ").split(" ")
 
