@@ -1,8 +1,6 @@
 import sdbtypes
 import constants
 import buffer_stream
-from dump import DumpInfo 
-
 from collections import namedtuple
 
 ModuleInfo = namedtuple(

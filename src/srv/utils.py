@@ -15,7 +15,7 @@ def configure_logger(arguments):
     logging_level = logging.DEBUG if arguments.verbose else logging.INFO
 
     handler = logging.StreamHandler()
-    handler.setLevel(logging_level)
+    handler.setLevel(logging.DEBUG)
 
     if arguments.logFile is not None:
         logging.basicConfig(filename=arguments.logFile)

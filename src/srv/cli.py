@@ -33,6 +33,8 @@ def cli():
 
     try:
         _session.run(arguments), _agent.start(True, _session.port, 10)
+        # those calls are required to create appdomain and load types
+        _agent.vm.resume(), _agent.vm.suspend()
         CliContext.executable = arguments.executable 
     except exceptions.ExecutableNotFound:
         print("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
@@ -47,11 +49,10 @@ def process_interaction(agent, session):
     while True:
         try:
             # if process is running and we are not on breakpoint event
-            # it redirects debugee process output to console
-            if CliContext.is_running:
+            # it redirects debugee process output to CLI stdout 
+            if CliContext._get_runinng():
                 debug_process_output_line = session.debug_process.stdout.readline()
-                print(debug_process_output_line)
-                continue
+                print(debug_process_output_line.decode('utf-8'), end='')
 
             input_command = input(f"sdb{CliContext.state}> ").split(" ")
 

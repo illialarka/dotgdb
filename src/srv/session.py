@@ -62,7 +62,7 @@ class Session:
                 shell=True,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
+                stderr=subprocess.PIPE,
                 close_fds=True)
 
         return_code = self.debug_process.poll()

@@ -179,7 +179,6 @@ class Agent:
             # Non-zero timeout to stop when listening will be stopped
             try:
                 suspend_policy, events_data = self._events_queue.get(timeout=1)
-                print ("An event received and passed to handler")
             except Empty:
                 continue
 
@@ -264,7 +263,7 @@ class Agent:
 
     def _on_event_set(self, suspend_policy, events_data):
         for event_data in events_data:
-            logger.debug(
+            print(
                 "incoming event: {0}".format(
                     constants.EVENT_FRIENDLY_NAME[event_data.event_kind]))
 
