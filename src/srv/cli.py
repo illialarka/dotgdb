@@ -52,23 +52,15 @@ def cli():
 def process_interaction(agent, session):
     non_blocking_stream_reader = NonBlockingStreamReader(session.debug_process.stdout) 
     context_service = CliContextService() 
+
     while True:
-        print('Here at the begining')
         try:
-            # if process is running and we are not on breakpoint event
-            # it redirects debugee process output to CLI stdout 
             if context_service.get_runinng():
                 output_line = non_blocking_stream_reader.readline(0.1)
-                print(output_line)
-
-                #out, err = session.debug_process.stdout.readline('\n', timeout=1) 
-                #debug_process_output_line = session.debug_process.stdout.readline()
-                #print(debug_process_output_line.decode('utf-8'), end='')
-                #print(type(out))
-                #print(out)
+                if output_line:
+                    print(output_line.decode('utf-8'), end='')
                 continue
 
-            print('taking input')
             input_command = input(f"sdb{context_service.get_state_as_string()}> ").split(" ")
 
             command_alias = None

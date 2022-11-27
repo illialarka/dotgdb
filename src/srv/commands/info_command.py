@@ -1,5 +1,5 @@
 import commands.command as cmd
-from cli_context import CliContext
+from cli_context import CliContextService 
 import argparse
 import constants
 
@@ -28,11 +28,13 @@ class InfoCommand(cmd.Command):
             return
 
     def _info_breakpoints(self):
-        if len(CliContext.breakpoints) == 0:
+        context_service = CliContextService()
+
+        if len(context_service.breakpoints) == 0:
             print('There are no breakpoints.')
             return
 
-        for breakpoint in CliContext.breakpoints:
+        for breakpoint in context_service.breakpoints:
             event_kind = constants.EVENT_FRIENDLY_NAME[breakpoint.event.event_kind]
             print(f'Breakpoint {breakpoint.event.request_id} kind {event_kind}.')
 
