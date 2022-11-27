@@ -1,4 +1,6 @@
-from cli_context import CliContext 
+from cli_context import CliContextService 
+from nbstreamreader import NonBlockingStreamReader
+import asyncio.subprocess
 import argparse
 import logging
 import utils
@@ -11,6 +13,7 @@ import event_handlers
 import commands.selector as selector
 
 logger = logging.getLogger()
+context_serivce = CliContextService()
 
 def cli():
     argument_parser = argparse.ArgumentParser(
@@ -36,7 +39,7 @@ def cli():
 
         # those calls are required to create appdomain and load types
         _agent.vm.resume(), _agent.vm.suspend()
-        CliContext.executable = arguments.executable 
+        context_serivce.set_executable(arguments.executable)
     except exceptions.ExecutableNotFound:
         print("Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
@@ -47,16 +50,26 @@ def cli():
         _session.exit(), _agent.stop()
 
 def process_interaction(agent, session):
+    non_blocking_stream_reader = NonBlockingStreamReader(session.debug_process.stdout) 
+    context_service = CliContextService() 
     while True:
+        print('Here at the begining')
         try:
             # if process is running and we are not on breakpoint event
             # it redirects debugee process output to CLI stdout 
-            if CliContext.get_runinng():
-                debug_process_output_line = session.debug_process.stdout.readline()
-                print(debug_process_output_line.decode('utf-8'), end='')
+            if context_service.get_runinng():
+                output_line = non_blocking_stream_reader.readline(0.1)
+                print(output_line)
+
+                #out, err = session.debug_process.stdout.readline('\n', timeout=1) 
+                #debug_process_output_line = session.debug_process.stdout.readline()
+                #print(debug_process_output_line.decode('utf-8'), end='')
+                #print(type(out))
+                #print(out)
                 continue
 
-            input_command = input(f"sdb{CliContext.state}> ").split(" ")
+            print('taking input')
+            input_command = input(f"sdb{context_service.get_state_as_string()}> ").split(" ")
 
             command_alias = None
             command_arguments = None

@@ -1,4 +1,5 @@
 import os.path as path
+import asyncio.subprocess
 import logging
 import utils
 import subprocess
@@ -57,6 +58,7 @@ class Session:
 
         logger.debug(f"command: {command}")
 
+        #self.debug_process = subprocess.Popen(
         self.debug_process = subprocess.Popen(
                 [ command ],
                 shell=True,

@@ -36,7 +36,7 @@ class Agent:
 
     def start(self, initiate, port, timeout=None):
         if not initiate:
-            logger.debug("Starting at {0}...".format(port))
+            logger.debug("Starting at {0}.".format(port))
             self._socket = socket(AF_INET, SOCK_STREAM)
             self._socket.bind(("127.0.0.1", port))
             self._socket.listen(1)
@@ -44,13 +44,13 @@ class Agent:
             self._socket.settimeout(timeout)
             self._server_socket, self._server_endpoint = self._socket.accept()
         else:
-            logger.debug("Connecting to {0}".format(port))
+            logger.debug("Connecting to {0}.".format(port))
             self._server_endpoint = ("127.0.0.1", port)
             self._server_socket = socket(AF_INET, SOCK_STREAM)
 
             max_attempts, success = 10, False
             while not success and max_attempts > 0:
-                logger.info ("Attempting to connect {0}...".format(max_attempts))
+                logger.info ("Attempting to connect. {0} attemptes left.".format(max_attempts))
 
                 response_code = self._server_socket.connect_ex(self._server_endpoint)
                 if response_code == 0:
@@ -61,34 +61,33 @@ class Agent:
                     time.sleep(1)
 
         logger.debug(
-            "receiving handhsake from {0}...".format(self._server_endpoint))
+            "Receiving handhsake from {0}.".format(self._server_endpoint))
         self._server_socket.settimeout(timeout)
         handshake = self._server_socket.recv(len(constants.RIGHT_HANDSHAKE))
         self._server_socket.settimeout(None)
         if handshake != constants.RIGHT_HANDSHAKE:
-            raise ConnectionError("Bad handshake ({0})".format(handshake))
+            raise ConnectionError("Bad handshake received ({0}).".format(handshake))
 
-        logger.debug("sending an answer...")
         self._server_socket.sendall(handshake)
 
-        logger.debug("running threads...")
+        logger.debug("Running threads.")
 
         self._listening_thread = Thread(target=self._listen)
-        self._listening_thread.name = "pymlistening thread"
+        self._listening_thread.name = "sdb listening thread"
         self._listening_thread.daemon = True
         self._listening_thread.start()
 
         self._listening_started_event.wait()
 
         self._events_thread = Thread(target=self._process_events)
-        self._events_thread.name = "pymevents thread"
+        self._events_thread.name = "sdb events thread"
         self._events_thread.daemon = True
         self._events_thread.start()
 
-        logger.debug("waiting for virtual machine start event...")
+        logger.debug("Waiting for virtual machine start event.")
         self._vm_started_event.wait()
 
-        logger.debug("fully started")
+        logger.debug("Debugger agent is fully started.")
 
     def stop(self, kill_vm=None):
         if self._is_listening == False:
@@ -109,7 +108,7 @@ class Agent:
             if self._server_socket is not None:
                 self._server_socket.close()
         except:
-            print ("Agent is stopped")
+            print ("Agent is stopped.")
 
     def send_command(self, command_set, command_id, params=b""):
         packet = (
@@ -264,7 +263,7 @@ class Agent:
     def _on_event_set(self, suspend_policy, events_data):
         for event_data in events_data:
             print(
-                "incoming event: {0}".format(
+                "Event received: {0}".format(
                     constants.EVENT_FRIENDLY_NAME[event_data.event_kind]))
 
             if event_data.event_kind == constants.EVENT_KIND_VM_START:

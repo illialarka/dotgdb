@@ -1,5 +1,5 @@
 import commands.command as cmd
-from cli_context import CliContext
+from cli_context import CliContextService
 
 class ResumeCommand(cmd.Command):
 
@@ -10,5 +10,6 @@ class ResumeCommand(cmd.Command):
 
     def execute(self, agent, args = None):
         agent.vm.resume()
-        CliContext.is_running = True 
-        print(f'Starting program: {CliContext.executable}\n')
+        context_service = CliContextService()
+        context_service.start_running_executable()
+        print(f'Starting program: {context_service.get_executable()}\n')
