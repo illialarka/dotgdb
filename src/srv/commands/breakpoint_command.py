@@ -74,7 +74,7 @@ class BreakpointCommand(cmd.Command):
         breakpoint_id = event_request.request_id
 
         context_service = CliContextService()
-        context_service.add_breakpoint(event_request, method_file, il_offset)
+        context_service.add_breakpoint(event_request, method_file, line_number, method_name)
 
         print(f'Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.')
 

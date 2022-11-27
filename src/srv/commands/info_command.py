@@ -35,8 +35,7 @@ class InfoCommand(cmd.Command):
             return
 
         for breakpoint in context_service.get_breakpoints():
-            # would be great to have a file name also 
-            print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} at {breakpoint.source}:{breakpoint.line_number:08X}.')
+            print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
     def _info_locals(self):
         pass
