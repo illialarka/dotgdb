@@ -80,7 +80,19 @@ class BreakpointCommand(cmd.Command):
 
     def _parse_breakpoint_location(self, location):
         parts = location.split(':')
-        return LocationParsed(
-            parts[0],
-            parts[1],
-            int(parts[2]) if parts[2].isdigit() else None) if len(parts) == 3 else None
+
+        if len(parts) != 3:
+            print('Unknown location defined. Please use <type>:<method>:<linenumber> pattern.') 
+            return
+
+        type_name = parts[0]
+        method_name = parts[1]
+        line_number = None
+
+        try:
+            line_number = int(parts[2])
+        except:
+            print('Unable to parse line number.')
+            return
+            
+        return LocationParsed(type_name, method_name, line_number)
