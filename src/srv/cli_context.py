@@ -5,20 +5,22 @@ lock = threading.Lock()
 
 BreakEventDescriptor = namedtuple(
     'BreakEventDescriptor',
-    ['request_id', 'thread_id', 'friendly_event_kind_name'])
+    ['request_id', 'thread_id', 'friendly_event_kind_name', 'source', 'line_number'])
 
 
 class CliContextService:
     def __init__(self):
         self._context = _cli_context 
     
-    def add_breakpoint(self, event_request):
+    def add_breakpoint(self, event_request, file_name, line_number):
         break_event_descriptor = BreakEventDescriptor(
             request_id=event_request.request_id,
             # event_request does not have thread_id yet
             thread_id=0,
             # leave it as it is for now
-            friendly_event_kind_name='Breakpoint')
+            friendly_event_kind_name='Breakpoint',
+            source=file_name,
+            line_number=line_number)
         self._context.breakpoints.append(break_event_descriptor)
 
     def clear_breakpoints(self):
@@ -54,10 +56,11 @@ class CliContextService:
         break_descriptor = BreakEventDescriptor(
             request_id=request_id,
             thread_id=thread_id,
+            source='empty',
+            line_number=0,
             # leave it as it is for now
             friendly_event_kind_name='Breakpoint')
         
-        self._context.breakpoints.append(break_descriptor)
         self._context.is_running = False
         self._context.state = break_descriptor
 

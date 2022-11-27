@@ -10,7 +10,6 @@ import time
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread, Event
 from queue import Queue, Empty
-from cli_context import CliContextService 
 from collections import namedtuple
 
 logger = logging.getLogger()
@@ -29,7 +28,6 @@ class Agent:
         self._events_queue = Queue()
         self._vm_started_event = Event()
         self._listening_started_event = Event()
-        self._cli_context_service = CliContextService()
 
         self.vm = None
         self.events_callbacks = {}
@@ -152,7 +150,6 @@ class Agent:
 
         request_id = buffer_stream.BufferStream(answer.data).get_int()
         event_request = EventRequest(event_kind, request_id)
-        self._cli_context_service.add_breakpoint(event_request)
 
         return event_request
 
@@ -170,7 +167,6 @@ class Agent:
         self.send_command(
             constants.CMDSET_EVENT_REQUEST,
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
-        self._cli_context_service.clear_breakpoints()
 
     def _process_events(self):
         print ("Processing events started")

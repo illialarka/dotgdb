@@ -1,4 +1,5 @@
 from collections import namedtuple
+from cli_context import CliContextService
 import commands.command as cmd
 import event_modifiers
 import constants
@@ -71,6 +72,10 @@ class BreakpointCommand(cmd.Command):
         il_offset = code_location.il_offset
         method_file = method_break_on.get_source_filename() 
         breakpoint_id = event_request.request_id
+
+        context_service = CliContextService()
+        context_service.add_breakpoint(event_request, method_file, il_offset)
+
         print(f'Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.')
 
     def _parse_breakpoint_location(self, location):

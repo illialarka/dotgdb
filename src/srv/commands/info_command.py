@@ -30,13 +30,13 @@ class InfoCommand(cmd.Command):
     def _info_breakpoints(self):
         context_service = CliContextService()
 
-        if len(context_service.breakpoints) == 0:
+        if len(context_service.get_breakpoints()) == 0:
             print('There are no breakpoints.')
             return
 
-        for breakpoint in context_service.breakpoints:
-            event_kind = constants.EVENT_FRIENDLY_NAME[breakpoint.event.event_kind]
-            print(f'Breakpoint {breakpoint.event.request_id} kind {event_kind}.')
+        for breakpoint in context_service.get_breakpoints():
+            # would be great to have a file name also 
+            print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} at {breakpoint.source}:{breakpoint.line_number:08X}.')
 
     def _info_locals(self):
         pass
