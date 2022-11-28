@@ -36,10 +36,10 @@ class ThreadStackframeCommand(cmd.Command):
             return
 
         if arguments.subcommand == 'stackcall':
-            self._get_locals(agent, arguments.identifier)
+            self._get_stackcall(agent, arguments.identifier)
             return
 
-    def _get_locals(self, agent, identifier):
+    def _get_stackcall(self, agent, identifier):
         context_service = CliContextService()
 
         if not context_service.is_on_breakpoint():
@@ -51,9 +51,14 @@ class ThreadStackframeCommand(cmd.Command):
         if stackframes is None or len(stackframes) == 0:
             print('Can not get stackframe for some reason.')
             return
-
+        
         print('Stackframe call tree:\n')
         for stackframe in stackframes:
-            print(stackframe)
+            parameters_names = stackframe.get_method().get_params()
+
+            print(stackframe, end=' ')
+            for parameter_name in parameters_names:
+                print(f'<{parameter_name.name}>', end=' ')
+            print()
 
         return

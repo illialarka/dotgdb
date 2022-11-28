@@ -18,7 +18,7 @@ class StackFrameMirror:
 
     def __str__(self):
         method = self.get_method()
-        return 'at {0}:{1}:{2}'.format(
+        return 'at {0} in {1}:{2}'.format(
             method.get_source_filename(),
             method.get_name(),
             self.get_source_line())
