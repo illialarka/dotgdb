@@ -8,3 +8,11 @@ Mono Soft Debugger client. It supports socket and stdin,stdout,stderr communicat
 2. Create `.env` file (is ignored by git) and put inside full path to entry dll/exe file (single line in format `binary={path}`).
 3. Run `./cli.sh`
 NOTE: On MacOS run 'chmod +x ./cli.sh` to make it runnable
+
+
+## Tasks before opening
+
+1. Print values on breakpoint [ ]
+2. Exception event [ ]
+3. Step in [ ]
+4. Step over [ ]
