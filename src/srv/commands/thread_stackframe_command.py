@@ -14,13 +14,14 @@ class ThreadStackframeCommand(cmd.Command):
             '-id',
             '--identifier',
             help='sepcifies thread identifier',
-            type=int)
+            type=int,
+            required=True)
         
         self._argument_parser.add_argument(
             'subcommand',
             help='specifies subcommand',
-            choices=['locals'],
-            default='locals',
+            choices=['stackcall'],
+            default='stackcall',
             type=str,
             nargs='?')
 
@@ -34,7 +35,7 @@ class ThreadStackframeCommand(cmd.Command):
         if arguments is None:
             return
 
-        if arguments.subcommand == 'locals':
+        if arguments.subcommand == 'stackcall':
             self._get_locals(agent, arguments.identifier)
             return
 
@@ -45,6 +46,14 @@ class ThreadStackframeCommand(cmd.Command):
             print('Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
-        stackframe = agent.vm.get_thread(identifier).get_stackframes()
-        print(stackframe)
+        stackframes = agent.vm.get_thread(identifier).get_stackframes()
 
+        if stackframes is None or len(stackframes) == 0:
+            print('Can not get stackframe for some reason.')
+            return
+
+        print('Stackframe call tree:\n')
+        for stackframe in stackframes:
+            print(stackframe)
+
+        return

@@ -17,10 +17,11 @@ class StackFrameMirror:
         self.id = id
 
     def __str__(self):
-        return "Stackframe at {0}:{1} (this = {2})".format(
-            self.get_method().get_name(),
-            self.get_source_line(),
-            self.get_this())
+        method = self.get_method()
+        return 'at {0}:{1}:{2}'.format(
+            method.get_source_filename(),
+            method.get_name(),
+            self.get_source_line())
 
     def get_method(self):
         return self._agent.vm.get_method(self._method_id)

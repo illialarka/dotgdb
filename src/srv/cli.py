@@ -51,18 +51,17 @@ def cli():
 
 def process_interaction(agent, session):
     non_blocking_stream_reader = NonBlockingStreamReader(session.debug_process.stdout) 
-    context_service = CliContextService() 
+    cli_context_service = CliContextService() 
 
     while True:
         try:
-            if context_service.get_running():
-                while True:
-                    output_line = non_blocking_stream_reader.readline(0.1)
-                    if output_line:
-                        print(output_line.decode('utf-8'), end='')
+            if cli_context_service.get_running():
+                output_line = non_blocking_stream_reader.readline(0.1)
+                if output_line:
+                    print(output_line.decode('utf-8'), end='')
                 continue
 
-            input_command = input(f"sdb{context_service.get_state_as_string()}> ").split(" ")
+            input_command = input(f"sdb{cli_context_service.get_state_as_string()}> ").split(" ")
 
             command_alias = None
             command_arguments = None
