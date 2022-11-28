@@ -55,10 +55,11 @@ def process_interaction(agent, session):
 
     while True:
         try:
-            if context_service.get_runinng():
-                output_line = non_blocking_stream_reader.readline(0.1)
-                if output_line:
-                    print(output_line.decode('utf-8'), end='')
+            if context_service.get_running():
+                while True:
+                    output_line = non_blocking_stream_reader.readline(0.1)
+                    if output_line:
+                        print(output_line.decode('utf-8'), end='')
                 continue
 
             input_command = input(f"sdb{context_service.get_state_as_string()}> ").split(" ")
@@ -88,7 +89,8 @@ def process_interaction(agent, session):
         # process domain exceptions
         except exceptions.ExitException:
             logger.info("Exit requested. Closing session and kill processes.")
+            non_blocking_stream_reader.close()
             return
-
+    
 if __name__ == "__main__":
     cli()

@@ -31,11 +31,14 @@ class CliContextService:
         lock.acquire()
         self._context.executable = executable
         lock.release()
+    
+    def is_on_breakpoint(self):
+        return self._context.state != None 
    
     def get_executable(self):
         return self._context.executable
 
-    def get_runinng(self):
+    def get_running(self):
         return self._context.is_running
 
     def get_breakpoints(self):

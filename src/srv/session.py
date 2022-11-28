@@ -44,12 +44,6 @@ class Session:
         except:
             print (traceback.format_exception()) 
     
-    def set_breakpoint(self):
-        pass
-     
-    def unset_breakpoint(self):
-        pass
-
     def _run_debug_server(self, executable):
         self.port = utils.find_port()
         logger.debug(f"Debug server is going to run on {self.address}:{self.port}")

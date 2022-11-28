@@ -12,4 +12,5 @@ class ResumeCommand(cmd.Command):
         agent.vm.resume()
         context_service = CliContextService()
         context_service.start_running_executable()
-        print(f'Starting program: {context_service.get_executable()}\n')
+        print(f'Starting program: {context_service.get_executable()}')
+        print('Use Ctrl+Z to suspend process.\n')

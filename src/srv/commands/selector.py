@@ -2,12 +2,14 @@ from commands.info_command import InfoCommand
 from commands.resume_command import ResumeCommand
 from commands.exit_command import ExitCommand
 from commands.breakpoint_command import BreakpointCommand
+from commands.thread_stackframe_command import ThreadStackframeCommand
 
 supported_commands = set([
     InfoCommand(),
     ResumeCommand(),
     ExitCommand(),
-    BreakpointCommand()
+    BreakpointCommand(),
+    ThreadStackframeCommand()
 ])
 
 def select_command(input_command):
