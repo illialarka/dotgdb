@@ -20,7 +20,7 @@ class ThreadStackframeCommand(cmd.Command):
         self._argument_parser.add_argument(
             'subcommand',
             help='specifies subcommand',
-            choices=['stackcall'],
+            choices=['stackcall', 'locals'],
             default='stackcall',
             type=str,
             nargs='?')
@@ -37,6 +37,10 @@ class ThreadStackframeCommand(cmd.Command):
 
         if arguments.subcommand == 'stackcall':
             self._get_stackcall(agent, arguments.identifier)
+            return
+
+        if arguments.subcommand == 'locals':
+            self._get_locals(agent, arguments.identifier)
             return
 
     def _get_stackcall(self, agent, identifier):
@@ -61,5 +65,34 @@ class ThreadStackframeCommand(cmd.Command):
             for parameter_name in parameters_names:
                 stackframe_formated = stackframe_formated + f'<{parameter_name.name}>'
             print(stackframe_formated)
+
+        return
+
+    def _get_locals(self, agent, identifier):
+        context_service = CliContextService()
+
+        if not context_service.is_on_breakpoint():
+            print('Can not collect stackframe because of thread when it is not on breakpoint.')
+            return
+
+        stackframes = agent.vm.get_thread(identifier).get_stackframes()
+
+        if stackframes is None or len(stackframes) == 0:
+            print('Can not get stackframe for some reason.')
+            return
+
+        for stackframe in stackframes:
+            # should include parameters values
+            method_locals = stackframe.get_method().get_locals()
+
+            print(f'{stackframe} (locals = {len(method_locals)}):')
+
+            if len(method_locals) == 0:
+                print('No locals for stackframe.')
+                continue
+
+            for method_local in method_locals:
+                for local in method_local.locals:
+                    print(local)
 
         return

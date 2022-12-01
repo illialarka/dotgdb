@@ -3,13 +3,15 @@ from commands.resume_command import ResumeCommand
 from commands.exit_command import ExitCommand
 from commands.breakpoint_command import BreakpointCommand
 from commands.thread_stackframe_command import ThreadStackframeCommand
+from commands.print_command import PrintCommand
 
 supported_commands = set([
     InfoCommand(),
     ResumeCommand(),
     ExitCommand(),
     BreakpointCommand(),
-    ThreadStackframeCommand()
+    ThreadStackframeCommand(),
+    PrintCommand()
 ])
 
 def select_command(input_command):
