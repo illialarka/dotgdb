@@ -6,7 +6,7 @@ class ThreadStackframeCommand(cmd.Command):
 
     def __init__(self):
         self.aliases = ['stackframe']
-        self.description = 'Gets tackframe'
+        self.description = 'Gets tackframe information'
         self.help = 'Ussage: stackframe'
 
         self._argument_parser = argparse.ArgumentParser()
@@ -53,12 +53,13 @@ class ThreadStackframeCommand(cmd.Command):
             return
         
         print('Stackframe call tree:\n')
+
         for stackframe in stackframes:
             parameters_names = stackframe.get_method().get_params()
+            stackframe_formated = stackframe.__str__() 
 
-            print(stackframe, end=' ')
             for parameter_name in parameters_names:
-                print(f'<{parameter_name.name}>', end=' ')
-            print()
+                stackframe_formated = stackframe_formated + f'<{parameter_name.name}>'
+            print(stackframe_formated)
 
         return
