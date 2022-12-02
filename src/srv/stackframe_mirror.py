@@ -1,5 +1,5 @@
 import constants
-import types
+import sdbtypes
 import buffer_stream
 
 class StackFrameMirror:
@@ -32,8 +32,8 @@ class StackFrameMirror:
     def get_this(self):
         if self._this is None:
             params = (
-                types.encode_int(self._parent_thread_id) +
-                types.encode_int(self.id))
+                sdbtypes.encode_int(self._parent_thread_id) +
+                sdbtypes.encode_int(self.id))
             answer = self._agent.send_command(
                 constants.CMDSET_STACK,
                 constants.CMD_STACK_GET_THIS,
@@ -75,9 +75,9 @@ class StackFrameMirror:
 
     def _get_values(self, positions):
         params = (
-            types.encode_int(self._parent_thread_id) +
-            types.encode_int(self.id) +
-            types.encode_array(positions, types.encode_int))
+            sdbtypes.encode_int(self._parent_thread_id) +
+            sdbtypes.encode_int(self.id) +
+            sdbtypes.encode_array(positions, sdbtypes.encode_int))
         answer = self._agent.send_command(
             constants.CMDSET_STACK,
             constants.CMD_STACK_GET_VALUES,
@@ -85,20 +85,20 @@ class StackFrameMirror:
 
         stream = buffer_stream.BufferStream(answer.data)
         values = stream.get_array_known_size(
-            types.decode_variant_value, len(positions))
+            sdbtypes.decode_variant_value, len(positions))
 
         return values
 
     def _set_values(self, positions_values):
         def encode_position_value(position_value):
             return (
-                types.encode_int(position_value[0]) +
-                types.encode_variant_value(position_value[1]))
+                sdbtypes.encode_int(position_value[0]) +
+                sdbtypes.encode_variant_value(position_value[1]))
 
         params = (
-            types.encode_int(self._parent_thread_id) +
-            types.encode_int(self.id) +
-            types.encode_array(positions_values, encode_position_value))
+            sdbtypes.encode_int(self._parent_thread_id) +
+            sdbtypes.encode_int(self.id) +
+            sdbtypes.encode_array(positions_values, encode_position_value))
         self._agent.send_command(
             constants.CMDSET_STACK,
             constants.CMD_STACK_SET_VALUES,

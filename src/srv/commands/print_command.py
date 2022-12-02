@@ -1,5 +1,6 @@
 import commands.command as cmd
 import argparse
+from cli_context import CliContextService
 
 class PrintCommand(cmd.Command):
 
@@ -12,22 +13,22 @@ class PrintCommand(cmd.Command):
         self._argument_parser.add_argument(
             'variable',
             help='displays value of the variable',
-            type=str)
+            type=str,
+            nargs='?')
 
         self._argument_parser.add_argument(
-            '-id',
             '--thread-id',
             help='specifies thread identifier',
-            type=str,
+            type=int,
             required=True)
 
     def execute(self, agent, args=None):
         arguments = None
         try:
-            arguments = self._argument_parser.parser_args(args)
+            arguments = self._argument_parser.parse_args(args)
         except:
             return
-        
+
         if arguments is None:
             return
 
@@ -37,18 +38,18 @@ class PrintCommand(cmd.Command):
             print('Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
-        stackframes = agent.vm.get_thread(identifier).get_stackframes()
+        stackframes = agent.vm.get_thread(arguments.thread_id).get_stackframes()
 
         if stackframes is None or len(stackframes) == 0:
             print('Can not get stackframe for some reason.')
             return
         
         for stackframe in stackframes:
-            variable =  stackframe.get_local_value(arguments.variable)
-            print(varialbe)
-            if variable is not None:
-                print(variable)
-                return
-    
+            method_locals = stackframe.get_method().get_locals()
+
+            for method_local in method_locals:
+                if method_local.name == arguments.variable:
+                    print(stackframe.get_local_value(method_local))
+                    return
+   
         print('Could not find variable by name.')
- 

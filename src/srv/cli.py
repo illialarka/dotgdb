@@ -77,14 +77,14 @@ def process_interaction(agent, session):
             command = selector.select_command(command_alias)
 
             if command is None:
-                print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands")
+                print("Unknown command. Try 'help' or 'supported_commands' to see all supported commands.")
                 continue
 
             command_result = command.execute(agent, command_arguments)
 
             if command_result is not None:
                 print (command_result)
-           
+          
         # process domain exceptions
         except exceptions.ExitException:
             logger.info("Exit requested. Closing session and kill processes.")
