@@ -87,12 +87,7 @@ class ThreadStackframeCommand(cmd.Command):
 
             print(f'{stackframe} (locals = {len(method_locals)}):')
 
-            if len(method_locals) == 0:
-                print('No locals for stackframe.')
-                continue
-
             for method_local in method_locals:
-                for local in method_local.locals:
-                    print(local)
+                print(f'#{method_local.index} ${method_local.name}')
 
         return
