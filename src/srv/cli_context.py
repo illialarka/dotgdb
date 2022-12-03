@@ -26,6 +26,9 @@ class CliContextService:
 
     def clear_breakpoints(self):
         self._context.breakpoints = []
+
+    def get_state(self):
+        return self._context.state
     
     def set_executable(self, executable):
         lock.acquire()
