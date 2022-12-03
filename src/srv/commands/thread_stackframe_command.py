@@ -46,6 +46,11 @@ class ThreadStackframeCommand(cmd.Command):
         if arguments is None:
             return
 
+        if not cli_context_service.is_on_breakpoint():
+            print(
+                'Can not collect stackframe because of thread when it is not on breakpoint.')
+            return
+
         breakpoint_thread_id = cli_context_service.get_state().thread_id
 
         if arguments.subcommand == 'stackcall':
@@ -57,12 +62,6 @@ class ThreadStackframeCommand(cmd.Command):
             return
 
     def _get_stackcall(self, agent, identifier):
-        context_service = CliContextService()
-
-        if not context_service.is_on_breakpoint():
-            print(
-                'Can not collect stackframe because of thread when it is not on breakpoint.')
-            return
 
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
 
@@ -84,13 +83,6 @@ class ThreadStackframeCommand(cmd.Command):
         return
 
     def _get_locals(self, agent, identifier):
-        context_service = CliContextService()
-
-        if not context_service.is_on_breakpoint():
-            print(
-                'Can not collect stackframe because of thread when it is not on breakpoint.')
-            return
-
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
 
         if stackframes is None or len(stackframes) == 0:
