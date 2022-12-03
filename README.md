@@ -1,7 +1,5 @@
 # dotgdb 
 
-![Twitter Follow](https://img.shields.io/twitter/follow/larkaillia?style=social)
-
 Project name is a `dotgdb` that allows perform complex debugging operation of .NET Core appliation on Mono.
 
 An extensible tool for debugging applications written in C#/.NET running on Mono.
