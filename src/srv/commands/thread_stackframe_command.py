@@ -100,9 +100,7 @@ class ThreadStackframeCommand(cmd.Command):
         for stackframe in stackframes:
             method_locals = stackframe.get_method().get_locals()
 
-            print(f'{stackframe} (locals = {len(method_locals)}):')
-
             for method_local in method_locals:
-                print(f'#{method_local.index} ${method_local.name}')
+                print(f'#{method_local.index} <${method_local.name}> at {stackframe}')
 
         return
