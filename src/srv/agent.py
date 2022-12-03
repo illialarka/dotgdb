@@ -1,9 +1,9 @@
-import sdbtypes 
+import sdbtypes
 import constants
-import vm_snapshot 
-import events_data as ev 
+import vm_snapshot
+import events_data as ev
 import exceptions
-import buffer_stream 
+import buffer_stream
 import logging
 import time
 
@@ -16,6 +16,7 @@ logger = logging.getLogger()
 
 EventRequest = namedtuple("EventRequest", ["event_kind", "request_id"])
 Packet = namedtuple("Packet", ["header", "data"])
+
 
 class Agent:
 
@@ -48,9 +49,11 @@ class Agent:
 
             max_attempts, success = 10, False
             while not success and max_attempts > 0:
-                logger.info ("Attempting to connect. {0} attemptes left.".format(max_attempts))
+                logger.info(
+                    "Attempting to connect {0} attempts left.".format(max_attempts))
 
-                response_code = self._server_socket.connect_ex(self._server_endpoint)
+                response_code = self._server_socket.connect_ex(
+                    self._server_endpoint)
                 if response_code == 0:
                     success = True
                 else:
@@ -64,7 +67,8 @@ class Agent:
         handshake = self._server_socket.recv(len(constants.RIGHT_HANDSHAKE))
         self._server_socket.settimeout(None)
         if handshake != constants.RIGHT_HANDSHAKE:
-            raise ConnectionError("Bad handshake received ({0}).".format(handshake))
+            raise ConnectionError(
+                "Bad handshake received ({0}).".format(handshake))
 
         self._server_socket.sendall(handshake)
 
@@ -88,7 +92,7 @@ class Agent:
         logger.debug("Debugger agent is fully started.")
 
     def stop(self, kill_vm=None):
-        if self._is_listening == False:
+        if not self._is_listening:
             return
 
         if kill_vm is not None:
@@ -105,8 +109,8 @@ class Agent:
                 self._socket.close()
             if self._server_socket is not None:
                 self._server_socket.close()
-        except:
-            print ("Agent is stopped.")
+        except BaseException:
+            print("Agent is stopped.")
 
     def send_command(self, command_set, command_id, params=b""):
         packet = (
@@ -123,7 +127,8 @@ class Agent:
         self._server_socket.sendall(packet)
         event.wait()
 
-        error_code = buffer_stream.BufferStream(event.answer.header).skip(9).get_short()
+        error_code = buffer_stream.BufferStream(
+            event.answer.header).skip(9).get_short()
         error = exceptions.error_code_to_exception(error_code)
         if error is not None:
             raise error
@@ -143,7 +148,8 @@ class Agent:
             constants.CMD_EVENT_REQUEST_SET,
             params)
 
-        error_code = buffer_stream.BufferStream(answer.header).skip(9).get_short()
+        error_code = buffer_stream.BufferStream(
+            answer.header).skip(9).get_short()
         error = exceptions.error_code_to_exception(error_code)
         if error is not None:
             raise error
@@ -169,7 +175,7 @@ class Agent:
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
 
     def _process_events(self):
-        print ("Processing events started")
+        print("Processing events started")
         while self._is_listening:
             # Non-zero timeout to stop when listening will be stopped
             try:
@@ -204,7 +210,7 @@ class Agent:
             if data_length > 0:
                 try:
                     data = self._server_socket.recv(data_length)
-                except:
+                except BaseException:
                     self.stop()
                     break
                 if len(data) == 0:
@@ -215,7 +221,7 @@ class Agent:
 
             try:
                 self._process_packet(header + data)
-            except:
+            except BaseException:
                 logger.debug(
                     "exception during packet processing:",
                     exc_info=True)
@@ -263,7 +269,8 @@ class Agent:
                     constants.EVENT_FRIENDLY_NAME[event_data.event_kind]))
 
             if event_data.event_kind == constants.EVENT_KIND_VM_START:
-                self.vm = vm_snapshot.VmMirror(self, event_data.root_appdomain_id)
+                self.vm = vm_snapshot.VmMirror(
+                    self, event_data.root_appdomain_id)
                 self._vm_started_event.set()
 
             if event_data.event_kind in self.events_callbacks:
