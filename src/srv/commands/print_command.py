@@ -2,6 +2,7 @@ import commands.command as cmd
 import argparse
 from cli_context import CliContextService
 
+
 class PrintCommand(cmd.Command):
     '''
     Prints variable by name.
@@ -15,7 +16,7 @@ class PrintCommand(cmd.Command):
         self.description = 'Prints variable. Used only at breakpoint state.'
         self.help = 'Usage: print <variable_name>'
 
-        self._argument_parser = argparse.ArgumentParser() 
+        self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
             'variable',
             help='displays value of the variable',
@@ -32,7 +33,7 @@ class PrintCommand(cmd.Command):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except:
+        except BaseException:
             return
 
         if arguments is None:
@@ -41,11 +42,15 @@ class PrintCommand(cmd.Command):
         cli_context_service = CliContextService()
 
         if not cli_context_service.is_on_breakpoint():
-            print('Can not collect stackframe because of thread when it is not on breakpoint.')
+            print(
+                'Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
         breakpoint_thread_id = cli_context_service.get_state().thread_id
-        self._print_local_value(agent, breakpoint_thread_id, arguments.variable)
+        self._print_local_value(
+            agent,
+            breakpoint_thread_id,
+            arguments.variable)
 
     def _print_local_value(self, agent, thread_id, variable):
         stackframes = agent.vm.get_thread(thread_id).get_stackframes()
@@ -53,7 +58,7 @@ class PrintCommand(cmd.Command):
         if stackframes is None or len(stackframes) == 0:
             print('Can not get stackframe for some reason.')
             return
-        
+
         for stackframe in stackframes:
             method_locals = stackframe.get_method().get_locals()
 
@@ -61,5 +66,5 @@ class PrintCommand(cmd.Command):
                 if method_local.name == variable:
                     print(stackframe.get_local_value(method_local))
                     return
-   
+
         print('Could not find variable by name.')
