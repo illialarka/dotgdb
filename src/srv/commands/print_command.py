@@ -4,7 +4,10 @@ from cli_context import CliContextService
 
 class PrintCommand(cmd.Command):
     '''
-    Prints variable by name
+    Prints variable by name.
+
+    By default, it uses the identifier of the thread on which the break event occurred.
+    To print variable from another thread use <thread-id> parameter to specify thread.
     '''
 
     def __init__(self):
@@ -17,6 +20,12 @@ class PrintCommand(cmd.Command):
             'variable',
             help='displays value of the variable',
             type=str,
+            nargs='?')
+
+        self._argument_parser.add_argument(
+            '--thread-id',
+            help='specifies thread identifier',
+            type=int,
             nargs='?')
 
     def execute(self, agent, args=None):
