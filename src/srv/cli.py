@@ -33,6 +33,7 @@ def cli():
     # set event handlers
     _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint 
     _agent.events_callbacks[constants.EVENT_KIND_VM_START] = event_handlers.on_vm_start 
+    _agent.events_callbacks[constants.EVENT_KIND_STEP] = event_handlers.on_step 
 
     try:
         _session.run(arguments), _agent.start(True, _session.port, 10)
