@@ -26,7 +26,7 @@ class ThreadStackframeCommand(cmd.Command):
             '--thread-id',
             help='sepcifies thread identifier',
             type=int,
-            )
+        )
 
         self._argument_parser.add_argument(
             'subcommand',
@@ -46,7 +46,7 @@ class ThreadStackframeCommand(cmd.Command):
         if arguments is None:
             return
 
-        breakpoint_thread_id = cli_context_service.get_state().thread_id 
+        breakpoint_thread_id = cli_context_service.get_state().thread_id
 
         if arguments.subcommand == 'stackcall':
             self._get_stackcall(agent, breakpoint_thread_id)
@@ -101,6 +101,6 @@ class ThreadStackframeCommand(cmd.Command):
             method_locals = stackframe.get_method().get_locals()
 
             for method_local in method_locals:
-                print(f'#{method_local.index} <${method_local.name}> at {stackframe}')
+                print(f'<${method_local.name}> at {stackframe}')
 
         return
