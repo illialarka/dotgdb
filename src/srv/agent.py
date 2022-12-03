@@ -264,10 +264,6 @@ class Agent:
 
     def _on_event_set(self, suspend_policy, events_data):
         for event_data in events_data:
-            print(
-                "Event received: {0}".format(
-                    constants.EVENT_FRIENDLY_NAME[event_data.event_kind]))
-
             if event_data.event_kind == constants.EVENT_KIND_VM_START:
                 self.vm = vm_snapshot.VmMirror(
                     self, event_data.root_appdomain_id)

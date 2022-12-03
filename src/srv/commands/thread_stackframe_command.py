@@ -2,6 +2,8 @@ import commands.command as cmd
 import argparse
 from cli_context import CliContextService
 
+cli_context_service = CliContextService()
+
 
 class ThreadStackframeCommand(cmd.Command):
     '''
@@ -21,10 +23,10 @@ class ThreadStackframeCommand(cmd.Command):
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
             '-id',
-            '--identifier',
+            '--thread-id',
             help='sepcifies thread identifier',
             type=int,
-            required=True)
+            )
 
         self._argument_parser.add_argument(
             'subcommand',
@@ -44,12 +46,14 @@ class ThreadStackframeCommand(cmd.Command):
         if arguments is None:
             return
 
+        breakpoint_thread_id = cli_context_service.get_state().thread_id 
+
         if arguments.subcommand == 'stackcall':
-            self._get_stackcall(agent, arguments.identifier)
+            self._get_stackcall(agent, breakpoint_thread_id)
             return
 
         if arguments.subcommand == 'locals':
-            self._get_locals(agent, arguments.identifier)
+            self._get_locals(agent, breakpoint_thread_id)
             return
 
     def _get_stackcall(self, agent, identifier):
