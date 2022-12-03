@@ -19,5 +19,5 @@ class ResumeCommand(cmd.Command):
         cli_context_service = CliContextService()
         cli_context_service.start_running_executable()
 
-        print(f'Starting program: {context_service.get_executable()}')
+        print(f'Starting program: {cli_context_service.get_executable()}')
         print('Use Ctrl+Z to suspend process.\n')

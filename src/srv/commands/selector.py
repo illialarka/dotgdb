@@ -4,6 +4,7 @@ from commands.exit_command import ExitCommand
 from commands.breakpoint_command import BreakpointCommand
 from commands.thread_stackframe_command import ThreadStackframeCommand
 from commands.print_command import PrintCommand
+from commands.step_command import StepCommand
 
 supported_commands = set([
     InfoCommand(),
@@ -11,7 +12,8 @@ supported_commands = set([
     ExitCommand(),
     BreakpointCommand(),
     ThreadStackframeCommand(),
-    PrintCommand()
+    PrintCommand(),
+    StepCommand()
 ])
 
 def select_command(input_command):
