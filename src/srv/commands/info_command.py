@@ -4,6 +4,12 @@ import argparse
 import constants
 
 class InfoCommand(cmd.Command):
+    '''
+    Provides information about debuggee entities.
+    
+    Entities:
+        <break> - shows breakpoints information 
+    '''
 
     def __init__(self):
         self.aliases = ['info']
@@ -11,7 +17,7 @@ class InfoCommand(cmd.Command):
         self.help = 'Usage: info'
 
         self._argument_parser = argparse.ArgumentParser()
-        self._argument_parser.add_argument('entity', help='Specifies entity info about', choices=['break', 'locals'])
+        self._argument_parser.add_argument('entity', help='Specifies entity info about', choices=['break'])
 
     def execute(self, agent, args=None):
         arguments = None

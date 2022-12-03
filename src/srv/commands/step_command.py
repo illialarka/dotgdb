@@ -4,10 +4,14 @@ from cli_context import CliContextService
 import commands.command as cmd
 import constants
 
-cli_context_service = CliContextService() 
+cli_context_service = CliContextService()
 
 
 class StepCommand(cmd.Command):
+    '''
+    Performs step in/over at the breakpoint.
+    Could be used only on a breakpoint state.
+    '''
 
     def __init__(self):
         self.aliases = ['step']
