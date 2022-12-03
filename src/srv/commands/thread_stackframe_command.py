@@ -3,6 +3,14 @@ import argparse
 from cli_context import CliContextService
 
 class ThreadStackframeCommand(cmd.Command):
+    '''
+    Manages thread stackframes.
+
+    Based on the subcommand, applies different logic.
+
+    'stackcall' (default) - displays the call stack.
+    'locals' - displays all local variables in the thread of execution.
+    '''
 
     def __init__(self):
         self.aliases = ['stackframe']
@@ -82,7 +90,6 @@ class ThreadStackframeCommand(cmd.Command):
             return
 
         for stackframe in stackframes:
-            # should include parameters values
             method_locals = stackframe.get_method().get_locals()
 
             print(f'{stackframe} (locals = {len(method_locals)}):')

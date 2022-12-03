@@ -10,6 +10,11 @@ LocationParsed = namedtuple(
     ['type_name', 'method_name', 'line_number'])
 
 class BreakpointCommand(cmd.Command):
+    '''
+    Sets breakpoint at a location.
+
+    Uses line number as number in original <cs> file.
+    '''
 
     def __init__(self):
         self.aliases = ['breakpoint', 'break', 'bt']

@@ -2,6 +2,9 @@ import commands.command as cmd
 import exceptions as exceptions
 
 class ExitCommand(cmd.Command):
+    '''
+    Exists CLI process. 
+    '''
 
     def __init__(self):
         self.aliases = ["exit"]
