@@ -2,6 +2,7 @@ import commands.command as cmd
 import argparse
 from cli_context import CliContextService
 
+
 class ThreadStackframeCommand(cmd.Command):
     '''
     Manages thread stackframes.
@@ -24,7 +25,7 @@ class ThreadStackframeCommand(cmd.Command):
             help='sepcifies thread identifier',
             type=int,
             required=True)
-        
+
         self._argument_parser.add_argument(
             'subcommand',
             help='specifies subcommand',
@@ -37,7 +38,7 @@ class ThreadStackframeCommand(cmd.Command):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except:
+        except BaseException:
             return
 
         if arguments is None:
@@ -55,7 +56,8 @@ class ThreadStackframeCommand(cmd.Command):
         context_service = CliContextService()
 
         if not context_service.is_on_breakpoint():
-            print('Can not collect stackframe because of thread when it is not on breakpoint.')
+            print(
+                'Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
@@ -63,15 +65,16 @@ class ThreadStackframeCommand(cmd.Command):
         if stackframes is None or len(stackframes) == 0:
             print('Can not get stackframe for some reason.')
             return
-        
+
         print('Stackframe call tree:\n')
 
         for stackframe in stackframes:
             parameters_names = stackframe.get_method().get_params()
-            stackframe_formated = stackframe.__str__() 
+            stackframe_formated = stackframe.__str__()
 
             for parameter_name in parameters_names:
-                stackframe_formated = stackframe_formated + f'<{parameter_name.name}>'
+                stackframe_formated = stackframe_formated + \
+                    f'<{parameter_name.name}>'
             print(stackframe_formated)
 
         return
@@ -80,7 +83,8 @@ class ThreadStackframeCommand(cmd.Command):
         context_service = CliContextService()
 
         if not context_service.is_on_breakpoint():
-            print('Can not collect stackframe because of thread when it is not on breakpoint.')
+            print(
+                'Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
