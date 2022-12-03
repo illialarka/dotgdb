@@ -3,7 +3,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/illialarka/dotgdb)
 ![GitHub stars](https://img.shields.io/github/stars/illialarka/dotgdb?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/illialarka/dotgdb?style=social)
-![Twitter Follow](https://img.shields.io/twitter/follow/scottydocs?style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/illialarka?style=social)
 
 Project name is a `<utility/tool/feature>` that allows `<insert_target_audience>` to do `<action/task_it_does>`.
 
