@@ -36,7 +36,7 @@ def cli():
     _agent.events_callbacks[constants.EVENT_KIND_STEP] = event_handlers.on_step 
 
     try:
-        _session.run(arguments), _agent.start(True, _session.port, 10)
+        _session.run(arguments.executable, arguments.port), _agent.start(True, _session.port, 10)
 
         # those calls are required to create appdomain and load types
         _agent.vm.resume(), _agent.vm.suspend()
