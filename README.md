@@ -44,6 +44,10 @@ To contribute to `dotgdb`, follow these steps:
 
 Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
+## Roadmap
+
+To see roadmap use [ROADMAP](https://github.com/illialarka/dotgdb/blob/main/docs/ROADMAP.md)
+
 ## Contributors
 
 Thanks to the following people who have contributed to this project:
