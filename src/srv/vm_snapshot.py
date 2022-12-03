@@ -1,13 +1,14 @@
 import sdbtypes
 import constants
-import buffer_stream 
-import appdomain_mirror 
+import buffer_stream
+import appdomain_mirror
 import thread_mirror
 import assembly_mirror
 import module_mirror
 import type_mirror
 import method_mirror
 import object_mirror
+
 
 class VmMirror:
 
@@ -92,7 +93,9 @@ class VmMirror:
             constants.CMDSET_VM,
             constants.CMD_VM_GET_ALL_THREADS)
 
-        ids = buffer_stream.BufferStream(answer.data).get_array(sdbtypes.decode_int)
+        ids = buffer_stream.BufferStream(
+            answer.data).get_array(
+            sdbtypes.decode_int)
         return [self.get_thread(id) for id in ids]
 
     def get_thread(self, thread_id):
@@ -104,7 +107,8 @@ class VmMirror:
 
     def get_appdomain(self, appdomain_id):
         if appdomain_id not in self._appdomains_cache:
-            mirror = appdomain_mirror.AppDomainMirror(self._agent, appdomain_id)
+            mirror = appdomain_mirror.AppDomainMirror(
+                self._agent, appdomain_id)
             self._appdomains_cache[appdomain_id] = mirror
 
         return self._appdomains_cache[appdomain_id]
