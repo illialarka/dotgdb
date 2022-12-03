@@ -13,6 +13,5 @@ NOTE: On MacOS run 'chmod +x ./cli.sh` to make it runnable
 ## Tasks before opening
 
 1. Print values on breakpoint [X]
-2. Step in [ ]
-3. Step over [ ]
-4. Exception event [ ]
+2. Step in [X]
+3. Step over [X]
