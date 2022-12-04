@@ -13,13 +13,14 @@ class LocationModifier:
             sdbtypes.encode_integral(self.method_id, 4) +
             sdbtypes.encode_integral(self.il_offset, 8))
 
-class StepOverModifier:
-    def __init__(self, thread_id):
+class StepModifier:
+    def __init__(self, thread_id, step_depth):
         self.thread_id = thread_id
+        self.step_depth = step_depth
 
     def encode(self):
         return (
             sdbtypes.encode_integral(constants.MOD_KIND_STEP, 1) +
             sdbtypes.encode_integral(self.thread_id, 4) +
             sdbtypes.encode_integral(constants.STEP_SIZE_LINE, 8) +
-            sdbtypes.encode_integral(constants.STEP_DEPTH_OVER, 16))
+            sdbtypes.encode_integral(self.step_depth, 16))

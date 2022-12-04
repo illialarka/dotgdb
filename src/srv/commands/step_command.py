@@ -1,4 +1,4 @@
-from event_modifiers import StepOverModifier
+from event_modifiers import StepModifier
 from argparse import ArgumentParser
 from cli_context import CliContextService
 import commands.command as cmd
@@ -43,16 +43,16 @@ class StepCommand(cmd.Command):
             return
 
         if arguments.type == 'in':
-            print('Step in is not implemented yet')
+            self._perform_step(agent, constants.STEP_DEPTH_INTO)
 
         if arguments.type == 'over':
-            self._step_over(agent)
+            self._perform_step(agent, constants.STEP_DEPTH_OVER)
 
-    def _step_over(self, agent):
+    def _perform_step(self, agent, step_depth):
         cli_context_service = CliContextService()
         breakpoint_thread_id = cli_context_service.get_state().thread_id
 
-        step_over_event_modifier = StepOverModifier(breakpoint_thread_id)
+        step_over_event_modifier = StepModifier(breakpoint_thread_id, step_depth)
         agent.enable_event(
             constants.EVENT_KIND_STEP,
             constants.SUSPEND_POLICY_ALL,
