@@ -2,6 +2,7 @@ import constants
 import sdbtypes
 import buffer_stream
 
+
 class StackFrameMirror:
 
     def __init__(

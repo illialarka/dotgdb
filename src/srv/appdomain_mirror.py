@@ -2,6 +2,7 @@ import sdbtypes
 import constants
 import buffer_stream
 
+
 class AppDomainMirror:
 
     def __init__(self, agent, id):
@@ -11,7 +12,7 @@ class AppDomainMirror:
         self._corlib_assembly_id = None
 
         self.id = id
-    
+
     def __dict__(self):
         return {
             "Id": self.id,
@@ -19,7 +20,8 @@ class AppDomainMirror:
         }
 
     def __str__(self):
-        return "AppDomain <(id = {0}), (name = {1})>".format(self.id, self.get_name())
+        return "AppDomain <(id = {0}), (name = {1})>".format(
+            self.id, self.get_name())
 
     def get_name(self):
         if self._name is None:
@@ -38,7 +40,9 @@ class AppDomainMirror:
             constants.CMD_APPDOMAIN_GET_ASSEMBLIES,
             sdbtypes.encode_int(self.id))
 
-        ids = buffer_stream.BufferStream(answer.data).get_array(sdbtypes.decode_int)
+        ids = buffer_stream.BufferStream(
+            answer.data).get_array(
+            sdbtypes.decode_int)
         return [self._agent.vm.get_assembly(id) for id in ids]
 
     def get_entry_assembly(self):
@@ -48,7 +52,8 @@ class AppDomainMirror:
                 constants.CMD_APPDOMAIN_GET_ENTRY_ASSEMBLY,
                 sdbtypes.encode_int(self.id))
 
-            self._entry_assembly_id = buffer_stream.BufferStream(answer.data).get_int()
+            self._entry_assembly_id = buffer_stream.BufferStream(
+                answer.data).get_int()
 
         return self._agent.vm.get_assembly(self._entry_assembly_id)
 
@@ -59,7 +64,8 @@ class AppDomainMirror:
                 constants.CMD_APPDOMAIN_GET_CORLIB_ASSEMBLY,
                 sdbtypes.encode_int(self.id))
 
-            self._corlib_assembly_id = buffer_stream.BufferStream(answer.data).get_int()
+            self._corlib_assembly_id = buffer_stream.BufferStream(
+                answer.data).get_int()
 
         return self._agent.vm.get_assembly(self._corlib_assembly_id)
 

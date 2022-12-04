@@ -3,6 +3,7 @@ import constants
 import buffer_stream
 from tabulate import tabulate
 
+
 class AssemblyMirror:
 
     def __init__(self, agent, id):
@@ -18,7 +19,8 @@ class AssemblyMirror:
         self.id = id
 
     def __str__(self):
-        return "Assembly <(id = {0}), (name = {1})>".format(self.id, self.get_name()) 
+        return "Assembly <(id = {0}), (name = {1})>".format(
+            self.id, self.get_name())
 
     def get_filename(self):
         if self._filename is None:
@@ -27,7 +29,8 @@ class AssemblyMirror:
                 constants.CMD_ASSEMBLY_GET_LOCATION,
                 sdbtypes.encode_int(self.id))
 
-            self._filename = buffer_stream.BufferStream(answer.data).get_string()
+            self._filename = buffer_stream.BufferStream(
+                answer.data).get_string()
 
         return self._filename
 
@@ -79,7 +82,8 @@ class AssemblyMirror:
                 constants.CMD_ASSEMBLY_GET_ENTRY,
                 sdbtypes.encode_int(self.id))
 
-            self._entry_point_id = buffer_stream.BufferStream(answer.data).get_int()
+            self._entry_point_id = buffer_stream.BufferStream(
+                answer.data).get_int()
 
         if self._entry_point_id == 0:
             return None
@@ -93,6 +97,7 @@ class AssemblyMirror:
                 constants.CMD_ASSEMBLY_GET_MANIFEST_MODULE,
                 sdbtypes.encode_int(self.id))
 
-            self._manifest_module_id = buffer_stream.BufferStream(answer.data).get_int()
+            self._manifest_module_id = buffer_stream.BufferStream(
+                answer.data).get_int()
 
         return self._agent.vm.get_module(self._manifest_module_id)

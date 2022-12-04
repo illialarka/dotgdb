@@ -14,6 +14,7 @@ import commands.selector as selector
 logger = logging.getLogger()
 context_serivce = CliContextService()
 
+
 def cli():
     argument_parser = argparse.ArgumentParser(
         prog="sdb",
@@ -60,6 +61,7 @@ def cli():
     finally:
         _session.exit(), _agent.stop()
 
+
 def process_interaction(agent, session):
     non_blocking_stream_reader = NonBlockingStreamReader(
         session.debug_process.stdout)
@@ -104,6 +106,7 @@ def process_interaction(agent, session):
             logger.info("Exit requested. Closing session and kill processes.")
             non_blocking_stream_reader.close()
             return
+
 
 if __name__ == "__main__":
     cli()

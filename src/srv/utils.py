@@ -1,6 +1,7 @@
 import socket
 import logging
 
+
 def find_port():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -10,6 +11,7 @@ def find_port():
         return None
     finally:
         sock.close()
+
 
 def configure_logger(arguments):
     logging_level = logging.DEBUG if arguments.verbose else logging.INFO

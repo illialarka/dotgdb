@@ -1,40 +1,53 @@
 import constants
 
+
 class InvalidObjectError(Exception):
     pass
+
 
 class InvalidFieldIdError(Exception):
     pass
 
+
 class InvalidFrameIdError(Exception):
     pass
+
 
 class FeatureIsNotImplementedError(Exception):
     pass
 
+
 class VmIsNotSuspendedError(Exception):
     pass
+
 
 class InvalidArgumentError(Exception):
     pass
 
+
 class ObjectIsUnloadedError(Exception):
     pass
+
 
 class NoInvocationError(Exception):
     pass
 
+
 class AbsentInformationError(Exception):
     pass
+
 
 class WrongILOffsetError(Exception):
     pass
 
+
 class ExecutableNotFound(Exception):
     pass
 
+
 class ExitException(Exception):
     pass
+
 
 def error_code_to_exception(error_code):
     if error_code == constants.RESULT_INVALID_OBJECT:

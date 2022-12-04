@@ -1,6 +1,7 @@
 import sdbtypes
 import constants
 
+
 class LocationModifier:
 
     def __init__(self, method_id, il_offset):
@@ -12,6 +13,7 @@ class LocationModifier:
             sdbtypes.encode_integral(constants.MOD_KIND_LOCATION_ONLY, 1) +
             sdbtypes.encode_integral(self.method_id, 4) +
             sdbtypes.encode_integral(self.il_offset, 8))
+
 
 class StepModifier:
     def __init__(self, thread_id, step_depth):
