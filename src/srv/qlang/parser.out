@@ -1,0 +1,101 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> query
+Rule 1     query -> QUERY DOTNET MEMORY USAGE BY ENTITY
+Rule 2     ENTITY -> PROCESS
+Rule 3     ENTITY -> THREAD
+
+Terminals, with rules where they appear
+
+BY                   : 1
+DOTNET               : 1
+MEMORY               : 1
+PROCESS              : 2
+QUERY                : 1
+THREAD               : 3
+USAGE                : 1
+error                : 
+
+Nonterminals, with rules where they appear
+
+ENTITY               : 1
+query                : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . query
+    (1) query -> . QUERY DOTNET MEMORY USAGE BY ENTITY
+
+    QUERY           shift and go to state 2
+
+    query                          shift and go to state 1
+
+state 1
+
+    (0) S' -> query .
+
+
+
+state 2
+
+    (1) query -> QUERY . DOTNET MEMORY USAGE BY ENTITY
+
+    DOTNET          shift and go to state 3
+
+
+state 3
+
+    (1) query -> QUERY DOTNET . MEMORY USAGE BY ENTITY
+
+    MEMORY          shift and go to state 4
+
+
+state 4
+
+    (1) query -> QUERY DOTNET MEMORY . USAGE BY ENTITY
+
+    USAGE           shift and go to state 5
+
+
+state 5
+
+    (1) query -> QUERY DOTNET MEMORY USAGE . BY ENTITY
+
+    BY              shift and go to state 6
+
+
+state 6
+
+    (1) query -> QUERY DOTNET MEMORY USAGE BY . ENTITY
+    (2) ENTITY -> . PROCESS
+    (3) ENTITY -> . THREAD
+
+    PROCESS         shift and go to state 8
+    THREAD          shift and go to state 9
+
+    ENTITY                         shift and go to state 7
+
+state 7
+
+    (1) query -> QUERY DOTNET MEMORY USAGE BY ENTITY .
+
+    $end            reduce using rule 1 (query -> QUERY DOTNET MEMORY USAGE BY ENTITY .)
+
+
+state 8
+
+    (2) ENTITY -> PROCESS .
+
+    $end            reduce using rule 2 (ENTITY -> PROCESS .)
+
+
+state 9
+
+    (3) ENTITY -> THREAD .
+
+    $end            reduce using rule 3 (ENTITY -> THREAD .)
+
