@@ -9,28 +9,32 @@ enbf_grammar = """
 %import common.WS
 %ignore WS
 
+start: query
 
-    start: query
+query: from where select 
 
-    query: SELECT projections FROM sources WHERE conditions
+select: ("SELECT" | "select") projections
 
-    projections: projection | projection ("," projection)*
-    projection: (field | expression)
-    field: WORD
+from: ("FROM" | "from") source
 
-    sources: source ("," source)*
-    source: table | subquery
-    table: WORD
-    subquery: "(" query ")"
+where: ("WHERE" | "where") condition
 
-    conditions: condition ("," condition)*
-    condition: field operator value
-    operator: "=" | "<" | ">" | "<=" | ">=" | "<>"
-    value: WORD | INT | ESCAPED_STRING
+projections: projection | projection ("," projection)*
+projection: (field | expression)
+field: WORD
 
-    expression: function "(" expressions ")"
-    function: SUM | AVG | MIN | MAX
-    expressions: expression ("," expression)*
+source: table | subquery
+table: WORD
+subquery: "(" query ")"
+
+BINARY_OP: "=" | "<" | ">" | "<=" | ">=" | "<>"
+!condition : condition BINARY_OP condition | WORD
+
+value: WORD | INT | ESCAPED_STRING
+
+expression: function "(" expressions ")"
+function: SUM | AVG | MIN | MAX
+expressions: expression ("," expression)*
 
 function_sub: "(" field ")" 
 
@@ -64,7 +68,7 @@ class QueryTransformer(Transformer):
         return {
             "projections": items[0],
             "sources": items[1],
-            "conditions": items[2]
+            "condition": items[2]
         }
 
     def projection(self, items):
@@ -86,11 +90,20 @@ class QueryTransformer(Transformer):
         return items[1]
 
     def condition(self, items):
+        print(f'I am at condition: {items}')
+        if len(items) == 3:
+            return {
+                "field": items[0],
+                "operator": items[1],
+                "value": items[2]
+            }
+
         return {
-            "field": items[0],
-            "operator": items[1],
-            "value": items[2]
+            "value": items[0]
         }
+
+    def operator(self, items):
+        print(f'I am at operator: {items}')
 
     def expression(self, items):
         return {
@@ -109,7 +122,7 @@ class QueryTransformer(Transformer):
 query_transformer = QueryTransformer()
 
 # Parse the query using the Lark parser
-query = "SELECT field FROM table WHERE field = abc"
+query = "FROM table WHERE somefield = womevalue select field"
 parse_tree = enbf_parser.parse(query)
 
 # Transform the parse tree into a more useful format
@@ -118,14 +131,11 @@ transformed_query = query_transformer.transform(parse_tree)
 # Print the transformed query
 print(transformed_query)
 
-
-
-
-def plot_trees(grammar:str,  text:str, start='query'):
-    parser = Lark(grammar=grammar, start=start,ambiguity='explicit')  
+def plot_trees(grammar:str, text:str, start='query'):
+    parser = Lark(grammar=grammar, start=start, ambiguity='explicit')  
     parsed = parser.parse(text)
     tree.pydot__tree_to_png(parsed, filename='tree.png', rankdir='TB')
-    plt.figure(figsize=(18,18))
+    plt.figure(figsize=(10,10))
     plt.imshow(plt.imread("tree.png"))
     plt.show()
 
