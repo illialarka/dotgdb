@@ -6,7 +6,7 @@
 start: query
 
 // query
-query: from_clouse where_clause select_clause 
+query: from_clouse where_clause? select_clause 
 
 select_clause: "select" projections
 
@@ -19,7 +19,7 @@ field: WORD
 COMPARISON_OPERATOR: "=" | "<" | ">" | "<=" | ">=" | "<>"
 LOGICAL_OPERATOR: "and" | "or"
 SUM: "SUM"
-AVG: "AVG"
+AVG: "avg"
 MIN: "MIN"
 MAX: "MAX"
 SELECT: "SELECT"
@@ -57,7 +57,7 @@ predicate: WORD COMPARISON_OPERATOR value
 
 value: WORD | INT | ESCAPED_STRING
 
-expression: function "(" expressions ")"
+expression: function "(" field ")"
 function: SUM | AVG | MIN | MAX
 expressions: expression ("," expression)*
 
