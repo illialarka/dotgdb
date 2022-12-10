@@ -6,13 +6,13 @@
 
 start: query
 
-query: from where select 
+query: from_clouse where_clause select_clause 
 
-select: ("SELECT" | "select") projections
+select_clause: "select" projections
 
-from: ("FROM" | "from") source
+from_clouse: "from" source
 
-where: ("WHERE" | "where") condition
+where_clause: "where" condition_expression 
 
 projections: projection
     | projection ("," projection)*
@@ -27,15 +27,20 @@ table: WORD
 
 subquery: "(" query ")"
 
-LOGICAL_OP: "and" | "or"
-BINARY_OP: "=" | "<" | ">" | "<=" | ">=" | "<>" 
+LOGICAL_OP: AND | OR
 
-!binary_expr: binary_expr BINARY_OP logical_expr | logical_expr 
+// conditions
 
-!logical_expr: logical_expr LOGICAL_OP value | value  
+condition_expression: predicate
+                | condition_expression LOGICAL_OPERATOR predicate
+                | "(" condition_expression ")"
 
-!condition: binary_expr 
+predicate: WORD COMPARISON_OPERATOR value 
 
+LOGICAL_OPERATOR: "and" | "or"
+
+// conditions
+COMPARISON_OPERATOR: "=" | "<" | ">" | "<=" | ">=" | "<>"
 value: WORD | INT | ESCAPED_STRING
 
 expression: function "(" expressions ")"
@@ -58,6 +63,6 @@ ORDER: "ORDER"
 ASC: "ASC"
 DESC: "DESC"
 LIMIT: "LIMIT"
-AND: "AND"
-OR: "OR"
+AND: "and"
+OR: "or"
 AS: "AS"
