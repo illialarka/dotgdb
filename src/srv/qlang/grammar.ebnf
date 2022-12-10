@@ -3,9 +3,9 @@
 %import common.WORD
 %import common.WS
 %ignore WS
-
 start: query
 
+// query
 query: from_clouse where_clause select_clause 
 
 select_clause: "select" projections
@@ -14,41 +14,10 @@ from_clouse: "from" source
 
 where_clause: "where" condition_expression 
 
-projections: projection
-    | projection ("," projection)*
-
-projection: (field | expression)
-
+// general
 field: WORD
-
-source: table | subquery
-
-table: WORD
-
-subquery: "(" query ")"
-
-LOGICAL_OP: AND | OR
-
-// conditions
-
-condition_expression: predicate
-                | condition_expression LOGICAL_OPERATOR predicate
-                | "(" condition_expression ")"
-
-predicate: WORD COMPARISON_OPERATOR value 
-
-LOGICAL_OPERATOR: "and" | "or"
-
-// conditions
 COMPARISON_OPERATOR: "=" | "<" | ">" | "<=" | ">=" | "<>"
-value: WORD | INT | ESCAPED_STRING
-
-expression: function "(" expressions ")"
-function: SUM | AVG | MIN | MAX
-expressions: expression ("," expression)*
-
-function_sub: "(" field ")" 
-
+LOGICAL_OPERATOR: "and" | "or"
 SUM: "SUM"
 AVG: "AVG"
 MIN: "MIN"
@@ -66,3 +35,30 @@ LIMIT: "LIMIT"
 AND: "and"
 OR: "or"
 AS: "AS"
+
+// select clause 
+projections: projection
+    | projection ("," projection)*
+
+projection: (field | expression)
+
+source: table | subquery
+
+table: WORD
+
+subquery: "(" query ")"
+
+// where clause  
+condition_expression: predicate
+                | condition_expression LOGICAL_OPERATOR predicate
+                | "(" condition_expression ")"
+
+predicate: WORD COMPARISON_OPERATOR value 
+
+value: WORD | INT | ESCAPED_STRING
+
+expression: function "(" expressions ")"
+function: SUM | AVG | MIN | MAX
+expressions: expression ("," expression)*
+
+function_sub: "(" field ")" 
