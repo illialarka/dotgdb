@@ -1,62 +1,12 @@
 from lark import Lark, Transformer, tree
 import matplotlib.pyplot as plt
+from lark.visitors import CollapseAmbiguities
+from pathlib import Path
+
+grammar_path = './grammar.lark' 
 
 # Define the ENBF grammar using the Lark parser
-enbf_grammar = """
-%import common.ESCAPED_STRING
-%import common.INT
-%import common.WORD
-%import common.WS
-%ignore WS
-
-start: query
-
-query: from where select 
-
-select: ("SELECT" | "select") projections
-
-from: ("FROM" | "from") source
-
-where: ("WHERE" | "where") condition
-
-projections: projection | projection ("," projection)*
-projection: (field | expression)
-field: WORD
-
-source: table | subquery
-table: WORD
-subquery: "(" query ")"
-
-BINARY_OP: "=" | "<" | ">" | "<=" | ">=" | "<>"
-!condition : condition BINARY_OP condition | WORD
-
-value: WORD | INT | ESCAPED_STRING
-
-expression: function "(" expressions ")"
-function: SUM | AVG | MIN | MAX
-expressions: expression ("," expression)*
-
-function_sub: "(" field ")" 
-
-SUM: "SUM"
-AVG: "AVG"
-MIN: "MIN"
-MAX: "MAX"
-SELECT: "SELECT"
-DISTINCT: "DISTINCT"
-FROM: "FROM"
-WHERE: "WHERE"
-GROUP: "GROUP"
-BY: "BY"
-ORDER: "ORDER"
-ASC: "ASC"
-DESC: "DESC"
-LIMIT: "LIMIT"
-AND: "AND"
-OR: "OR"
-AS: "AS"
-
-"""
+enbf_grammar = open(grammar_path).read() 
 
 # Create the Lark parser using the ENBF grammar
 enbf_parser = Lark(enbf_grammar)
@@ -122,7 +72,7 @@ class QueryTransformer(Transformer):
 query_transformer = QueryTransformer()
 
 # Parse the query using the Lark parser
-query = "FROM table WHERE somefield = womevalue select field"
+query = "FROM table WHERE id = 2 and name = \"divan\" select field"
 parse_tree = enbf_parser.parse(query)
 
 # Transform the parse tree into a more useful format
@@ -134,9 +84,11 @@ print(transformed_query)
 def plot_trees(grammar:str, text:str, start='query'):
     parser = Lark(grammar=grammar, start=start, ambiguity='explicit')  
     parsed = parser.parse(text)
-    tree.pydot__tree_to_png(parsed, filename='tree.png', rankdir='TB')
-    plt.figure(figsize=(10,10))
-    plt.imshow(plt.imread("tree.png"))
-    plt.show()
+    trees = CollapseAmbiguities().transform(parsed)
+    for t in trees:
+        tree.pydot__tree_to_png(t, filename='tree.png', rankdir='TB')
+        plt.figure(figsize=(10,10))
+        plt.imshow(plt.imread("tree.png"))
+        plt.show()
 
 plot_trees(enbf_grammar, query)

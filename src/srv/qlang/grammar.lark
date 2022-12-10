@@ -1,0 +1,63 @@
+%import common.ESCAPED_STRING
+%import common.INT
+%import common.WORD
+%import common.WS
+%ignore WS
+
+start: query
+
+query: from where select 
+
+select: ("SELECT" | "select") projections
+
+from: ("FROM" | "from") source
+
+where: ("WHERE" | "where") condition
+
+projections: projection
+    | projection ("," projection)*
+
+projection: (field | expression)
+
+field: WORD
+
+source: table | subquery
+
+table: WORD
+
+subquery: "(" query ")"
+
+LOGICAL_OP: "and" | "or"
+BINARY_OP: "=" | "<" | ">" | "<=" | ">=" | "<>" 
+
+!binary_expr: binary_expr BINARY_OP logical_expr | logical_expr 
+
+!logical_expr: logical_expr LOGICAL_OP value | value  
+
+!condition: binary_expr 
+
+value: WORD | INT | ESCAPED_STRING
+
+expression: function "(" expressions ")"
+function: SUM | AVG | MIN | MAX
+expressions: expression ("," expression)*
+
+function_sub: "(" field ")" 
+
+SUM: "SUM"
+AVG: "AVG"
+MIN: "MIN"
+MAX: "MAX"
+SELECT: "SELECT"
+DISTINCT: "DISTINCT"
+FROM: "FROM"
+WHERE: "WHERE"
+GROUP: "GROUP"
+BY: "BY"
+ORDER: "ORDER"
+ASC: "ASC"
+DESC: "DESC"
+LIMIT: "LIMIT"
+AND: "AND"
+OR: "OR"
+AS: "AS"
