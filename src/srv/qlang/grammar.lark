@@ -3,6 +3,7 @@
 %import common.WORD
 %import common.WS
 %ignore WS
+
 start: query
 
 // query
@@ -58,7 +59,9 @@ predicate: WORD COMPARISON_OPERATOR value
 value: WORD | INT | ESCAPED_STRING
 
 expression: function "(" field ")"
+
 function: SUM | AVG | MIN | MAX
+
 expressions: expression ("," expression)*
 
 function_sub: "(" field ")" 
