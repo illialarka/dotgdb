@@ -1,10 +1,10 @@
 from qlang_parser import parse_query
-from evaluator import evaluate 
+from interpreter import interpret
 import argparse
 import utils 
 
 queries = {
-    'plain': "from somesource where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id, name",
+    'plain': "from somesource where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id, name, path",
     'average': 'from table select avg(memory)'
 }
 
@@ -23,8 +23,8 @@ def process_interaction(arguments):
     
     if arguments.mode == 'eval':
         expression_tree = parse_query(queries[arguments.query]) 
-        # IDK what is going on, YET
-        evaluation_result = evaluate(expression_tree)
-        print(evaluation_result)
+
+        interpretation_result = interpret(expression_tree)
+        print(interpretation_result)
 
 process_interaction(arguments)
