@@ -4,7 +4,7 @@ import argparse
 import utils 
 
 queries = {
-    'plain': "from somesource where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id",
+    'plain': "from somesource where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id, name",
     'average': 'from table select avg(memory)'
 }
 

@@ -20,14 +20,16 @@ class ExpressionInterpreter(Interpreter):
         select_interpreter = SelectInterpreter(self._context)
         select_interpreter.visit(select_clause_node)
 
+        # code executes after traversing subtree 
         projected_data = []
 
         for item in self._context.data:
+            # TODO: Reqires refactoring
+            projected_item = {}
             for field in self._context.projections:
-                projected_item = {}
                 projected_item[field] = item[field]
-                projected_data.append(projected_item)
 
+            projected_data.append(projected_item)
         self._context.data = projected_data
     
     def condition_expression(self, condition_expression_node):
