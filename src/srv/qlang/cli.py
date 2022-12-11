@@ -1,10 +1,6 @@
-from lark import Lark
 import argparse
 import utils 
-
-grammar_path = './grammar.lark' 
-
-enbf_grammar = open(grammar_path).read() 
+from qlang_parser import parse_query
 
 queries = {
     'plain': "from table where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select field, another, andonemore",
@@ -16,7 +12,5 @@ argument_parser.add_argument("query", choices=['plain', 'average'])
 
 arguments = argument_parser.parse_args() 
 
-parser = Lark(grammar=enbf_grammar, start='start', ambiguity='explicit')  
-parsed = parser.parse(queries[arguments.query])
-
-utils.display_tree(parsed)
+expression_tree = parse_query(queries[arguments.query]) 
+utils.display_tree(expression_tree)
