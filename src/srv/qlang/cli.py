@@ -4,7 +4,7 @@ import argparse
 import utils 
 
 queries = {
-    'plain': "from table where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select field, another, andonemore",
+    'plain': "from somesource where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id",
     'average': 'from table select avg(memory)'
 }
 
@@ -13,8 +13,6 @@ argument_parser.add_argument('mode', choices=['tree', 'eval'], default='tree', n
 argument_parser.add_argument('--query', choices=['plain', 'average'])
 
 arguments = argument_parser.parse_args() 
-
-print(arguments)
 
 def process_interaction(arguments):
     if arguments.mode == 'tree':
@@ -26,6 +24,7 @@ def process_interaction(arguments):
     if arguments.mode == 'eval':
         expression_tree = parse_query(queries[arguments.query]) 
         # IDK what is going on, YET
-        evaluate(expression_tree)
+        evaluation_result = evaluate(expression_tree)
+        print(evaluation_result)
 
 process_interaction(arguments)
