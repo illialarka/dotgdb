@@ -40,6 +40,8 @@ class SourceInterpreter(Interpreter):
 
         source_token = table_node.children[0]
 
+        # just for testing purpose stub data
+        # in future will be change and queries data
         self._context.data = [
             {
                 'id': 1,
