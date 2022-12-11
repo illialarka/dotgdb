@@ -35,7 +35,6 @@ class ExpressionInterpreter(Interpreter):
             projected_item = {}
 
             for field_name in self._context.projections:
-                # print(f'test {field_name}, has {field_name in data_item}, data: {data_item}')
                 if field_name in data_item: 
                     projected_item[field_name] = data_item[field_name]
                     continue
