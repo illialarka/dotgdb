@@ -50,9 +50,9 @@ table: WORD
 subquery: "(" query ")"
 
 // where clause  
-condition_expression: predicate
-                | condition_expression LOGICAL_OPERATOR predicate
-                | "(" condition_expression ")"
+condition_clause: predicate
+                | condition_clause LOGICAL_OPERATOR predicate
+                | "(" condition_clause ")"
 
 predicate: WORD COMPARISON_OPERATOR value 
 

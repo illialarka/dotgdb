@@ -1,59 +1,30 @@
-import exceptions
-
+from exceptions import InvalidSourceNameException
 from lark.visitors import Interpreter
+from threads_source_token_handler import ThreadsSourceTokenHandler
 
-class SourceInterpreter(Interpreter):
-    '''
-    An example of a source subtree.
+source_token_handlers = [
+    ThreadsSourceTokenHandler()
+]
 
-            [source]
-            /
-        table
-        /
-    Token (WORD, <source>)
 
-    or
+class SourceClauseInterpreter(Interpreter):
 
-            [source]
-            /
-        subquery 
-        /
-      TBD
-
-    The result of the execution is a query date set from the source.
-    '''
-
-    def __init__(self, context):
+    def __init__(self, agent, context):
+        self._agent = agent
         self._context = context
 
     def table(self, table_node):
-        '''
-        Evaluates subtree:
+        table_name_token = table_node.children[0]
+        table_name_token_handler = self._find_table_token_handler(
+            table_name_token.data)
 
-            table
-            /
-        Token (WORD, <source>)
-        '''
+        if table_name_token_handler is None:
+            raise InvalidSourceNameException
 
-        if len(table_node.children) != 1:
-            raise exceptions.IncorrectChildNumerError
+        self._context.data = table_name_token_handler.handle(self._agent)
 
-        source_token = table_node.children[0]
-
-        # just for testing purpose stub data
-        # in future will be change and queries data
-        self._context.data = [
-            {
-                'id': 1,
-                'name': 'sofa'
-            },
-            {
-                'id': 2,
-                'name': 'chair'
-            },
-            {
-                'id': 3,
-                'name': 'bed'
-            }]
-
-        print(f'Requesting data from table: "{source_token.value}".')
+    def _find_table_token_handler(self, source):
+        for token_handler in source_token_handlers:
+            if token_handler.can_handle(source):
+                return token_handler
+        return None
