@@ -13,7 +13,7 @@ select_clause: "select" projections
 
 from_clouse: "from" source
 
-where_clause: "where" condition_expression 
+where_clause: "where" condition_clause 
 
 // general
 field: WORD

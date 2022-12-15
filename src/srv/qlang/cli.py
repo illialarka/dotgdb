@@ -5,7 +5,7 @@ import argparse
 import utils
 
 queries = {
-    'threads': "from threads where id = 2 and name = divan and name = \"sofa\" or name = \"somevalue\" and id = 3 select id, name, path",
+    'threads': "from threads select id, name, path",
     'average': 'from table select avg(memory)'}
 
 argument_parser = argparse.ArgumentParser()
@@ -16,7 +16,7 @@ argument_parser.add_argument(
         'eval'],
     default='tree',
     nargs='?')
-argument_parser.add_argument('--query', choices=['plain', 'average'])
+argument_parser.add_argument('--query', choices=['threads', 'average'])
 
 arguments = argument_parser.parse_args()
 
