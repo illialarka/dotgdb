@@ -49,6 +49,10 @@ class ExitException(Exception):
     pass
 
 
+class BreakpointDoesNotExist(Exception):
+    pass
+
+
 def error_code_to_exception(error_code):
     if error_code == constants.RESULT_INVALID_OBJECT:
         return InvalidObjectError()

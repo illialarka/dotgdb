@@ -5,6 +5,7 @@ from commands.breakpoint_command import BreakpointCommand
 from commands.thread_stackframe_command import ThreadStackframeCommand
 from commands.print_command import PrintCommand
 from commands.step_command import StepCommand
+from commands.query_command import QueryCommand 
 
 supported_commands = set([
     InfoCommand(),
@@ -13,7 +14,8 @@ supported_commands = set([
     BreakpointCommand(),
     ThreadStackframeCommand(),
     PrintCommand(),
-    StepCommand()
+    StepCommand(),
+    QueryCommand()
 ])
 
 def select_command(input_command):

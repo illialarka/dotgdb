@@ -1,7 +1,6 @@
 import sdbtypes
 import constants
 import buffer_stream
-from tabulate import tabulate
 
 
 class AssemblyMirror:
