@@ -43,3 +43,8 @@ class QueryCommand(Command):
 
         if breakpoint_at is None:
             raise BreakpointDoesNotExist
+
+        # Here we shoud somehow save QLanq query 
+        # and to have an ability to query data on event happen
+        # also, I have to decide a wayt where to store (data) results
+        # of query 
