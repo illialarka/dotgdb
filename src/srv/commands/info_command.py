@@ -1,11 +1,12 @@
-from state_store_service import StateStoreService 
+from state_store_service import StateStoreService
 from commands.command import Command
 import argparse
+
 
 class InfoCommand(Command):
     '''
     Provides information about debuggee entities.
-    
+
     Entities:
         <break> - shows breakpoints information 
     '''
@@ -16,7 +17,8 @@ class InfoCommand(Command):
         self.help = 'Usage: info'
 
         self._argument_parser = argparse.ArgumentParser()
-        self._argument_parser.add_argument('entity', help='Specifies entity info about', choices=['break'])
+        self._argument_parser.add_argument(
+            'entity', help='Specifies entity info about', choices=['break'])
 
     def execute(self, agent, args=None):
         arguments = None
@@ -27,7 +29,7 @@ class InfoCommand(Command):
 
         if arguments is None:
             return
-        
+
         if arguments.entity == 'break':
             self._info_breakpoints()
             return
@@ -40,7 +42,7 @@ class InfoCommand(Command):
             print('There are no breakpoints.')
             return
 
-        for breakpoint in event_descriptors: 
+        for breakpoint in event_descriptors:
             print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
     def _info_locals(self):

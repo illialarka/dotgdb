@@ -2,6 +2,7 @@ import sdbtypes
 import constants
 import buffer_stream
 
+
 class ObjectMirror:
 
     def __init__(self, agent, id):
@@ -13,7 +14,7 @@ class ObjectMirror:
         self._array_dimensions = None
 
         self.id = id
-    
+
     def __str__(self):
         return "id = {0}, type = {1}, address = {2}".format(self.id, self.get_type(), self.get_address())
 
@@ -35,7 +36,8 @@ class ObjectMirror:
                 constants.CMD_OBJ_GET_DOMAIN,
                 sdbtypes.encode_int(self.id))
 
-            self._appdomain_id = buffer_stream.BufferStream(answer.data).get_int()
+            self._appdomain_id = buffer_stream.BufferStream(
+                answer.data).get_int()
 
         return self._agent.vm.get_appdomain(self._appdomain_id)
 
@@ -66,7 +68,8 @@ class ObjectMirror:
                 constants.CMD_STR_GET_VALUE,
                 sdbtypes.encode_int(self.id))
 
-            self._string_value = buffer_stream.BufferStream(answer.data).get_string()
+            self._string_value = buffer_stream.BufferStream(
+                answer.data).get_string()
 
         return self._string_value
 

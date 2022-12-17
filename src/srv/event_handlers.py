@@ -1,5 +1,5 @@
 import constants
-from state_store_service import StateStoreService 
+from state_store_service import StateStoreService
 
 state_store_service = StateStoreService()
 

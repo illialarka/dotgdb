@@ -1,4 +1,4 @@
-from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING 
+from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING
 from nbstreamreader import NonBlockingStreamReader
 import argparse
 import logging

@@ -1,5 +1,5 @@
 from collections import namedtuple
-from state_store_service import StateStoreService 
+from state_store_service import StateStoreService
 import commands.command as cmd
 import event_modifiers
 import constants

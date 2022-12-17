@@ -1,5 +1,5 @@
-from commands.command import Command 
-from state_store_service import StateStoreService 
+from commands.command import Command
+from state_store_service import StateStoreService
 import argparse
 
 

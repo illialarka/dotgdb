@@ -15,6 +15,7 @@ TypeInfo = namedtuple(
      "attrs", "is_marshal_byref", "is_pointer",
      "is_primitive", "is_value_type", "is_enum", "nested_types_ids"])
 
+
 class TypeMirror:
     def __init__(self, agent, id):
         self._agent = agent
@@ -223,59 +224,59 @@ class TypeMirror:
 
     def is_ansi_class(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_STRING_FORMAT_MASK) ==
-            constants.TYPE_ATTR_ANSI_CLASS)
+                constants.TYPE_ATTR_ANSI_CLASS)
 
     def is_unicode_class(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_STRING_FORMAT_MASK) ==
-            constants.TYPE_ATTR_UNICODE_CLASS)
+                constants.TYPE_ATTR_UNICODE_CLASS)
 
     def is_auto_class(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_STRING_FORMAT_MASK) ==
-            constants.TYPE_ATTR_AUTO_CLASS)
+                constants.TYPE_ATTR_AUTO_CLASS)
 
     def is_auto_layout(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_LAYOUT_MASK) ==
-            constants.TYPE_ATTR_AUTO_LAYOUT)
+                constants.TYPE_ATTR_AUTO_LAYOUT)
 
     def is_explicit_layout(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_LAYOUT_MASK) ==
-            constants.TYPE_ATTR_EXPLICIT_LAYOUT)
+                constants.TYPE_ATTR_EXPLICIT_LAYOUT)
 
     def is_layout_sequential(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_LAYOUT_MASK) ==
-            constants.TYPE_ATTR_SEQUENTIAL_LAYOUT)
+                constants.TYPE_ATTR_SEQUENTIAL_LAYOUT)
 
     def is_nested_assembly(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_ASSEMBLY)
+                constants.TYPE_ATTR_NESTED_ASSEMBLY)
 
     def is_nested_fam_and_assem(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_FAM_AND_ASSEM)
+                constants.TYPE_ATTR_NESTED_FAM_AND_ASSEM)
 
     def is_nested_family(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_FAMILY)
+                constants.TYPE_ATTR_NESTED_FAMILY)
 
     def is_nested_fam_or_assem(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_FAM_OR_ASSEM)
+                constants.TYPE_ATTR_NESTED_FAM_OR_ASSEM)
 
     def is_nested_private(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_PRIVATE)
+                constants.TYPE_ATTR_NESTED_PRIVATE)
 
     def is_nested_public(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NESTED_PUBLIC)
+                constants.TYPE_ATTR_NESTED_PUBLIC)
 
     def is_not_public(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_NOT_PUBLIC)
+                constants.TYPE_ATTR_NOT_PUBLIC)
 
     def is_public(self):
         return ((self.get_attrs() & constants.TYPE_ATTR_VISIBILITY_MASK) ==
-            constants.TYPE_ATTR_PUBLIC)
+                constants.TYPE_ATTR_PUBLIC)
 
     def is_array(self):
         return self.get_rank() > 0

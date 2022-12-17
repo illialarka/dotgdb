@@ -14,6 +14,7 @@ EventDescriptor = namedtuple(
         'line_number',
         'method_name'])
 
+
 class StateStoreService:
 
     def __init__(self):
@@ -51,8 +52,8 @@ class StateStoreService:
             method_name=None,
             friendly_event_kind_name=EVENT_FRIENDLY_NAME[event_request.event_kind])
 
-        self.state.execution_state = EXECUTION_STATE_AT_BREAKPOINT 
-        self.state.event_descritor = event_descriptor 
+        self.state.execution_state = EXECUTION_STATE_AT_BREAKPOINT
+        self.state.event_descritor = event_descriptor
 
         lock.release()
 
@@ -61,8 +62,9 @@ EXECUTION_STATE_RUNNING = 1
 EXECUTION_STATE_AT_BREAKPOINT = 2
 EXECUTION_STATE_CONFIGURING = 3
 
+
 class State:
-    executable_path = None 
+    executable_path = None
     event_descritor = None
-    execution_state = EXECUTION_STATE_CONFIGURING 
+    execution_state = EXECUTION_STATE_CONFIGURING
     event_descriptors = []

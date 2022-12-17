@@ -18,6 +18,7 @@ MethodLocalsInfo = namedtuple(
     "MethodLocalsInfo",
     ["locals_count", "locals"])
 
+
 class MethodParam:
 
     def __init__(self, agent, type_id, name, index):
@@ -32,6 +33,7 @@ class MethodParam:
 
     def get_type(self):
         return self._agent.vm.get_type(self._type_id)
+
 
 class MethodLocal:
 
@@ -49,6 +51,7 @@ class MethodLocal:
     def get_type(self):
         return self._agent.vm.get_type(self._type_id)
 
+
 class MethodMirror:
 
     def __init__(self, agent, id):
@@ -61,7 +64,7 @@ class MethodMirror:
         self._body = None
 
         self.id = id
-    
+
     def __str__(self):
         return "Method <(id = {0}), (name = {1}), (size = {2})> at {3}".format(
             self.id, self.get_name(), self.get_code_size(), self.get_source_filename())

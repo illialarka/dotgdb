@@ -14,7 +14,7 @@ class ResumeCommand(cmd.Command):
         self.description = 'Runs/resumes virtual machine.'
         self.help = 'Usage: resume'
 
-    def execute(self, agent, args = None):
+    def execute(self, agent, args=None):
         agent.vm.resume()
 
         state_store_service = StateStoreService()

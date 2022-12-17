@@ -1,5 +1,6 @@
 import sdbtypes
 
+
 class BufferStream:
     def __init__(self, buffer):
         self.buffer = buffer
