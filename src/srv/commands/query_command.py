@@ -1,5 +1,5 @@
 from commands.command import Command
-from cli_context import CliContextService
+from state_store_service import StateStoreService 
 from exceptions import BreakpointDoesNotExist
 import argparse
 
@@ -32,8 +32,8 @@ class QueryCommand(Command):
         if arguments is None:
             return
 
-        cli_context_service = CliContextService()
-        enabled_breakpoints = cli_context_service.get_breakpoints()
+        state_store_service = StateStoreService()
+        enabled_breakpoints = state_store_service.state.event_descriptors()
 
         breakpoint_at = None
 

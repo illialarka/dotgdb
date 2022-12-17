@@ -1,9 +1,9 @@
-import commands.command as cmd
+from commands.command import Command 
+from state_store_service import StateStoreService 
 import argparse
-from cli_context import CliContextService
 
 
-class PrintCommand(cmd.Command):
+class PrintCommand(Command):
     '''
     Prints variable by name.
 
@@ -39,14 +39,14 @@ class PrintCommand(cmd.Command):
         if arguments is None:
             return
 
-        cli_context_service = CliContextService()
+        state_store_service = StateStoreService()
 
-        if not cli_context_service.is_on_breakpoint():
+        if state_store_service.state.event_descritor is None:
             print(
-                'Can not collect stackframe because of thread when it is not on breakpoint.')
+                'Can not collect stackframe of thread because state is not at breakpoint.')
             return
 
-        breakpoint_thread_id = cli_context_service.get_state().thread_id
+        breakpoint_thread_id = state_store_service.state.event_descritor.thread_id
         self._print_local_value(
             agent,
             breakpoint_thread_id,

@@ -1,4 +1,4 @@
-from cli_context import CliContextService
+from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING 
 from nbstreamreader import NonBlockingStreamReader
 import argparse
 import logging
@@ -12,7 +12,7 @@ import event_handlers
 import commands.selector as selector
 
 logger = logging.getLogger()
-context_serivce = CliContextService()
+state_store_service = StateStoreService()
 
 
 def cli():
@@ -50,7 +50,7 @@ def cli():
 
         # those calls are required to create appdomain and load types
         _agent.vm.resume(), _agent.vm.suspend()
-        context_serivce.set_executable(arguments.executable)
+        state_store_service.state.executable_path = arguments.executable
     except exceptions.ExecutableNotFound:
         print(
             "Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
@@ -65,18 +65,23 @@ def cli():
 def process_interaction(agent, session):
     non_blocking_stream_reader = NonBlockingStreamReader(
         session.debug_process.stdout)
-    cli_context_service = CliContextService()
+    state_store_service = StateStoreService()
 
     while True:
         try:
-            if cli_context_service.get_running():
+            if state_store_service.state.execution_state == EXECUTION_STATE_RUNNING:
                 output_line = non_blocking_stream_reader.readline(0.1)
                 if output_line:
                     print(output_line.decode('utf-8'), end='')
                 continue
 
+            state_postfix = ''
+
+            if state_store_service.state.event_descritor is not None:
+                state_postfix = f'(at {state_store_service.state.event_descritor.request_id})'
+
             input_command = input(
-                f"sdb{cli_context_service.get_state_as_string()}> ").split(" ")
+                f"sdb{state_postfix}> ").split(" ")
 
             command_alias = None
             command_arguments = None

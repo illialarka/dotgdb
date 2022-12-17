@@ -1,8 +1,8 @@
 import commands.command as cmd
 import argparse
-from cli_context import CliContextService
+from state_store_service import StateStoreService 
 
-cli_context_service = CliContextService()
+state_store_service = StateStoreService()
 
 
 class ThreadStackframeCommand(cmd.Command):
@@ -46,12 +46,12 @@ class ThreadStackframeCommand(cmd.Command):
         if arguments is None:
             return
 
-        if not cli_context_service.is_on_breakpoint():
+        if state_store_service.state.event_descritor is None:
             print(
                 'Can not collect stackframe because of thread when it is not on breakpoint.')
             return
 
-        breakpoint_thread_id = cli_context_service.get_state().thread_id
+        breakpoint_thread_id = state_store_service.state.event_descritor.thread_id
 
         if arguments.subcommand == 'stackcall':
             self._get_stackcall(agent, breakpoint_thread_id)

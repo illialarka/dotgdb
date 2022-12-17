@@ -1,10 +1,10 @@
 from event_modifiers import StepModifier
 from argparse import ArgumentParser
-from cli_context import CliContextService
+from state_store_service import StateStoreService 
 import commands.command as cmd
 import constants
 
-cli_context_service = CliContextService()
+state_store_service = StateStoreService()
 
 
 class StepCommand(cmd.Command):
@@ -37,7 +37,7 @@ class StepCommand(cmd.Command):
         if arguments is None:
             return
 
-        if not cli_context_service.is_on_breakpoint():
+        if state_store_service.state.event_descritor is None:
             print(
                 'Can not performe step because state is not on a breakpoint.')
             return
@@ -49,8 +49,7 @@ class StepCommand(cmd.Command):
             self._perform_step(agent, constants.STEP_DEPTH_OVER)
 
     def _perform_step(self, agent, step_depth):
-        cli_context_service = CliContextService()
-        breakpoint_thread_id = cli_context_service.get_state().thread_id
+        breakpoint_thread_id = state_store_service.get_state().thread_id
 
         step_over_event_modifier = StepModifier(breakpoint_thread_id, step_depth)
         agent.enable_event(

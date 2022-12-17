@@ -1,7 +1,7 @@
 import constants
-from cli_context import CliContextService
+from state_store_service import StateStoreService 
 
-cli_context_service = CliContextService()
+state_store_service = StateStoreService()
 
 
 def on_vm_start(event):
@@ -10,12 +10,12 @@ def on_vm_start(event):
 
 def on_breakpoint(event):
     write_event_basic_info(event)
-    cli_context_service.break_on(event)
+    state_store_service.triger_event(event)
 
 
 def on_step(event):
     write_event_basic_info(event)
-    cli_context_service.break_on(event)
+    state_store_service.triger_event(event)
 
 
 def write_event_basic_info(event):

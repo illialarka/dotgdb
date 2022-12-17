@@ -1,5 +1,5 @@
 from collections import namedtuple
-from cli_context import CliContextService
+from state_store_service import StateStoreService 
 import commands.command as cmd
 import event_modifiers
 import constants
@@ -86,8 +86,8 @@ class BreakpointCommand(cmd.Command):
         method_file = method_break_on.get_source_filename()
         breakpoint_id = event_request.request_id
 
-        context_service = CliContextService()
-        context_service.add_breakpoint(
+        state_store_service = StateStoreService()
+        state_store_service.add_event(
             event_request, method_file, line_number, method_name)
 
         print(

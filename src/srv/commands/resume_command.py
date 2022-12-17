@@ -1,5 +1,6 @@
+from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING
 import commands.command as cmd
-from cli_context import CliContextService
+
 
 class ResumeCommand(cmd.Command):
     '''
@@ -16,8 +17,8 @@ class ResumeCommand(cmd.Command):
     def execute(self, agent, args = None):
         agent.vm.resume()
 
-        cli_context_service = CliContextService()
-        cli_context_service.start_running_executable()
+        state_store_service = StateStoreService()
+        state_store_service.state.execution_state = EXECUTION_STATE_RUNNING
 
-        print(f'Starting program: {cli_context_service.get_executable()}')
+        print(f'Starting program: {state_store_service.state.executable_path}')
         print('Use Ctrl+Z to suspend process.\n')

@@ -1,9 +1,8 @@
-import commands.command as cmd
-from cli_context import CliContextService 
+from state_store_service import StateStoreService 
+from commands.command import Command
 import argparse
-import constants
 
-class InfoCommand(cmd.Command):
+class InfoCommand(Command):
     '''
     Provides information about debuggee entities.
     
@@ -34,13 +33,14 @@ class InfoCommand(cmd.Command):
             return
 
     def _info_breakpoints(self):
-        context_service = CliContextService()
+        state_store_service = StateStoreService()
+        event_descriptors = state_store_service.state.event_descriptors
 
-        if len(context_service.get_breakpoints()) == 0:
+        if len(event_descriptors) == 0:
             print('There are no breakpoints.')
             return
 
-        for breakpoint in context_service.get_breakpoints():
+        for breakpoint in event_descriptors: 
             print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
     def _info_locals(self):

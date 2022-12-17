@@ -14,11 +14,10 @@ EventDescriptor = namedtuple(
         'line_number',
         'method_name'])
 
-
 class StateStoreService:
 
-    event_descriptors = []
-    state = State()
+    def __init__(self):
+        self.state = State
 
     def add_event(
             self,
@@ -34,10 +33,10 @@ class StateStoreService:
             source=file_name,
             method_name=method_name,
             line_number=line_number)
-        self._event_descriptors.append(event_descriptor)
+        self.state.event_descriptors.append(event_descriptor)
 
     def clear_events(self):
-        self._event_descriptors = []
+        self.state.event_descriptors = []
 
     def triger_event(self, event_request):
         lock.acquire()
@@ -52,8 +51,8 @@ class StateStoreService:
             method_name=None,
             friendly_event_kind_name=EVENT_FRIENDLY_NAME[event_request.event_kind])
 
-        self._state.execution_state = EXECUTION_STATE_AT_BREAKPOINT 
-        self._state.event_descritor = event_descriptor 
+        self.state.execution_state = EXECUTION_STATE_AT_BREAKPOINT 
+        self.state.event_descritor = event_descriptor 
 
         lock.release()
 
@@ -63,8 +62,7 @@ EXECUTION_STATE_AT_BREAKPOINT = 2
 EXECUTION_STATE_CONFIGURING = 3
 
 class State:
-
-    def __init__(self):
-        self.executable_path = None 
-        self.event_descritor = None
-        self.execution_state = EXECUTION_STATE_CONFIGURING 
+    executable_path = None 
+    event_descritor = None
+    execution_state = EXECUTION_STATE_CONFIGURING 
+    event_descriptors = []
