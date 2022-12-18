@@ -11,19 +11,6 @@ class QueryExpression:
     representation of a query to make query manipulation/storing.
     '''
 
-    # DEV NOTES:
-    # Well, I would like to have something like
-    # 
-    # contex:
-    #   source: context | handler
-    #   condition: contidion expression
-    #   projection: projections
-    #
-    # source - can be context (if it is a subquery) 
-    #          or handler if it is a table token
-    # which actually implements rough subqueries
-    #
-
     def __init__(self):
         self.source = None 
         self.projections = set() 

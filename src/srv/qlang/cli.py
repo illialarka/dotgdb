@@ -22,8 +22,6 @@ argument_parser.add_argument('script', action='store', type=str, nargs='?')
 
 arguments = argument_parser.parse_args()
 
-print(arguments)
-
 def process_interaction(arguments):
     if arguments.mode == 'tree':
         expression_tree = parse_query(queries[arguments.query])

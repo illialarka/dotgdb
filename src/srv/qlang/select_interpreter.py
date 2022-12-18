@@ -7,4 +7,4 @@ class SelectClauseInterpreter(Interpreter):
         self._expression = expression 
 
     def field(self, field_node):
-        self._expression.projections.append(field_node.children[0].value)
+        self._expression.projections.add(field_node.children[0].value)

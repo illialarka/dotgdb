@@ -1,6 +1,6 @@
-from exceptions import InvalidSourceNameException
+from qlang.exceptions import InvalidSourceNameException
 from lark.visitors import Interpreter
-from threads_source_token_handler import ThreadsSourceTokenHandler
+from qlang.threads_source_token_handler import ThreadsSourceTokenHandler
 
 source_token_handlers = [
     ThreadsSourceTokenHandler()
@@ -15,11 +15,13 @@ class SourceClauseInterpreter(Interpreter):
     def table(self, table_node):
         table_name_token = table_node.children[0]
         table_name_token_handler = self._find_table_token_handler(
-            table_name_token.data)
+            table_name_token)
+
+        print(table_name_token_handler)
 
         if table_name_token_handler is None:
             raise InvalidSourceNameException
-
+        print(self._expression)
         self._expression.source = table_name_token_handler
 
     def _find_table_token_handler(self, source):

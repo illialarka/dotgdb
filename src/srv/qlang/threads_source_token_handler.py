@@ -1,4 +1,4 @@
-from base_token_handler import BaseTokenHandler
+from qlang.base_token_handler import BaseTokenHandler
 
 
 class ThreadsSourceTokenHandler(BaseTokenHandler):

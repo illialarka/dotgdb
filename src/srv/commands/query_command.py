@@ -1,7 +1,7 @@
 from commands.command import Command
-from dotgdb.src.srv.qlang.qlang_parser import parse_query
+from qlang.qlang_parser import parse_query
+from qlang.query_interpreter import interpret
 from state_store_service import StateStoreService
-from qlang.query_interpreter import interpret 
 from exceptions import BreakpointDoesNotExist
 import argparse
 
@@ -22,13 +22,16 @@ class QueryCommand(Command):
         self._argument_parser.add_argument(
             'query',
             help='specifies QLang query',
+            action='store',
             type=str)
 
     def execute(self, agent, args=None, output=None):
+        # rearrange arguments
+        args = [args[0], args[1], ' '.join(args[2:])]
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except BaseException:
+        except:
             return
 
         if arguments is None:
@@ -46,20 +49,14 @@ class QueryCommand(Command):
         if breakpoint_at is None:
             raise BreakpointDoesNotExist
 
+        query_expression = None
+
         try:
-            expression_tree = parse_query(arguments.query)
-            query_expression = interpret()
-        except:
-            print('some error parsing and cimpiling query')
+            expression_tree = parse_query(arguments.query.strip('\''))
+            query_expression = interpret(expression_tree)
+        except Exception as ex:
+            print('produce query parsing error')
+            print(ex)
 
-        # here we found a breakpoint and need to add a query
-        # but what exectly should we add?
-        # query ? - then we have to compile it every time it is executed
-        # some compiled query representation ? - most likely,
-        # but it requires developing those query representation context 
-
-
-        # Here we shoud somehow save QLanq query
-        # and to have an ability to query data on event happen
-        # also, I have to decide a wayt where to store (data) results
-        # of query
+        # well, technically it should work :D
+        breakpoint_at.query = query_expression

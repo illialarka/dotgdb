@@ -4,16 +4,24 @@ from collections import namedtuple
 
 lock = threading.Lock()
 
-EventDescriptor = namedtuple(
-    'EventDescriptor',
-    [
-        'request_id',
-        'thread_id',
-        'friendly_event_kind_name',
-        'source',
-        'line_number',
-        'method_name',
-        'query'])
+class EventDescriptor:
+    
+    def __init__(
+        self,
+        request_id,
+        thread_id,
+        friendly_event_kind_name,
+        source,
+        line_number,
+        method_name,
+        query):
+        self.request_id = request_id
+        self.thread_id = thread_id
+        self.friendly_event_kind_name = friendly_event_kind_name
+        self.source = source
+        self.line_number = line_number
+        self.method_name = method_name 
+        self.query = query
 
 
 class StateStoreService:

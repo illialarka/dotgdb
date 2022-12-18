@@ -81,7 +81,7 @@ class BreakpointCommand(cmd.Command):
                     constants.SUSPEND_POLICY_ALL,
                     breakpoint_location)
                 break
-
+        
         il_offset = code_location.il_offset
         method_file = method_break_on.get_source_filename()
         breakpoint_id = event_request.request_id
