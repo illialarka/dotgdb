@@ -10,16 +10,19 @@ queries = {
 
 argument_parser = argparse.ArgumentParser()
 argument_parser.add_argument(
-    'mode',
+    '-m',
+    '--mode',
     choices=[
         'tree',
         'eval'],
     default='tree',
     nargs='?')
-argument_parser.add_argument('--query', choices=['threads', 'average'])
+argument_parser.add_argument('-q', '--query', choices=['threads', 'average'])
+argument_parser.add_argument('script', action='store', type=str, nargs='?')
 
 arguments = argument_parser.parse_args()
 
+print(arguments)
 
 def process_interaction(arguments):
     if arguments.mode == 'tree':

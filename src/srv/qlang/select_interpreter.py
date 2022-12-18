@@ -3,8 +3,8 @@ from lark.visitors import Interpreter
 
 class SelectClauseInterpreter(Interpreter):
 
-    def __init__(self, context):
-        self._context = context
+    def __init__(self, expression):
+        self._expression = expression 
 
     def field(self, field_node):
-        self._context.projections.append(field_node.children[0].value)
+        self._expression.projections.append(field_node.children[0].value)

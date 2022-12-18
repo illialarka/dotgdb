@@ -12,7 +12,8 @@ EventDescriptor = namedtuple(
         'friendly_event_kind_name',
         'source',
         'line_number',
-        'method_name'])
+        'method_name',
+        'query'])
 
 
 class StateStoreService:
@@ -33,7 +34,9 @@ class StateStoreService:
             friendly_event_kind_name=EVENT_FRIENDLY_NAME[EVENT_KIND_BREAKPOINT],
             source=file_name,
             method_name=method_name,
-            line_number=line_number)
+            line_number=line_number,
+            # by default it does not have query
+            query=None)
         self.state.event_descriptors.append(event_descriptor)
 
     def clear_events(self):
@@ -50,7 +53,8 @@ class StateStoreService:
             source=None,
             line_number=0,
             method_name=None,
-            friendly_event_kind_name=EVENT_FRIENDLY_NAME[event_request.event_kind])
+            friendly_event_kind_name=EVENT_FRIENDLY_NAME[event_request.event_kind],
+            query=None)
 
         self.state.execution_state = EXECUTION_STATE_AT_BREAKPOINT
         self.state.event_descritor = event_descriptor

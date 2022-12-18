@@ -9,9 +9,8 @@ source_token_handlers = [
 
 class SourceClauseInterpreter(Interpreter):
 
-    def __init__(self, agent, context):
-        self._agent = agent
-        self._context = context
+    def __init__(self, expression):
+        self._expression = expression
 
     def table(self, table_node):
         table_name_token = table_node.children[0]
@@ -21,7 +20,7 @@ class SourceClauseInterpreter(Interpreter):
         if table_name_token_handler is None:
             raise InvalidSourceNameException
 
-        self._context.data = table_name_token_handler.handle(self._agent)
+        self._expression.source = table_name_token_handler
 
     def _find_table_token_handler(self, source):
         for token_handler in source_token_handlers:
