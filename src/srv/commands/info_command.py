@@ -47,7 +47,7 @@ class InfoCommand(Command):
 
             if breakpoint.query is not None:
                 print(
-                    '@@ event query @@',
+                    '[event query]',
                     f'+ \t {breakpoint.query.query}',
                     sep='\n')
 
