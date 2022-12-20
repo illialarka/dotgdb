@@ -5,7 +5,7 @@ from collections import namedtuple
 lock = threading.Lock()
 
 class EventDescriptor:
-    
+
     def __init__(
         self,
         request_id,
@@ -14,14 +14,14 @@ class EventDescriptor:
         source,
         line_number,
         method_name,
-        query):
+        event_query):
         self.request_id = request_id
         self.thread_id = thread_id
         self.friendly_event_kind_name = friendly_event_kind_name
         self.source = source
         self.line_number = line_number
         self.method_name = method_name 
-        self.query = query
+        self.event_query = event_query 
 
 
 class StateStoreService:
@@ -43,8 +43,7 @@ class StateStoreService:
             source=file_name,
             method_name=method_name,
             line_number=line_number,
-            # by default it does not have query
-            query=None)
+            event_query=None)
         self.state.event_descriptors.append(event_descriptor)
 
     def clear_events(self):
@@ -62,7 +61,7 @@ class StateStoreService:
             line_number=0,
             method_name=None,
             friendly_event_kind_name=EVENT_FRIENDLY_NAME[event_request.event_kind],
-            query=None)
+            event_query=None)
 
         self.state.execution_state = EXECUTION_STATE_AT_BREAKPOINT
         self.state.event_descritor = event_descriptor

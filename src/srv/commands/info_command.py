@@ -46,9 +46,10 @@ class InfoCommand(Command):
             print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
             if breakpoint.query is not None:
-                print('+ Query',
-                '',
-                f'+ \t {breakpoint.query.query}', sep='\n')
+                print(
+                    '@@ event query @@',
+                    f'+ \t {breakpoint.query.query}',
+                    sep='\n')
 
     def _info_locals(self):
         pass

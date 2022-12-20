@@ -52,10 +52,10 @@ class QueryCommand(Command):
         query_expression = None
 
         try:
-            query_script = arguments.query.strip('\'') 
-            expression_tree = parse_query(query_script)
-            query_expression = interpret(expression_tree)
-            query_expression.query = query_script
+            event_query = arguments.query.strip('\'') 
+            query_expression = interpret(parse_query(event_query))
+
+            query_expression.query = event_query 
         except Exception as ex:
             print('produce query parsing error')
             print(ex)
