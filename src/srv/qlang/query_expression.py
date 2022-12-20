@@ -17,21 +17,23 @@ class QueryExpression:
         self.query = None
 
     def execute(self, agent):
-        '''
+        if self.source is None:
+            print('Source handler has not set.')
+            return
+
+        data_set = self.source.handle(agent)
         projected_data = []
 
-        for data_item in self.data:
+        for data_set_item in data_set:
             projected_item = {}
 
-            for projection in self._context.projections:
-                if projection in data_item:
-                    projected_item[projection] = data_item[projection]
+            for projection in self.projections:
+                if projection in data_set_item:
+                    projected_item[projection] = data_set_item[projection]
                     continue
                 else:
                     projected_item[projection] = None
+
             projected_data.append(projected_item)
 
         return projected_data
-        '''
-        pass
-
