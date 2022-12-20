@@ -14,6 +14,7 @@ class QueryExpression:
     def __init__(self):
         self.source = None 
         self.projections = set() 
+        self.query = None
 
     def execute(self, agent):
         '''
