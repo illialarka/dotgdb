@@ -6,6 +6,7 @@ from commands.thread_stackframe_command import ThreadStackframeCommand
 from commands.print_command import PrintCommand
 from commands.step_command import StepCommand
 from commands.query_command import QueryCommand
+from commands.record_command import RecordCommand
 
 supported_commands = set([
     InfoCommand(),
@@ -15,7 +16,8 @@ supported_commands = set([
     ThreadStackframeCommand(),
     PrintCommand(),
     StepCommand(),
-    QueryCommand()
+    QueryCommand(),
+    RecordCommand()
 ])
 
 
