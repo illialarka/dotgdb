@@ -1,4 +1,5 @@
 from commands.command import Command
+from state_store_service import StateStoreService
 
 
 class RecordCommand(Command):
@@ -16,6 +17,25 @@ class RecordCommand(Command):
         if prompting_answer not in ['Y', 'y', 'n', 'N']:
             print('Input should be Y or N.')
             return
+
+        # checking breakpoints with queries
+        state_store_service = StateStoreService()
+        event_descriptors = state_store_service.state.event_descriptors
+
+        if self._any(event_descriptors, lambda item: item.event_query is not None):
+            # continue
+            pass
+        else:
+            print(
+                'There are not events with query. It makes impossible to record session.')
+            return
+
+    def _any(self, iterable, predicate):
+        for item in iterable:
+            if predicate(item):
+                return True
+
+        return False
 
         # Well, here I should prompt a user
         # future execution will not stopped at the breakpoint
