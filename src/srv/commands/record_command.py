@@ -1,5 +1,5 @@
 from commands.command import Command
-from state_store_service import StateStoreService
+from state_store_service import StateStoreService, EXECUTION_STATE_RECORDING
 
 
 class RecordCommand(Command):
@@ -23,8 +23,11 @@ class RecordCommand(Command):
         event_descriptors = state_store_service.state.event_descriptors
 
         if self._any(event_descriptors, lambda item: item.event_query is not None):
-            # continue
-            pass
+            print(
+                'Running recording.',
+                'To stop exeuction hit Ctrl + Z. Good luck :D')
+            state_store_service.state.execution_state = EXECUTION_STATE_RECORDING 
+            agent.vm.resume()
         else:
             print(
                 'There are not events with query. It makes impossible to record session.')
