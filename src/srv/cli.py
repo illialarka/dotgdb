@@ -1,4 +1,4 @@
-from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING
+from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
 from nbstreamreader import NonBlockingStreamReader
 import argparse
 import logging
@@ -39,7 +39,7 @@ def cli():
     _session, _agent = session.Session(), agent.Agent()
 
     # set event handlers
-    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint
+    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = event_query_wrapper 
     _agent.events_callbacks[constants.EVENT_KIND_VM_START] = event_handlers.on_vm_start
     _agent.events_callbacks[constants.EVENT_KIND_STEP] = event_handlers.on_step
 
@@ -69,7 +69,7 @@ def process_interaction(agent, session):
 
     while True:
         try:
-            if state_store_service.state.execution_state == EXECUTION_STATE_RUNNING:
+            if state_store_service.state.execution_state == EXECUTION_STATE_RUNNING or state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
                 output_line = non_blocking_stream_reader.readline(0.1)
                 if output_line:
                     print(output_line.decode('utf-8'), end='')
@@ -112,6 +112,20 @@ def process_interaction(agent, session):
             non_blocking_stream_reader.close()
             return
 
+def event_query_wrapper(event, agent):
+    if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
+        event_descriptor = None 
+
+        for desc in state_store_service.state.event_descriptors:
+            if desc.request_id == event.request_id:
+                event_descriptor = desc 
+
+        if event_descriptor is None:
+            print('Event descriptor was not found.')
+            return
+        
+        print('event query found kinda executed:')
+        print(event_descriptor.event_query.query)
 
 if __name__ == "__main__":
     cli()

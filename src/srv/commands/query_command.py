@@ -61,4 +61,4 @@ class QueryCommand(Command):
             print(ex)
 
         # well, technically it should work :D
-        breakpoint_at.query = query_expression
+        breakpoint_at.event_query = query_expression
