@@ -7,8 +7,10 @@ from commands.print_command import PrintCommand
 from commands.step_command import StepCommand
 from commands.query_command import QueryCommand
 from commands.record_command import RecordCommand
+from commands.supported_commands import SupportedCommands
 
 supported_commands = set([
+    SupportedCommands(),
     InfoCommand(),
     ResumeCommand(),
     ExitCommand(),

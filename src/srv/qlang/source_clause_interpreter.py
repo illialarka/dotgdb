@@ -17,11 +17,9 @@ class SourceClauseInterpreter(Interpreter):
         table_name_token_handler = self._find_table_token_handler(
             table_name_token)
 
-        print(table_name_token_handler)
-
         if table_name_token_handler is None:
             raise InvalidSourceNameException
-        print(self._expression)
+
         self._expression.source = table_name_token_handler
 
     def _find_table_token_handler(self, source):

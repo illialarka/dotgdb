@@ -45,7 +45,7 @@ class InfoCommand(Command):
         for breakpoint in event_descriptors:
             print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
-            if breakpoint.query is not None:
+            if breakpoint.event_query is not None:
                 print(
                     '[event query]',
                     f'+ \t {breakpoint.query.query}',

@@ -47,7 +47,8 @@ class QueryCommand(Command):
                 breakpoint_at = breakpoint
 
         if breakpoint_at is None:
-            raise BreakpointDoesNotExist
+            print(f'Breakpoint does not exist with identifier {arguments.request_id}.')
+            return
 
         query_expression = None
 

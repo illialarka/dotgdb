@@ -50,7 +50,7 @@ class Agent:
             max_attempts, success = 10, False
             while not success and max_attempts > 0:
                 logger.info(
-                    "Attempting to connect {0} attempts left.".format(max_attempts))
+                    "Attempting to connect ({0} attempts left).".format(max_attempts))
 
                 response_code = self._server_socket.connect_ex(
                     self._server_endpoint)

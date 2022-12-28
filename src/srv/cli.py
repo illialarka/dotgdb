@@ -98,7 +98,7 @@ def process_interaction(agent, session):
 
             if command is None:
                 print(
-                    "Unknown command. Try 'help' or 'supported_commands' to see all supported commands.")
+                    "Unknown command. Try 'help' or 'supportedcommands' to see all supported commands.")
                 continue
 
             command_result = command.execute(agent, command_arguments)
@@ -112,7 +112,7 @@ def process_interaction(agent, session):
             non_blocking_stream_reader.close()
             return
 
-def event_query_wrapper(event, agent):
+def event_query_wrapper(event):
     if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
         event_descriptor = None 
 
