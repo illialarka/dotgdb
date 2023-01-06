@@ -1,15 +1,16 @@
 from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
-from nbstreamreader import NonBlockingStreamReader
+from interop.nbstreamreader import NonBlockingStreamReader
+from interop.agent import Agent
+from interop.constants import * 
+from commands import selector 
+from session import Session
+
 import argparse
 import logging
 import utils
-import session
-import agent
 import exceptions
 import logging
-import constants
 import event_handlers
-import commands.selector as selector
 
 logger = logging.getLogger()
 state_store_service = StateStoreService()
@@ -36,12 +37,12 @@ def cli():
     arguments = argument_parser.parse_args()
     utils.configure_logger(arguments)
 
-    _session, _agent = session.Session(), agent.Agent()
+    _session, _agent = Session(), Agent()
 
     # set event handlers
-    _agent.events_callbacks[constants.EVENT_KIND_BREAKPOINT] = event_query_wrapper 
-    _agent.events_callbacks[constants.EVENT_KIND_VM_START] = event_handlers.on_vm_start
-    _agent.events_callbacks[constants.EVENT_KIND_STEP] = event_handlers.on_step
+    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_query_wrapper 
+    _agent.events_callbacks[EVENT_KIND_VM_START] = event_handlers.on_vm_start
+    _agent.events_callbacks[EVENT_KIND_STEP] = event_handlers.on_step
 
     try:
         _session.run(
