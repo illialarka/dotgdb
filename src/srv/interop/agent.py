@@ -267,7 +267,7 @@ class Agent:
                 self._vm_started_event.set()
 
             if event_data.event_kind in self.events_callbacks:
-                self.events_callbacks[event_data.event_kind](event_data)
+                self.events_callbacks[event_data.event_kind](event_data, self)
 
     def _self_connect(self):
         max_attempts, success = 10, False

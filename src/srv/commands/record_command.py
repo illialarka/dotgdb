@@ -14,11 +14,10 @@ class RecordCommand(Command):
         prompting_answer = input(
             'Running recording breakpoints will not stop execution. Are you sure? [Y/N]')
 
-        if prompting_answer not in ['Y', 'y', 'n', 'N']:
+        if prompting_answer.lower() not in ['y', 'n', 'yes', 'no']:
             print('Input should be Y or N.')
             return
 
-        # checking breakpoints with queries
         state_store_service = StateStoreService()
         event_descriptors = state_store_service.state.event_descriptors
 

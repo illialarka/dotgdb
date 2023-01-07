@@ -40,7 +40,7 @@ def cli():
     _session, _agent = Session(), Agent()
 
     # set event handlers
-    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_query_wrapper 
+    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint 
     _agent.events_callbacks[EVENT_KIND_VM_START] = event_handlers.on_vm_start
     _agent.events_callbacks[EVENT_KIND_STEP] = event_handlers.on_step
 
