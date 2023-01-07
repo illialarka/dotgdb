@@ -1,5 +1,5 @@
 import threading
-from constants import EVENT_FRIENDLY_NAME, EVENT_KIND_BREAKPOINT
+from interop.constants import EVENT_FRIENDLY_NAME, EVENT_KIND_BREAKPOINT
 from collections import namedtuple
 
 lock = threading.Lock()

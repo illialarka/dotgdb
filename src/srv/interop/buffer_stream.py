@@ -1,4 +1,4 @@
-import sdbtypes
+import interop.sdbtypes as sdbtypes
 
 
 class BufferStream:

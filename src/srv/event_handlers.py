@@ -1,5 +1,5 @@
-import constants
 from state_store_service import StateStoreService, EXECUTION_STATE_RECORDING
+from interop import constants
 
 state_store_service = StateStoreService()
 

@@ -1,4 +1,4 @@
-import constants
+import interop.constants as constants
 
 
 class InvalidObjectError(Exception):

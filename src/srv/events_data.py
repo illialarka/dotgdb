@@ -1,4 +1,4 @@
-import constants
+import interop.constants as constants
 
 # Will be populated with data according to event type
 

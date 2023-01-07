@@ -1,13 +1,4 @@
-import sdbtypes
-import constants
-import buffer_stream
-import appdomain_mirror
-import thread_mirror
-import assembly_mirror
-import module_mirror
-import type_mirror
-import method_mirror
-import object_mirror
+from interop import sdbtypes, constants, buffer_stream, appdomain_mirror, thread_mirror, module_mirror, type_mirror, method_mirror, object_mirror
 
 
 class VmMirror:

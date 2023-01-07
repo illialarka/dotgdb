@@ -1,7 +1,5 @@
-import sdbtypes
-import constants
-import buffer_stream
 from collections import namedtuple
+from interop import sdbtypes, constants, buffer_stream 
 
 ModuleInfo = namedtuple(
     "ModuleInfo",

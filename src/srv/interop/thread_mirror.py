@@ -1,7 +1,4 @@
-import sdbtypes
-import constants
-import buffer_stream
-import stackframe_mirror as sm
+from interop import sdbtypes, constants, buffer_stream, stackframe_mirror
 
 
 class ThreadMirror:
@@ -59,7 +56,7 @@ class ThreadMirror:
             il_offset = sdbtypes.decode_int(buffer[8:]).object
             flags = sdbtypes.decode_byte(buffer[12:]).object
 
-            mirror = sm.StackFrameMirror(
+            mirror = stackframe_mirror.StackFrameMirror(
                 self._agent, id, self.id, method_id, il_offset, flags)
 
             return sdbtypes.DecodeInfo(mirror, 13)

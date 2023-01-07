@@ -1,8 +1,8 @@
 from collections import namedtuple
 from state_store_service import StateStoreService
+from interop import event_modifiers, constants
+
 import commands.command as cmd
-import event_modifiers
-import constants
 import argparse
 
 LocationParsed = namedtuple(

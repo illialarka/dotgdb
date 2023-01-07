@@ -1,6 +1,4 @@
-import constants
-import sdbtypes
-import buffer_stream
+from interop import sdbtypes, constants, buffer_stream
 
 
 class StackFrameMirror:

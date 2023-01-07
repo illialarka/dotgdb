@@ -1,8 +1,7 @@
-from event_modifiers import StepModifier
+from interop import event_modifiers, constants
 from argparse import ArgumentParser
 from state_store_service import StateStoreService
 import commands.command as cmd
-import constants
 
 state_store_service = StateStoreService()
 
@@ -51,7 +50,7 @@ class StepCommand(cmd.Command):
     def _perform_step(self, agent, step_depth):
         breakpoint_thread_id = state_store_service.get_state().thread_id
 
-        step_over_event_modifier = StepModifier(
+        step_over_event_modifier = event_modifiers.StepModifier(
             breakpoint_thread_id, step_depth)
         agent.enable_event(
             constants.EVENT_KIND_STEP,

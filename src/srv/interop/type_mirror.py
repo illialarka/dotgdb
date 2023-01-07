@@ -1,9 +1,5 @@
-import sdbtypes
-import constants
-import buffer_stream
-import property_mirror
-import field_mirror
-import buffer_stream
+from interop import sdbtypes, constants, buffer_stream , property_mirror, field_mirror
+
 
 from collections import namedtuple
 

@@ -1,16 +1,13 @@
-import sdbtypes
-import constants
-import vm_snapshot
-import events_data as ev
-import exceptions
-import buffer_stream
-import logging
-import time
-
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread, Event
 from queue import Queue, Empty
 from collections import namedtuple
+from interop import buffer_stream, constants, vm_snapshot, sdbtypes
+
+import events_data as ev
+import exceptions
+import logging
+import time
 
 logger = logging.getLogger()
 

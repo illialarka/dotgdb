@@ -1,7 +1,7 @@
 # For more information see:
 # https://www.mono-project.com/docs/advanced/runtime/docs/soft-debugger-wire-format/
 
-import constants
+from interop import constants
 
 from struct import unpack_from, pack
 from collections import namedtuple

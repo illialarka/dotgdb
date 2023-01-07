@@ -1,5 +1,4 @@
-import sdbtypes
-import constants
+from interop import sdbtypes, constants
 
 
 class LocationModifier:
