@@ -49,7 +49,6 @@ def cli():
             arguments.executable, arguments.port), _agent.start(
             True, _session.port, 10)
 
-        # those calls are required to create appdomain and load types
         _agent.vm.resume(), _agent.vm.suspend()
         state_store_service.state.executable_path = arguments.executable
     except exceptions.ExecutableNotFound:

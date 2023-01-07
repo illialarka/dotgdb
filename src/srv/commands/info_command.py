@@ -48,7 +48,7 @@ class InfoCommand(Command):
             if breakpoint.event_query is not None:
                 print(
                     '[event query]',
-                    f'+ \t {breakpoint.query.query}',
+                    f'+ \t {breakpoint.event_query.query}',
                     sep='\n')
 
     def _info_locals(self):

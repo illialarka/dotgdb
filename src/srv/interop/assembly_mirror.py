@@ -1,6 +1,4 @@
-import sdbtypes
-import constants
-import buffer_stream
+from interop import sdbtypes, constants, buffer_stream
 
 
 class AssemblyMirror:
