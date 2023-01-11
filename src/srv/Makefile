@@ -2,6 +2,6 @@ clean:
 	rm -rf ./build ./dist ./sdb.egg-info
 
 test:
-	pytest
+	pytest ./tests
 
 .PHONY: init test
