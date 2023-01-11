@@ -12,12 +12,21 @@ RecordRowBreakpoint = namedtuple(
 
 
 class RecordStorage:
+    '''
+    Represents in memory record data storage to keep event query
+    results during recording.
+    '''
 
     def __init__(self, dataset_name=None):
         self._data = []
         self.dataset_name = dataset_name if dataset_name is not None else 'unknown'
 
     def record(self, breakpoint, key, value):
+        '''
+        Saves a record at the breakpoint.
+        Record has to happen at certain event descriptor since it is set
+        to breakpoint.
+        '''
         if breakpoint is None:
             raise InvalidArgumentError 
 
