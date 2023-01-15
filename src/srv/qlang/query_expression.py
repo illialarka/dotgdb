@@ -21,7 +21,10 @@ class QueryExpression:
             print('Source handler has not set.')
             return
 
+        print(self.source)
         data_set = self.source.handle(agent)
+        print(f'len {len(data_set)}')
+        print(self.projections)
         projected_data = []
 
         for data_set_item in data_set:

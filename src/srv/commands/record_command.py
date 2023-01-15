@@ -45,7 +45,7 @@ class RecordCommand(Command):
         # save data to some temporary store
         #
         # Thinking about storage.
-        # [ ] In memory is good for short lived
+        # [X] In memory is good for short lived
         # data, but there is a risk to get OutOfMem error.
         # So, probably, it would be great to have some output file
         # with streaming data (applying batching).
@@ -58,5 +58,5 @@ class RecordCommand(Command):
         # Thinking about stopping of recording.
         #
         # 1.[ ] Infinit loops - restrict with iteration/time of execution
-        # 2.[ ]  Just to complete the programm
+        # 2.[ ] Just to complete the programm
         # 3.[ ] By user interruption

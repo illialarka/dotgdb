@@ -7,5 +7,11 @@ class ThreadsSourceTokenHandler(BaseTokenHandler):
         return source == 'threads'
 
     def handle(self, agent):
+        print("hi from threads token source")
         threads = agent.vm.get_all_threads()
-        return threads if threads else []
+
+        if threads is None or len(threads) == 0:
+            print('Agent returns no threads.')
+            return None
+        
+        return threads
