@@ -1,3 +1,8 @@
+import logging
+
+logger = logging.getLogger()
+
+
 class QueryExpression:
     '''
     Represents QLang query in a comipled expression.
@@ -18,21 +23,18 @@ class QueryExpression:
 
     def execute(self, agent):
         if self.source is None:
-            print('Source handler has not set.')
+            logger.info('Source handler has not been set.')
             return
 
-        print(self.source)
-        data_set = self.source.handle(agent)
-        print(f'len {len(data_set)}')
-        print(self.projections)
+        data_items = self.source.handle(agent)
         projected_data = []
 
-        for data_set_item in data_set:
-            projected_item = {}
+        for data_item in data_items:
+            projected_item = dict() 
 
             for projection in self.projections:
-                if projection in data_set_item:
-                    projected_item[projection] = data_set_item[projection]
+                if projection in data_item: 
+                    projected_item[projection] = data_item[projection]
                     continue
                 else:
                     projected_item[projection] = None

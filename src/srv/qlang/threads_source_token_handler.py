@@ -1,4 +1,7 @@
 from qlang.base_token_handler import BaseTokenHandler
+import logging
+
+logger = logging.getLogger()
 
 
 class ThreadsSourceTokenHandler(BaseTokenHandler):
@@ -7,11 +10,14 @@ class ThreadsSourceTokenHandler(BaseTokenHandler):
         return source == 'threads'
 
     def handle(self, agent):
-        print("hi from threads token source")
-        threads = agent.vm.get_all_threads()
+        thread_mirrors = agent.vm.get_all_threads()
 
-        if threads is None or len(threads) == 0:
-            print('Agent returns no threads.')
+        if thread_mirrors is None or len(thread_mirrors) == 0:
+            logger.info('There are not threads found.')
             return None
         
-        return threads
+        return [self._format_thread_mirror(thread_mirror)
+            for thread_mirror in thread_mirrors]
+    
+    def _format_thread_mirror(self, thread_mirror):
+        return dict(id=thread_mirror.id, name= thread_mirror.get_name())
