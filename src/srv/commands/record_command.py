@@ -1,5 +1,8 @@
 from commands.command import Command
 from state_store_service import StateStoreService, EXECUTION_STATE_RECORDING
+import logging
+
+logger = logging.getLogger()
 
 
 class RecordCommand(Command):
@@ -10,27 +13,20 @@ class RecordCommand(Command):
         self.help = 'Usage: record'
 
     def execute(self, agent, args=None, output=None):
-        # promprting user
         prompting_answer = input(
             'Running recording breakpoints will not stop execution. Are you sure? [Y/N]')
 
         if prompting_answer.lower() not in ['y', 'n', 'yes', 'no']:
-            print('Input should be Y or N.')
+            logger.info('Input should be Y or N.')
             return
 
         state_store_service = StateStoreService()
         event_descriptors = state_store_service.state.event_descriptors
 
         if self._any(event_descriptors, lambda item: item.event_query is not None):
-            print(
-                'Running recording.',
-                'To stop exeuction hit Ctrl + Z. Good luck :D')
+            logger.info( 'Running recording.\nTo stop exeuction hit Ctrl + Z.')
             state_store_service.state.execution_state = EXECUTION_STATE_RECORDING 
             agent.vm.resume()
-        else:
-            print(
-                'There are not events with query. It makes impossible to record session.')
-            return
 
     def _any(self, iterable, predicate):
         for item in iterable:
