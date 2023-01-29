@@ -31,6 +31,12 @@ from locals select index, name
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/illialarka/dotgdb/master/docs/imgs/expression_tree_example1.png">
+  <img src="https://raw.githubusercontent.com/illialarka/dotgdb/main/docs/imgs/expression_tree_example1.png" alt="Expression tree exmaple #1 (from locals select index, name">
 </p>
 
+## Features 
+
+- [X] Data source specification.
+- [X] Data projection.
+- [ ] Aggregation functions.
+- [ ] Condition expressions.
