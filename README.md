@@ -1,59 +1,62 @@
 # dotgdb 
 
-Project name is a `dotgdb` that allows perform complex debugging operation of .NET Core appliation on Mono.
+The proof-of-concept of queryable Mono Soft Debugger client (command tool). 
 
-An extensible tool for debugging applications written in C#/.NET running on Mono.
+## Getting Started
 
-## Prerequisites
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-Before you begin, ensure you have met the following requirements:
-* You have installed:
-    - Mono
-    - Python 3.10
-* You have a `<Windows/Linux/Mac>` machine. State which OS is supported/which is not.
+### Prerequisites
 
-## Using `dotgdb` 
+You need to installl:
+* .NET Core 6.0
+* Python3
 
-To use `dotgdb cli`, follow these steps:
+For developing:
 
-```
-cd src/srv
-```
+* Autopep8
 
-Create `.env` file and put single line in it:
-```
-binary=<path to dll/exe>
-```
+### Installing
 
-Run CLI:
-```
-./cli.sh
-```
+First thing first clone the repo:
 
-NOTE: On MacOS you may add execution permission. Run `sudo chmod +x ./cli.sh`
+`git clone https://github.com/illialarka/dotgdb.git`
 
-## Contributing to `dotgdb` 
+1. Build .NET core project in `Debug` .
 
-To contribute to `dotgdb`, follow these steps:
+2. Create `./src/srv/.env` file (is ignored by git) and add a single `binary={full_path}` line, where `full_path` is full path to entry .NET dll/exe file.
 
-1. Fork this repository.
-2. Create a branch: `git checkout -b <branch_name>`.
-3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin <project_name>/<location>`
-5. Create the pull request.
+3. Run `./run.sh`
 
-Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+NOTE: On MacOS run `chmod +x ./cli.sh` to make it runnable
 
-## Roadmap
+## Running the tests
 
-To see roadmap use [ROADMAP](https://github.com/illialarka/dotgdb/blob/main/docs/ROADMAP.md)
+To run tests you can use:
 
-## Contributors
+`cd /src/srv & make test` 
 
-Thanks to the following people who have contributed to this project:
+or
 
-* [@illialarka](https://github.com/illialarka)
+`cd /src/srv & pytest`
+
+
+## Contributing
+
+Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Contributors 
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project uses the following license: [MIT](https://mit-license.org/).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Inspiration 
+
+TODO: Add inspiration and example
