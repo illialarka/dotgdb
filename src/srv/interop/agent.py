@@ -107,7 +107,7 @@ class Agent:
             if self._server_socket is not None:
                 self._server_socket.close()
         except BaseException:
-            print("Agent is stopped.")
+            logger.info("Agent is stopped.")
 
     def send_command(self, command_set, command_id, params=b""):
         packet = (
@@ -172,7 +172,7 @@ class Agent:
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
 
     def _process_events(self):
-        print("Processing events started")
+        logger.info("Processing events started")
         while self._is_listening:
             # Non-zero timeout to stop when listening will be stopped
             try:

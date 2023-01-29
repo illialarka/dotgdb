@@ -1,8 +1,8 @@
 from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
 from interop.nbstreamreader import NonBlockingStreamReader
 from interop.agent import Agent
-from interop.constants import * 
-from commands import selector 
+from interop.constants import *
+from commands import selector
 from session import Session
 
 import argparse
@@ -40,7 +40,7 @@ def cli():
     _session, _agent = Session(), Agent()
 
     # set event handlers
-    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint 
+    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint
     _agent.events_callbacks[EVENT_KIND_VM_START] = event_handlers.on_vm_start
     _agent.events_callbacks[EVENT_KIND_STEP] = event_handlers.on_step
 
@@ -112,20 +112,22 @@ def process_interaction(agent, session):
             non_blocking_stream_reader.close()
             return
 
+
 def event_query_wrapper(event):
     if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
-        event_descriptor = None 
+        event_descriptor = None
 
         for desc in state_store_service.state.event_descriptors:
             if desc.request_id == event.request_id:
-                event_descriptor = desc 
+                event_descriptor = desc
 
         if event_descriptor is None:
             print('Event descriptor was not found.')
             return
-        
+
         print('event query found kinda executed:')
         print(event_descriptor.event_query.query)
+
 
 if __name__ == "__main__":
     cli()

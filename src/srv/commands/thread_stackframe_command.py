@@ -1,18 +1,21 @@
-import commands.command as cmd
-import argparse
 from state_store_service import StateStoreService
+from commands.command import Command
+import argparse
+import logging
 
 state_store_service = StateStoreService()
+logger = logging.getLogger()
 
 
-class ThreadStackframeCommand(cmd.Command):
+class ThreadStackframeCommand(Command):
     '''
+    The Thread Stackframe command is resposible for displaying thread stackframes. 
     Manages thread stackframes.
 
-    Based on the subcommand, applies different logic.
+    The subcommands:
 
-    'stackcall' (default) - displays the call stack.
-    'locals' - displays all local variables in the thread of execution.
+        'stackcall' (default) - displays the call stack.
+        'locals' - displays all local variables in the thread of execution.
     '''
 
     def __init__(self):
@@ -47,8 +50,8 @@ class ThreadStackframeCommand(cmd.Command):
             return
 
         if state_store_service.state.event_descritor is None:
-            print(
-                'Can not collect stackframe because of thread when it is not on breakpoint.')
+            logger.warn(
+                'Can not collect stackframe because of thread when it is not at a breakpoint.')
             return
 
         breakpoint_thread_id = state_store_service.state.event_descritor.thread_id
@@ -66,10 +69,10 @@ class ThreadStackframeCommand(cmd.Command):
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
 
         if stackframes is None or len(stackframes) == 0:
-            print('Can not get stackframe for some reason.')
+            logger.warn('Can not get stackframe for some reason.')
             return
 
-        print('Stackframe call tree:\n')
+        logger.info('Stackframe call tree:\n')
 
         for stackframe in stackframes:
             parameters_names = stackframe.get_method().get_params()
@@ -78,7 +81,7 @@ class ThreadStackframeCommand(cmd.Command):
             for parameter_name in parameters_names:
                 stackframe_formated = stackframe_formated + \
                     f'<{parameter_name.name}>'
-            print(stackframe_formated)
+            logger.info(stackframe_formated)
 
         return
 
@@ -86,13 +89,13 @@ class ThreadStackframeCommand(cmd.Command):
         stackframes = agent.vm.get_thread(identifier).get_stackframes()
 
         if stackframes is None or len(stackframes) == 0:
-            print('Can not get stackframe for some reason.')
+            logger.warn('Can not get stackframe for some reason.')
             return
 
         for stackframe in stackframes:
             method_locals = stackframe.get_method().get_locals()
 
             for method_local in method_locals:
-                print(f'<${method_local.name}> at {stackframe}')
+                logger.info(f'<${method_local.name}> at {stackframe}')
 
         return

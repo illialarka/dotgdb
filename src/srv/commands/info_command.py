@@ -1,11 +1,14 @@
 from state_store_service import StateStoreService
 from commands.command import Command
 import argparse
+import logging
+
+logger = logging.getLogger()
 
 
 class InfoCommand(Command):
     '''
-    Provides information about debuggee entities.
+    The Info command is responsible for displaying information about debugger entities.
 
     Entities:
         <break> - shows breakpoints information 
@@ -39,17 +42,15 @@ class InfoCommand(Command):
         event_descriptors = state_store_service.state.event_descriptors
 
         if len(event_descriptors) == 0:
-            print('There are no breakpoints.')
+            logger.info('There are no breakpoints.')
             return
 
         for breakpoint in event_descriptors:
-            print(f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
+            logger.info(
+                f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
             if breakpoint.event_query is not None:
-                print(
-                    '[event query]',
-                    f'+ \t {breakpoint.event_query.query}',
-                    sep='\n')
+                logger.info(f'Event Query:\t {breakpoint.event_query.query}')
 
     def _info_locals(self):
         pass

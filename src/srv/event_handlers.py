@@ -9,14 +9,15 @@ def on_vm_start(event, agent):
 
 
 def on_breakpoint(event, agent):
-    if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING: 
+    if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
         enabled_breakpoints = state_store_service.state.event_descriptors
 
         for event_breakpoint in enabled_breakpoints:
             if event_breakpoint.event_query is not None:
                 try:
                     print('query data')
-                    queries_dataset = event_breakpoint.event_query.execute(agent, event)
+                    queries_dataset = event_breakpoint.event_query.execute(
+                        agent, event)
                     print(queries_dataset.__str__())
                 except Exception as e:
                     print(e)

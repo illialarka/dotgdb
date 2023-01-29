@@ -1,13 +1,16 @@
 import commands.command as cmd
 import argparse
-from tabulate import tabulate
 
 
 class ThreadsCommand(cmd.Command):
+    '''
+    *Temporary disabled*
+    The Threads command is responsible for listing active threads. 
+    '''
 
     def __init__(self):
         self.aliases = ['threads']
-        self.description = 'Lists all threads in the process.'
+        self.description = 'Lists currently active threads in the debuggee.'
         self.help = 'Usage: threads'
 
         self._argument_parser = argparse.ArgumentParser(
@@ -17,7 +20,4 @@ class ThreadsCommand(cmd.Command):
     def execute(self, agent, args=None):
         threads = agent.vm.get_all_threads()
 
-        return tabulate(
-            [[thread.id, thread.get_name(), thread.get_is_from_threadpool(),
-              thread.get_state()] for thread in threads],
-            headers=['id', 'name', 'is from pool', 'state'])
+        return threads

@@ -39,10 +39,10 @@ class Session:
             return_code = self.debug_process.kill()
 
             if return_code is not None:
-                print(
+                logger.info(
                     "Debugger process exited with {0} code.".format(return_code))
         except BaseException:
-            print(traceback.format_exception())
+            logger.info(traceback.format_exception())
 
     def _run_debug_server(self):
         self.port = utils.find_port()

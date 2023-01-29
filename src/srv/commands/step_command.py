@@ -1,21 +1,23 @@
 from interop import event_modifiers, constants
 from argparse import ArgumentParser
 from state_store_service import StateStoreService
-import commands.command as cmd
+from commands.command import Command
+import logging
 
+logger = logging.getLogger()
 state_store_service = StateStoreService()
 
 
-class StepCommand(cmd.Command):
+class StepCommand(Command):
     '''
-    Performs step in/over at the breakpoint.
+    The Step command is repsonsible for performing step in/over at the breakpoint.
     Could be used only on a breakpoint state.
     '''
 
     def __init__(self):
         self.aliases = ['step']
         self.description = 'Performs step in/over'
-        self.help = 'Usage: step'
+        self.help = 'Usage: step <in/over>'
 
         self._argument_parser = ArgumentParser()
         self._argument_parser.add_argument(
@@ -30,15 +32,15 @@ class StepCommand(cmd.Command):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except BaseException:
+        except Exception:
             return
 
         if arguments is None:
             return
 
         if state_store_service.state.event_descritor is None:
-            print(
-                'Can not performe step because state is not on a breakpoint.')
+            logger.warn(
+                'Can not perform step because state is not on a breakpoint.')
             return
 
         if arguments.type == 'in':
@@ -57,4 +59,4 @@ class StepCommand(cmd.Command):
             constants.SUSPEND_POLICY_ALL,
             step_over_event_modifier)
 
-        print(f'Step over performed on {breakpoint_thread_id} thread.')
+        logger.info(f'Step over performed on {breakpoint_thread_id} thread.')

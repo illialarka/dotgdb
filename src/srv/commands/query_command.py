@@ -2,26 +2,34 @@ from commands.command import Command
 from qlang.qlang_parser import parse_query
 from qlang.query_interpreter import interpret
 from state_store_service import StateStoreService
-from exceptions import BreakpointDoesNotExist
 import argparse
+import logging
+
+logger = logging.getLogger()
 
 
 class QueryCommand(Command):
+    '''
+    The Query command is responsible for adding QLang query to enabled breakpoints.
+
+    Before adding the query an enabled event (breakpoint) should be added.
+    See more `./qlang`.
+    '''
 
     def __init__(self):
         self.aliases = ['query']
-        self.description = 'Puts query on breakpoint'
-        self.help = 'Usage: query -id <breakpoint id> -q <QLang query>'
+        self.description = 'Adds a query on breakpoint'
+        self.help = 'Usage: query --request_id <breakpoint id> <QLang query>'
 
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
             '-id',
             '--request_id',
-            help='specifies break point identifier',
+            help='Specifies break point identifier',
             type=int)
         self._argument_parser.add_argument(
             'query',
-            help='specifies QLang query',
+            help='Specifies QLang query',
             action='store',
             type=str)
 
@@ -47,19 +55,19 @@ class QueryCommand(Command):
                 breakpoint_at = breakpoint
 
         if breakpoint_at is None:
-            print(f'Breakpoint does not exist with identifier {arguments.request_id}.')
+            logger.warn(
+                f'Breakpoint does not exist with identifier {arguments.request_id}.')
             return
 
         query_expression = None
 
         try:
-            event_query = arguments.query.strip('\'') 
+            event_query = arguments.query.strip('\'')
             query_expression = interpret(parse_query(event_query))
 
-            query_expression.query = event_query 
-        except Exception as ex:
-            print('produce query parsing error')
-            print(ex)
+            query_expression.query = event_query
+        except Exception as exception:
+            logger.warn('An error occurred during the parsing query.')
+            logger.error(exception)
 
-        # well, technically it should work :D
         breakpoint_at.event_query = query_expression

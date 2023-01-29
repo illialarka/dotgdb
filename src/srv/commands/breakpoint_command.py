@@ -1,45 +1,71 @@
 from collections import namedtuple
 from state_store_service import StateStoreService
 from interop import event_modifiers, constants
+from commands.command import Command
 
-import commands.command as cmd
+import logging
 import argparse
 
 LocationParsed = namedtuple(
     'LocationParsed',
     ['type_name', 'method_name', 'line_number'])
 
+logger = logging.getLogger()
 
-class BreakpointCommand(cmd.Command):
+
+class BreakpointCommand(Command):
     '''
-    Sets breakpoint at a location.
+    The Breakpoint command is responsible for placing breakpoint events at the specific line of source code.
 
-    Uses line number as number in original <cs> file.
+    Pattern:
+
+        breakpoint <namespace>.<type_name>:<method_name>:<line_number>
+
+    Example source code:
+
+    Utils.cs
+    ```
+    1   namesapce Utils:
+    2
+    3    public class Utils
+    4    {
+    5        public int Add(int first, int second)
+    6        {
+    7           var result = first + second;
+    8
+    9           return result;
+    10       }
+    11    }
+    ```
+
+    To place a breakpoint at the 8th line, use: 
+
+        breakpoint Utils.Util:Add:9
     '''
 
     def __init__(self):
         self.aliases = ['breakpoint', 'break', 'bt']
         self.description = 'Manages breakpoints'
-        self.help = 'Usage: breakpoint <action>'
+        self.help = 'Usage: breakpoint <namespace>.<type_name>:<method_name>:<line_number>'
 
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
             'location',
-            help=f'Sets breakpoint at specified location. Location should follow patter - <namespace.type:method:line_number>',
+            help=f'Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>',
             type=str)
 
     def execute(self, agent, args=None):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except BaseException:
+        except Exception:
             return
 
         location = self._parse_breakpoint_location(arguments.location)
 
         if location is None:
-            print(
-                'Unable to understand location you provided. Please use [-help] to get help information.')
+            logger.warn(
+                'Unable to understand specified location. Please use [-help] to get help information.')
             return
 
         self._set_breakpoints(
@@ -65,8 +91,8 @@ class BreakpointCommand(cmd.Command):
             method_break_on = method
 
         if method_break_on is None:
-            print(
-                'Location to breakpoint was not found. Make sure you are at right position.')
+            logger.warn(
+                'Location was not found. Make sure you are at right location.')
             return
 
         code_locations = method_break_on.get_code_locations()
@@ -81,7 +107,7 @@ class BreakpointCommand(cmd.Command):
                     constants.SUSPEND_POLICY_ALL,
                     breakpoint_location)
                 break
-        
+
         il_offset = code_location.il_offset
         method_file = method_break_on.get_source_filename()
         breakpoint_id = event_request.request_id
@@ -90,14 +116,14 @@ class BreakpointCommand(cmd.Command):
         state_store_service.add_event(
             event_request, method_file, line_number, method_name)
 
-        print(
+        logger.info(
             f'Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.')
 
     def _parse_breakpoint_location(self, location):
         parts = location.split(':')
 
         if len(parts) != 3:
-            print(
+            logger.warn(
                 'Unknown location defined. Please use <type>:<method>:<linenumber> pattern.')
             return
 
@@ -108,7 +134,7 @@ class BreakpointCommand(cmd.Command):
         try:
             line_number = int(parts[2])
         except BaseException:
-            print('Unable to parse line number.')
+            logger.warn('Unable to parse line number.')
             return
 
         return LocationParsed(type_name, method_name, line_number)

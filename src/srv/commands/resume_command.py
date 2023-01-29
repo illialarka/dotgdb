@@ -1,12 +1,13 @@
 from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING
-import commands.command as cmd
+from commands.command import Command
+import logging
+
+logger = logging.getLogger()
 
 
-class ResumeCommand(cmd.Command):
+class ResumeCommand(Command):
     '''
-    Resumes debugger virtual machine.
-
-    Runs or resumes actual debugger execution of thread.
+    The Resume command is responsible for resumes debugger virtual machine after hitting event.
     '''
 
     def __init__(self):
@@ -20,5 +21,4 @@ class ResumeCommand(cmd.Command):
         state_store_service = StateStoreService()
         state_store_service.state.execution_state = EXECUTION_STATE_RUNNING
 
-        print(f'Starting program: {state_store_service.state.executable_path}')
-        print('Use Ctrl+Z to suspend process.\n')
+        logger.info(f'{state_store_service.state.executable_path} Resuming...')

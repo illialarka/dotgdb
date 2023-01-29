@@ -19,7 +19,7 @@ class RecordStorage:
 
     def record(self, breakpoint, key, value):
         if breakpoint is None:
-            raise InvalidArgumentError 
+            raise InvalidArgumentError
 
         self._data.append(
             RecordRow(
@@ -30,8 +30,8 @@ class RecordStorage:
                     line=breakpoint.line_number,
                     method=breakpoint.method_name
                 ),
-            value=value,
-            datetime=datetime.utcnow()))
+                value=value,
+                datetime=datetime.utcnow()))
 
     def iterate(self):
         return self._data

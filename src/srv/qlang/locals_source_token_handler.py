@@ -6,8 +6,7 @@ logger = logging.getLogger()
 state_store_service = StateStoreService()
 
 
-# TODO: Rename to LocalsSourceTokenHandler
-class ObjectsSourceTokenHandler(BaseTokenHandler):
+class LocalsSourceTokenHandler(BaseTokenHandler):
 
     def can_handle(self, source):
         return source == 'locals'
@@ -16,11 +15,10 @@ class ObjectsSourceTokenHandler(BaseTokenHandler):
         breakpoint_thread_id = event.thread_id
         stackframes = agent.vm.get_thread(breakpoint_thread_id).get_stackframes()
 
-        logger.info(f'Queries stackframes for the {breakpoint_thread_id}. Frames: {len(stackframes)}.') 
+        logger.debug (f'Queries stackframes for the {breakpoint_thread_id}. Frames: {len(stackframes)}.') 
 
         if stackframes is None or len(stackframes) == 0:
-            # TODO: improve log with meaningfull information
-            logger.info('Can not get stackframe for some reason.')
+            logger.info('There are not stackframes.')
             return
 
         locals = []

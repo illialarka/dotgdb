@@ -1,11 +1,14 @@
 from commands.command import Command
 from state_store_service import StateStoreService
 import argparse
+import logging
+
+logger = logging.getLogger()
 
 
 class PrintCommand(Command):
     '''
-    Prints variable by name.
+    The Print command is responsible for printing variable by name.
 
     By default, it uses the identifier of the thread on which the break event occurred.
     To print variable from another thread use <thread-id> parameter to specify thread.
@@ -42,7 +45,7 @@ class PrintCommand(Command):
         state_store_service = StateStoreService()
 
         if state_store_service.state.event_descritor is None:
-            print(
+            logger.warn(
                 'Can not collect stackframe of thread because state is not at breakpoint.')
             return
 
@@ -56,7 +59,7 @@ class PrintCommand(Command):
         stackframes = agent.vm.get_thread(thread_id).get_stackframes()
 
         if stackframes is None or len(stackframes) == 0:
-            print('Can not get stackframe for some reason.')
+            logger.warn('Can not get stackframe for some reason.')
             return
 
         for stackframe in stackframes:
@@ -64,7 +67,7 @@ class PrintCommand(Command):
 
             for method_local in method_locals:
                 if method_local.name == variable:
-                    print(stackframe.get_local_value(method_local))
+                    logger.info(stackframe.get_local_value(method_local))
                     return
 
-        print('Could not find variable by name.')
+        logger.warn('Could not find variable by name.')

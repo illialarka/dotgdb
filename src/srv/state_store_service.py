@@ -1,30 +1,30 @@
 import threading
 from interop.constants import EVENT_FRIENDLY_NAME, EVENT_KIND_BREAKPOINT
-from collections import namedtuple
-import logging 
+import logging
 
 
 logger = logging.getLogger()
 lock = threading.Lock()
 
+
 class EventDescriptor:
 
     def __init__(
-        self,
-        request_id,
-        thread_id,
-        friendly_event_kind_name,
-        source,
-        line_number,
-        method_name,
-        event_query):
+            self,
+            request_id,
+            thread_id,
+            friendly_event_kind_name,
+            source,
+            line_number,
+            method_name,
+            event_query):
         self.request_id = request_id
         self.thread_id = thread_id
         self.friendly_event_kind_name = friendly_event_kind_name
         self.source = source
         self.line_number = line_number
-        self.method_name = method_name 
-        self.event_query = event_query 
+        self.method_name = method_name
+        self.event_query = event_query
 
 
 class StateStoreService:

@@ -4,7 +4,7 @@ import exceptions as exceptions
 
 class ExitCommand(cmd.Command):
     '''
-    Exists SDB CLI process.
+    Exists dotgdb tool.
     '''
 
     def __init__(self):

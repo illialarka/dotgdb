@@ -9,11 +9,16 @@ MethodSignature = namedtuple(
 
 
 class MethodCommand(cmd.Command):
+    '''
+    *Temporary disabled*
+
+    The Method command is responsible for displaying information about debugger entities.
+    '''
 
     def __init__(self):
         self.aliases = ['method']
-        self.description = 'Access method'
-        self.help = 'Usage: method'
+        self.description = 'Displays info about method'
+        self.help = 'Usage: method <sub-entity>'
 
         self._argument_parser = argparse.ArgumentParser(prog='method')
 
@@ -67,11 +72,7 @@ class MethodCommand(cmd.Command):
         method = agent.vm.get_method(method_id)
         locations = method.get_code_locations()
 
-        return tabulate(
-            [[location.il_offset, location.line_number]
-                for location in locations],
-            tablefmt='simple',
-            headers=['IL offset', 'Line Number'])
+        return locations
 
     def _get_method_body(self, agent, method_id):
         return agent.vm.get_method(method_id).get_body()
