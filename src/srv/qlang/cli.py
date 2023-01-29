@@ -6,7 +6,9 @@ import utils
 
 queries = {
     'threads': "from threads select id, name, path",
-    'average': 'from table select avg(memory)'}
+    'average': 'from table select avg(memory)',
+    'objects': 'from locals select index, name'
+}
 
 argument_parser = argparse.ArgumentParser()
 argument_parser.add_argument(
@@ -17,7 +19,7 @@ argument_parser.add_argument(
         'eval'],
     default='tree',
     nargs='?')
-argument_parser.add_argument('-q', '--query', choices=['threads', 'average'])
+argument_parser.add_argument('-q', '--query', choices=['threads', 'average', 'objects'])
 argument_parser.add_argument('script', action='store', type=str, nargs='?')
 
 arguments = argument_parser.parse_args()

@@ -1,7 +1,10 @@
 import threading
 from interop.constants import EVENT_FRIENDLY_NAME, EVENT_KIND_BREAKPOINT
 from collections import namedtuple
+import logging 
 
+
+logger = logging.getLogger()
 lock = threading.Lock()
 
 class EventDescriptor:
@@ -51,6 +54,7 @@ class StateStoreService:
 
     def triger_event(self, event_request):
         lock.acquire()
+        logger.info(event_request)
         request_id = event_request.request_id
         thread_id = event_request.thread_id
 

@@ -16,7 +16,7 @@ def on_breakpoint(event, agent):
             if event_breakpoint.event_query is not None:
                 try:
                     print('query data')
-                    queries_dataset = event_breakpoint.event_query.execute(agent)
+                    queries_dataset = event_breakpoint.event_query.execute(agent, event)
                     print(queries_dataset.__str__())
                 except Exception as e:
                     print(e)

@@ -21,12 +21,12 @@ class QueryExpression:
         self.projections = set() 
         self.query = None
 
-    def execute(self, agent):
+    def execute(self, agent, event):
         if self.source is None:
             logger.info('Source handler has not been set.')
             return
 
-        data_items = self.source.handle(agent)
+        data_items = self.source.handle(agent, event)
         projected_data = []
 
         for data_item in data_items:

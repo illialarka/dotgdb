@@ -9,7 +9,7 @@ class ThreadsSourceTokenHandler(BaseTokenHandler):
     def can_handle(self, source):
         return source == 'threads'
 
-    def handle(self, agent):
+    def handle(self, agent, event):
         thread_mirrors = agent.vm.get_all_threads()
 
         if thread_mirrors is None or len(thread_mirrors) == 0:
