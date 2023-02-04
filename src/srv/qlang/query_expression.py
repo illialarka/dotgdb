@@ -33,11 +33,7 @@ class QueryExpression:
             projected_item = dict() 
 
             for projection in self.projections:
-                if projection in data_item: 
-                    projected_item[projection] = data_item[projection]
-                    continue
-                else:
-                    projected_item[projection] = None
+                projected_item[projection] = getattr(data_item, projection) 
 
             projected_data.append(projected_item)
 

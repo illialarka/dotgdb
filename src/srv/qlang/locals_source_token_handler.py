@@ -1,9 +1,16 @@
 from qlang.base_token_handler import BaseTokenHandler
 from state_store_service import StateStoreService
+from collections import namedtuple
+from interop.sdbtypes import PrimitiveTypeValue
 import logging
 
 logger = logging.getLogger()
 state_store_service = StateStoreService()
+
+
+MethodLocalInfo = namedtuple(
+    'MethodLocalInfo',
+    ['id', 'name', 'value'])
 
 
 class LocalsSourceTokenHandler(BaseTokenHandler):
@@ -21,16 +28,17 @@ class LocalsSourceTokenHandler(BaseTokenHandler):
             logger.info('There are not stackframes.')
             return
 
-        locals = []
+        stackframe_locals = []
         for stackframe in stackframes:
             method_locals = stackframe.get_method().get_locals()
 
             for method_local in method_locals:
-                locals.append(method_local)
+                local_value = stackframe.get_local_value(method_local)
+                actual_value = None
+                if isinstance(local_value, PrimitiveTypeValue):
+                    actual_value = local_value.value 
 
-        return [self._format_method_local(method_local)
-            for method_local in locals]
-    
-    def _format_method_local(self, method_local):
-        return dict(index=method_local.index, name=method_local.name)
+                stackframe_locals.append(MethodLocalInfo(method_local.index, method_local.name, actual_value))
+
+        return stackframe_locals    
 
