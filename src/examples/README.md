@@ -58,3 +58,7 @@ The file `breakpoint_1_Find_21.csv`:
 <p align="center">
   <img src="https://raw.githubusercontent.com/illialarka/dotgdb/main/docs/imgs/query_result1.png" alt="Query result `from params select name, value">
 </p>
+
+1 - expected file name
+
+2 - table with query results
