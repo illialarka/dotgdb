@@ -1,6 +1,6 @@
 # dotgdb 
 
-The proof-of-concept of queryable Mono Soft Debugger client (command tool). 
+The proof-of-concept of queryable Mono Soft Debugger client (command tool). Tool is suitable for data driven programs.
 
 ## Getting started 
 
@@ -60,6 +60,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 As a software developer, it is often necessary to analyze the execution of a program. In such situations, debuggers are a valuable tool. Developers use a variety of tools and programs to analyze allocated memory, time, CPU, and RAM usage. However, there may be instances where it is desirable to obtain custom data during program execution.
 
-The Queryable Debugger Client addresses this need by providing the capability to define a breakpoint and execute a query to various sources when program execution reaches that breakpoint.
+The Queryable Debugger Client addresses this need by providing the capability to define a breakpoint and execute a query to various sources when program execution reaches that breakpoint. Query result can be analyzed to deeper understanding of execution.
 
 See inspiring [example](https://github.com/illialarka/dotgdb/tree/main/src/examples). 
