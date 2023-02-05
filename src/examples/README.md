@@ -1,4 +1,4 @@
-# Insipration Example 
+# Inspiring example 
 
 The `Example1.cs` file contains an example program for debugging. The problem of finding the number of islands on the planet. The data structure used for solving is `DisjointSet`.
 
