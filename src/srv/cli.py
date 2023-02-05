@@ -5,6 +5,7 @@ from interop.constants import *
 from commands import selector
 from session import Session
 
+import csv
 import argparse
 import logging
 import utils
@@ -111,23 +112,6 @@ def process_interaction(agent, session):
             logger.info("Exit requested. Closing session and kill processes.")
             non_blocking_stream_reader.close()
             return
-
-
-def event_query_wrapper(event):
-    if state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
-        event_descriptor = None
-
-        for desc in state_store_service.state.event_descriptors:
-            if desc.request_id == event.request_id:
-                event_descriptor = desc
-
-        if event_descriptor is None:
-            print('Event descriptor was not found.')
-            return
-
-        print('event query found kinda executed:')
-        print(event_descriptor.event_query.query)
-
 
 if __name__ == "__main__":
     cli()

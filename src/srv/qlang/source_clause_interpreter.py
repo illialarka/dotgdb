@@ -2,11 +2,13 @@ from qlang.exceptions import InvalidSourceNameException
 from lark.visitors import Interpreter
 from qlang.threads_source_token_handler import ThreadsSourceTokenHandler
 from qlang.locals_source_token_handler import LocalsSourceTokenHandler 
+from qlang.params_source_token_handler import ParamsSourceTokenHandler 
 
 
 source_token_handlers = [
     ThreadsSourceTokenHandler(),
-    LocalsSourceTokenHandler()
+    LocalsSourceTokenHandler(),
+    ParamsSourceTokenHandler()
 ]
 
 

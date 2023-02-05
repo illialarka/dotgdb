@@ -32,6 +32,8 @@ class RecordCommand(Command):
             logger.info('Running recording.\nTo stop exeuction hit Ctrl + Z.')
             state_store_service.state.execution_state = EXECUTION_STATE_RECORDING
             agent.vm.resume()
+        else:
+            logger.info('There is no breakpoints with query')
 
     def _any(self, iterable, predicate):
         for item in iterable:

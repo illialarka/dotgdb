@@ -1,6 +1,7 @@
 import threading
 from interop.constants import EVENT_FRIENDLY_NAME, EVENT_KIND_BREAKPOINT
 import logging
+import csv
 
 
 logger = logging.getLogger()
@@ -25,6 +26,8 @@ class EventDescriptor:
         self.line_number = line_number
         self.method_name = method_name
         self.event_query = event_query
+        self.output_file = open(f'breakpoint_{request_id}_{method_name}_{line_number}.csv', 'w+', newline ='')
+        self.csv_writer = csv.writer(self.output_file)
 
 
 class StateStoreService:
@@ -77,6 +80,8 @@ EXECUTION_STATE_RUNNING = 1
 EXECUTION_STATE_AT_BREAKPOINT = 2
 EXECUTION_STATE_CONFIGURING = 3
 EXECUTION_STATE_RECORDING = 4
+
+file = open('output_1.csv', 'w+', newline ='')
 
 
 class State:
