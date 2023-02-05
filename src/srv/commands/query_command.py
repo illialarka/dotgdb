@@ -69,6 +69,5 @@ class QueryCommand(Command):
         except BaseException as exception:
             logger.warn('An error occurred during the parsing query.')
             logger.error(exception)
-            traceback.print_exc(file=sys.stdout)
 
         breakpoint_at.event_query = query_expression
