@@ -2,6 +2,11 @@
 
 The proof-of-concept of queryable Mono Soft Debugger client (command tool). Tool is suitable for data driven programs.
 
+----- 
+## Disclaimer 
+
+This is a proof-of-concept solution. Contain simple implementation and may contain bugs.
+
 ## Getting started 
 
 ```
