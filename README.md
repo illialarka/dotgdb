@@ -26,7 +26,7 @@ cd src/srv
 run.sh
 ```
 
-NOTE: On MacOS run `chmod +x ./run.sh` to make it runnable
+NOTE: On MacOS run `chmod +x ./run.sh` to make it runnable.
 
 ## Prerequisites
 
@@ -42,15 +42,15 @@ pytest
 
 ## Contributing
 
-Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/illialarka/dotgdb/docs/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/illialarka/dotgdb/tags). 
 
 ## Contributors 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/illialarka/dotgdb/docs/contributors.md) who participated in this project.
 
 ## License
 
@@ -62,4 +62,4 @@ As a software developer, it is often necessary to analyze the execution of a pro
 
 The Queryable Debugger Client addresses this need by providing the capability to define a breakpoint and execute a query to various sources when program execution reaches that breakpoint.
 
-TODO: Add inspiration flow
+See inspiring [example](https://github.com/illialarka/dotgdb/src/examples). 
