@@ -95,6 +95,7 @@ class BreakpointCommand(Command):
                 'Location was not found. Make sure you are at right location.')
             return
 
+        code_location = None
         code_locations = method_break_on.get_code_locations()
 
         for code_location in code_locations:
@@ -107,6 +108,10 @@ class BreakpointCommand(Command):
                     constants.SUSPEND_POLICY_ALL,
                     breakpoint_location)
                 break
+
+        if code_location is None or event_request is None:
+            logger.info('Could not find code location.')
+            return
 
         il_offset = code_location.il_offset
         method_file = method_break_on.get_source_filename()
