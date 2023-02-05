@@ -30,4 +30,4 @@ Copyright and Licensing
 
 `dotgdb` does not require you to assign the copyright of your contributions, you retain the copyright. `dotgdb` does require that you make your contributions available under the MIT license in order for it be included in the main repo.
 
-## [FAQ](https://github.com/illialarka/dotgbd/docs/FAQ.md)
+## [FAQ](https://github.com/illialarka/dotgdb/blob/main/docs/FAQ.md)
