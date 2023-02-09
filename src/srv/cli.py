@@ -19,7 +19,7 @@ state_store_service = StateStoreService()
 
 def cli():
     argument_parser = argparse.ArgumentParser(
-        prog="sdb",
+        prog="dotgdb",
         description="Mono Soft Debugger CLI")
 
     argument_parser.add_argument("executable")
@@ -82,7 +82,7 @@ def process_interaction(agent, session):
                 state_postfix = f'(at {state_store_service.state.event_descritor.request_id})'
 
             input_command = input(
-                f"sdb{state_postfix}> ").split(" ")
+                f"dotgdb{state_postfix}> ").split(" ")
 
             command_alias = None
             command_arguments = None
