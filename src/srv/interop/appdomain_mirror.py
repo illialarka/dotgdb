@@ -11,12 +11,6 @@ class AppDomainMirror:
 
         self.id = id
 
-    def __dict__(self):
-        return {
-            "Id": self.id,
-            "Name": self.get_name()
-        }
-
     def __str__(self):
         return "AppDomain <(id = {0}), (name = {1})>".format(
             self.id, self.get_name())

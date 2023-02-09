@@ -65,7 +65,7 @@ class BreakpointCommand(Command):
 
         if location is None:
             logger.warn(
-                'Unable to understand specified location. Please use [-help] to get help information.')
+                'Unable to understand specified code location. Please use [-help] to get help information.')
             return
 
         self._set_breakpoints(

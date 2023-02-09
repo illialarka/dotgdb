@@ -42,7 +42,7 @@ class InfoCommand(Command):
         event_descriptors = state_store_service.state.event_descriptors
 
         if len(event_descriptors) == 0:
-            logger.info('There are no breakpoints.')
+            logger.info('No breakpoints found.')
             return
 
         for breakpoint in event_descriptors:
@@ -50,7 +50,7 @@ class InfoCommand(Command):
                 f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')
 
             if breakpoint.event_query is not None:
-                logger.info(f'Event Query:\t {breakpoint.event_query.query}')
+                logger.info(f'[{breakpoint.event_query.query}]')
 
     def _info_locals(self):
         pass
