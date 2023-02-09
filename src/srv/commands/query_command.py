@@ -23,7 +23,7 @@ class QueryCommand(Command):
 
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
-            '--request_id',
+            '-request-id',
             help='Specifies break point identifier',
             type=int)
         self._argument_parser.add_argument(
@@ -70,4 +70,4 @@ class QueryCommand(Command):
             logger.error(exception)
 
         breakpoint_at.event_query = query_expression
-        logger.info('The query has been added to the breakpoint {arguments.request_id}.')
+        logger.info(f'The query has been added to the breakpoint {arguments.request_id}.')
