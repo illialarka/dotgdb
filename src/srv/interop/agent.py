@@ -58,7 +58,7 @@ class Agent:
                     max_attempts -= 1
                     time.sleep(1)
 
-        logger.debug(
+        logger.info(
             "Receiving handhsake from {0}.".format(self._server_endpoint))
         self._server_socket.settimeout(timeout)
         handshake = self._server_socket.recv(len(constants.RIGHT_HANDSHAKE))
@@ -83,7 +83,7 @@ class Agent:
         self._events_thread.daemon = True
         self._events_thread.start()
 
-        logger.debug("Waiting for virtual machine start event.")
+        logger.info("Waiting for virtual machine start event.")
         self._vm_started_event.wait()
 
         logger.debug("Debugger agent is fully started.")
@@ -172,7 +172,7 @@ class Agent:
             constants.CMD_EVENT_REQUEST_CLEAR_ALL_BREAKPOINTS)
 
     def _process_events(self):
-        logger.info("Processing events started")
+        logger.info("Events processing started.")
         while self._is_listening:
             # Non-zero timeout to stop when listening will be stopped
             try:
@@ -183,10 +183,10 @@ class Agent:
             self._on_event_set(suspend_policy, events_data)
             self._events_queue.task_done()
 
-        logger.debug("event processing stopped")
+        logger.info("Event processing stopped.")
 
     def _listen(self):
-        logger.debug("listening started")
+        logger.info("Listening started.")
 
         self._is_listening = True
         self._listening_started_event.set()
