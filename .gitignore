@@ -16,3 +16,5 @@ mono_crash*.json
 
 .env
 _expression_tree.png
+
+.dotgdb-history
