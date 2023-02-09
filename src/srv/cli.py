@@ -4,6 +4,9 @@ from interop.agent import Agent
 from interop.constants import *
 from commands import selector
 from session import Session
+from prompt_toolkit import PromptSession
+from prompt_toolkit.history import FileHistory 
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 
 import csv
 import argparse
@@ -68,6 +71,9 @@ def process_interaction(agent, session):
         session.debug_process.stdout)
     state_store_service = StateStoreService()
 
+    cli_history = FileHistory('.dotgdb-history') 
+    cli_session = PromptSession(history=cli_history)
+
     while True:
         try:
             if state_store_service.state.execution_state == EXECUTION_STATE_RUNNING or state_store_service.state.execution_state == EXECUTION_STATE_RECORDING:
@@ -81,8 +87,8 @@ def process_interaction(agent, session):
             if state_store_service.state.event_descritor is not None:
                 state_postfix = f'(at {state_store_service.state.event_descritor.request_id})'
 
-            input_command = input(
-                f"dotgdb{state_postfix}> ").split(" ")
+            input_command = cli_session.prompt(
+                f"dotgdb{state_postfix}> ", auto_suggest=AutoSuggestFromHistory()).split(" ")
 
             command_alias = None
             command_arguments = None
