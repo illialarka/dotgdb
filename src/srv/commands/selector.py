@@ -7,6 +7,7 @@ from commands.print_command import PrintCommand
 from commands.step_command import StepCommand
 from commands.query_command import QueryCommand
 from commands.record_command import RecordCommand
+from commands.threads_command import ThreadsCommand
 from commands.supported_commands import SupportedCommands
 
 supported_commands = set([
@@ -19,7 +20,8 @@ supported_commands = set([
     PrintCommand(),
     StepCommand(),
     QueryCommand(),
-    RecordCommand()
+    RecordCommand(),
+    ThreadsCommand()
 ])
 
 

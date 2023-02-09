@@ -1,10 +1,12 @@
 import commands.command as cmd
 import argparse
+import logging
+
+logger = logging.getLogger()
 
 
 class ThreadsCommand(cmd.Command):
     '''
-    *Temporary disabled*
     The Threads command is responsible for listing active threads. 
     '''
 
@@ -20,4 +22,5 @@ class ThreadsCommand(cmd.Command):
     def execute(self, agent, args=None):
         threads = agent.vm.get_all_threads()
 
-        return threads
+        for thread in threads:
+            logger.info(thread)
