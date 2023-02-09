@@ -30,7 +30,7 @@ Breakpoint 1 has been set at 0x01: /Users/illialarka/projects/debuggable/FileSys
 
 Add query to the newly placed breakpoint.
 ```bash
-query -id 1 'from params select name, value'
+query -request-id 1 'from params select name, value'
 ```
 
 Output:
