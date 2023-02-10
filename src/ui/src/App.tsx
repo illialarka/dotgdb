@@ -1,11 +1,11 @@
 import './App.css';
-import Loader from './components/loader';
+import Toolbar from './components/Toolbar';
 
 function App() {
   return (
-    <div>
-      <div className="w-1/3 md:w-2/3">
-        <Loader></Loader>
+    <div className="layout">
+      <div className="toolbar">
+        <Toolbar></Toolbar>
       </div>
     </div>
   );
