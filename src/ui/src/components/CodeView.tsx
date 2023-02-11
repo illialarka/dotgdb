@@ -2,66 +2,9 @@ import { CopyBlock } from "react-code-blocks";
 
 const CodeView = () => {
   return (
-    <div className="h-full" style={{ fontFamily: 'IBM Plex Mono' }}>
+    <div style={{ fontFamily: 'IBM Plex Mono' }}>
       <CopyBlock
-        text={`function toBe() {
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-        }
-rrcsreturn false;
-        }
-
-    return true;
-    } else {
-    return false;
-    ieturn false;
-        }
-
-    return true;
-    } else {
-    return false;
-    ieturn false;
-        }
-
-    return true;
-    } else {
-    return false;
-    i
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
-    if (Math.random() < 0.5) {
-    return true;
-    } else {
-    return false;
- 
-    }`}
+        text={`// code here`}
         showLineNumbers
         highlight="1,4"
         codeBlock
