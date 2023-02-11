@@ -1,4 +1,6 @@
 import Button from "./Button"
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { selectBinaryPath, selectFilePath } from "../store/selectors";
 
 const PathView = () => {
   return (
@@ -10,6 +12,10 @@ const PathView = () => {
 };
 
 const Toolbar = () => {
+  const binaryPath = useAppSelector(selectBinaryPath);
+  const filePath = useAppSelector(selectFilePath);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="flex flex-col space-y-2 p-2">
       <div className="flex felx-row space-x-3 text-sm">

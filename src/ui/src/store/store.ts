@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Action, configureStore, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 
 export interface DebugState {
     binaryPath: string | null;
@@ -37,3 +37,18 @@ export const {
 } = debugSlice.actions;
 
 export default debugSlice.reducer;
+
+export const store = configureStore({
+  reducer: {
+    debug: debugSlice.reducer 
+  }
+});
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
