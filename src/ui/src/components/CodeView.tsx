@@ -1,4 +1,4 @@
-import { CopyBlock } from "react-code-blocks";
+import { CopyBlock, vs2015 } from "react-code-blocks";
 
 const CodeView = () => {
   return (
@@ -8,8 +8,8 @@ const CodeView = () => {
         showLineNumbers
         highlight="1,4"
         codeBlock
-        language="js"
-        theme="dracula"
+        language="c"
+        theme={vs2015}
       />
     </div>
   );

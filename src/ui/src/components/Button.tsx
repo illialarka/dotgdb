@@ -1,16 +1,18 @@
 interface ButtonProps {
-  label: string;
+  label?: string;
   callback?: () => void;
-}; 
+  icon?: JSX.Element;
+};
 
 const Button = (props: ButtonProps) => {
-  const { label, callback } = props;
+  const { label, callback, icon } = props;
 
   return (
     <button
       type="button"
       onClick={callback}
-      className="rounded-sm border border-gray-300 bg-white py-1 px-2 text-xs font-medium leading-4 text-gray-700 shadow-inner hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-1">
+      className="darker px-2 text-sm font-medium leading-4 border border-gray-600">
+      {icon}
       {label}
     </button>
   );
