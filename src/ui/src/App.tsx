@@ -1,5 +1,6 @@
 import './App.css';
 import CodeView from './components/CodeView';
+import Sidebar from './components/Sidebar';
 import Toolbar from './components/Toolbar';
 import Visibility from './components/Visibility';
 
@@ -9,14 +10,14 @@ function App() {
       <div className="toolbar">
         <Toolbar></Toolbar>
       </div>
-      <div className="codeview border m-2">
+      <div className="codeview layout-element">
         <CodeView></CodeView>
       </div>
-      <div className="visibility border m-2">
+      <div className="visibility layout-element">
         <Visibility></Visibility>
       </div>
-      <div className="sidebar border m-2">
-        Sidebar
+      <div className="sidebar layout-element">
+        <Sidebar></Sidebar>
       </div>
     </div>
   );

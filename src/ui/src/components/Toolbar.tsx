@@ -54,23 +54,23 @@ const Toolbar = () => {
   return (
     <div className="flex flex-col space-y-2 text-white">
       <div className="flex felx-row text-sm">
-        <Dropdown label="File" items={fileDropdownItems}></Dropdown>
-        <Dropdown label="Help" items={helpDropdownItems}></Dropdown>
+        <Dropdown label="File" items={fileDropdownItems}/>
+        <Dropdown label="Help" items={helpDropdownItems}/>
       </div>
       <div className="grid grid-cols-3 space-x-2">
         <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
           <PathView></PathView>
-          <Button label="Binary"></Button>
+          <Button label="Binary"/>
         </div>	
         <div className="flex flex-row space-x-2">
           <PathView></PathView>
-          <Button label="File"></Button>
+          <Button label="File"/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
-          <Button icon={runIcon}></Button>
-          <Button icon={stopIcon}></Button>
-          <Button icon={stepInIcon}></Button>
-          <Button icon={stepOverIcon}></Button>
+          <Button icon={runIcon}/>
+          <Button icon={stopIcon}/>
+          <Button icon={stepInIcon}/>
+          <Button icon={stepOverIcon}/>
         </div>
       </div>
     </div>

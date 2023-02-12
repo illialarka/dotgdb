@@ -1,7 +1,10 @@
 .layout {
+  background-color: #2d2d2f;
   height: 100vh;
   display: grid;
   overflow-x: hidden;
+  padding: 1rem;
+  gap: 1rem;
   grid-template-columns: 1fr 1fr 1fr; 
   grid-template-rows: auto 1fr 1fr 30%; 
   grid-template-areas: 
@@ -9,6 +12,11 @@
     "codeview codeview sidebar"
     "codeview codeview sidebar"
     "visibility visibility sidebar"
+}
+
+.layout-element {
+  background-color: #1e1e1e;
+  @apply border border-gray-600
 }
 
 .toolbar {
