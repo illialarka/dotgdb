@@ -2,7 +2,6 @@ import os
 import socket
 import webbrowser
 import logging
-from endpoints import blueprint
 from flask import Flask
 from flask_compress import Compress 
 from flask_socketio import SocketIO
@@ -16,7 +15,6 @@ application = Flask(__name__)
 socketio = SocketIO(manage_session=False)
 # apply gzip compression 
 Compress(application)
-application.register_blueprint(blueprint)
 
 
 try:
@@ -32,7 +30,6 @@ def run_server(
     *,
     host=DEFAULT_HOST,
     port=DEFAULT_PORT,
-    open_browser=True,
     private_key=None,
     certificate=None): 
 
@@ -63,15 +60,12 @@ def run_server(
         except Exception:
             url = (host, port)
 
-    if open_browser:
-        webbrowser.open(full_url)
-
     logger.info(f"Open dotgdb at {full_url}.")
 
     try:
         socketio.run(
             application,
-            debug=True,
+            debug=False,
             port=int(port),
             host=host,
             **kwargs)
