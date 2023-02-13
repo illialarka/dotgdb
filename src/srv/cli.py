@@ -7,6 +7,7 @@ from session import Session
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory 
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from server import run_server
 
 import csv
 import argparse
@@ -37,8 +38,14 @@ def cli():
         default=None)
     argument_parser.add_argument(
         "-p", "--port", help="Port for debugger agent listen to.")
+    argument_parser.add_argument(
+        "-s",
+        "--server",
+        help="Indicating whether run it as server",
+        action=argparse.BooleanOptionalAction)
 
     arguments = argument_parser.parse_args()
+    print(arguments)
     utils.configure_logger(arguments)
 
     _session, _agent = Session(), Agent()
@@ -56,14 +63,17 @@ def cli():
         _agent.vm.resume(), _agent.vm.suspend()
         state_store_service.state.executable_path = arguments.executable
     except exceptions.ExecutableNotFound:
-        print(
-            "Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
+        logger.error(
+            f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
 
-    try:
-        process_interaction(_agent, _session)
-    finally:
-        _session.exit(), _agent.stop()
+    if arguments.server:
+        run_server()
+    else: 
+        try:
+            process_interaction(_agent, _session)
+        finally:
+            _session.exit(), _agent.stop()
 
 
 def process_interaction(agent, session):

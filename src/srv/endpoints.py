@@ -2,10 +2,9 @@ import logging
 from flask import Flask, abort, request, Blueprint, jsonify
 from flask_compress import Compress
 from flask_socketio import SocketIO, emit
-from session_manager import SessionManager
 from http_utils import csrf_protect, format_client_error
 
-blueprint = Blueprint("http_routes")
+blueprint = Blueprint("http_routes", __name__)
 
 logger = logging.getLogger()
 
