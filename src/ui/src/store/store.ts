@@ -5,17 +5,12 @@ import {
   PayloadAction,
   ThunkAction } from '@reduxjs/toolkit';
 import ConnectionService from '../services/ConnectionServie';
-import { selectFilePath } from './selectors';
 
 export interface DebugState {
-  binaryPath: string | null;
-  filePath: string | null;
   sourceCode: string | null;
 };
 
 const initialState: DebugState = {
-  binaryPath: null,
-  filePath: null,
   sourceCode: null
 };
 
@@ -30,35 +25,14 @@ export const debugSlice = createSlice({
   name: 'debug',
   initialState,
   reducers: {
-    // file
-    setFilePath: (state, action: PayloadAction<string>) => {
-      state.filePath = action.payload;
-    },
-    clearFilePath: (state) => {
-      state.filePath = null;
-    },
-
-    // binary 
-    setBinaryPath: (state, action: PayloadAction<string>) => {
-      state.binaryPath = action.payload;
-    },
-    clearBinaryPath: (state) => {
-      state.binaryPath = null;
-    },
-
     // source code
     setSourceCode: (state, action: PayloadAction<string>) => {
-      console.log(action)
       state.sourceCode = action.payload;
     }
   }
 });
 
 export const {
-  setBinaryPath,
-  setFilePath,
-  clearBinaryPath,
-  clearFilePath,
   setSourceCode
 } = debugSlice.actions;
 
