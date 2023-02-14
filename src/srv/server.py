@@ -12,7 +12,7 @@ DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 5000 
 
 application = Flask(__name__)
-socketio = SocketIO(manage_session=False)
+socketio = SocketIO(manage_session=False, cors_allowed_origins="*")
 # apply gzip compression 
 Compress(application)
 

@@ -51,6 +51,10 @@ const Toolbar = () => {
   const filePath = useAppSelector(selectFilePath);
   const dispatch = useAppDispatch();
 
+  function LoadContent() {
+    let path = '/Users/illialarka/projects/dotgdb/src/srv/cli.py'; 
+  }
+
   return (
     <div className="flex flex-col space-y-2 text-white">
       <div className="flex felx-row text-sm">
@@ -60,7 +64,7 @@ const Toolbar = () => {
       <div className="grid grid-cols-3 space-x-2">
         <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
           <PathView></PathView>
-          <Button label="Binary"/>
+          <Button label="Binary" callback={LoadContent}/>
         </div>	
         <div className="flex flex-row space-x-2">
           <PathView></PathView>

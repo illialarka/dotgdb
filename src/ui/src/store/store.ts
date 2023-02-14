@@ -1,4 +1,5 @@
 import { Action, configureStore, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import ConnectionService from '../services/ConnectionServie';
 
 export interface DebugState {
     binaryPath: string | null;
@@ -9,6 +10,9 @@ const initialState: DebugState = {
     binaryPath: null,
     filePath: null
 };
+
+const connectionService = new ConnectionService("http://127.0.0.1:5000"); 
+connectionService.initialize();
 
 export const debugSlice = createSlice({
     name: 'debug',
