@@ -1,7 +1,8 @@
 import Button from "./Button"
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { selectBinaryPath, selectFilePath } from "../store/selectors";
+import { useAppDispatch } from "../store/hooks";
+import { loadFileContent } from "../store/store";
 import Dropdown from "./Dropdown";
+import { useState } from "react";
 
 const fileDropdownItems = [
   { label: 'Open executable', callback: () => {} },
@@ -14,11 +15,18 @@ const helpDropdownItems = [
   { label: 'Docs', callback: () => {} }
 ];
 
-const PathView = () => {
+const PathView = (props: {
+   placeholder: string | undefined,
+   onChange: (_: string) => void
+  }) => {
+  const { placeholder, onChange } = props;
+
   return (
-    <div className="w-full bg-gray-700 truncate py-2 px-3 text-sm font-medium leading-4 darker border border-gray-600"> 
-      /use/path
-    </div>
+    <input
+      type="text"
+      className="w-full bg-gray-700 truncate py-2 px-3 text-sm font-medium leading-4 darker border border-gray-600"
+      placeholder={placeholder}
+      onChange={(event) => onChange(event.target.value)}/>
   );
 };
 
@@ -47,28 +55,39 @@ const stepOverIcon = (
 );
 
 const Toolbar = () => {
-  const binaryPath = useAppSelector(selectBinaryPath);
-  const filePath = useAppSelector(selectFilePath);
   const dispatch = useAppDispatch();
+  const [executablePath, setExecutablePath] = useState<string>();
+  const [sourceCodePath, setSourceCodePath] = useState<string>();
 
-  function LoadContent() {
-    let path = '/Users/illialarka/projects/dotgdb/src/srv/cli.py'; 
-  }
+  // tbd: path validation
 
   return (
     <div className="flex flex-col space-y-2 text-white">
-      <div className="flex felx-row text-sm">
-        <Dropdown label="File" items={fileDropdownItems}/>
-        <Dropdown label="Help" items={helpDropdownItems}/>
+      <div className="flex felx-row text-sm justify-between">
+        <div>
+          <Dropdown label="File" items={fileDropdownItems}/>
+          <Dropdown label="Help" items={helpDropdownItems}/>
+        </div>
+        <div>
+          <span className="text-xs text-gray-500">
+            {executablePath}
+          </span>
+        </div>
+        <div>
+        </div>
       </div>
       <div className="grid grid-cols-3 space-x-2">
         <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
-          <PathView></PathView>
-          <Button label="Binary" callback={LoadContent}/>
+          <PathView
+            placeholder="Select executable"
+            onChange={setExecutablePath}></PathView>
+          <Button label="Binary"/>
         </div>	
         <div className="flex flex-row space-x-2">
-          <PathView></PathView>
-          <Button label="File"/>
+          <PathView
+            placeholder="Select file to place breakpoints"
+            onChange={setSourceCodePath}></PathView>
+          <Button label="File" callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
           <Button icon={runIcon}/>

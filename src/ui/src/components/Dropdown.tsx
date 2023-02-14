@@ -37,7 +37,7 @@ const Dropdown = (props: DropdownProps) => {
         <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right bg-gray-700 shadow-lg focus:outline-none">
           <div className="py-1">
             {items.map(item => 
-                  <Menu.Item>
+                  <Menu.Item key={item.label}>
                     {({ active }) => (
                       <button
                         className={classNames(

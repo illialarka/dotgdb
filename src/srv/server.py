@@ -2,9 +2,9 @@ import os
 import socket
 import webbrowser
 import logging
-from flask import Flask
+from flask import Flask, request
 from flask_compress import Compress 
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 logger = logging.getLogger()
 
@@ -72,3 +72,26 @@ def run_server(
     except KeyboardInterrupt:
         pass
 
+@socketio.on("content")
+def content_handler(params):
+    logger.debug("[socket/connect] Handler started.")
+    path = params["path"]
+    if path is None or os.path.isfile(path) is False:
+        emit(
+            "content_event",
+            { "message": "Path does not exist.", "ok": False })
+        return
+
+    try:
+        last_modified_datetime = os.path.getmtime(path)  
+        with open(path, "r") as readable_file:
+            source_code = readable_file.read()
+            logger.debug("[socket/connect] Handler returns source code.") 
+            emit(
+                "content_event",
+                { "content": source_code, "ok": True })
+
+    except Exception as exc:
+        emit(
+            "content_event",
+            { "message": f"Error message: {exc}", "ok": False })

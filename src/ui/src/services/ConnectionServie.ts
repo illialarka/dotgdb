@@ -8,8 +8,8 @@ class ConnectionService {
         private readonly timeout: number = 1) // timeout in minutes
     { }
 
-    // perhaps I have to add mapping to use store actions
-    initialize(): void {
+    // TODO: implement failure point 
+    initialize(eventsHandlers: { [key: string]: (_: any) => void }): void {
         this._socket = io(
             this.url,
             {
@@ -17,6 +17,23 @@ class ConnectionService {
             });
             
         this._socket.on("connect", () => { console.log("connection successful") })
+
+        Object.keys(eventsHandlers).forEach(key => {
+            this._socket.on(key, eventsHandlers[key])
+        });
+
+        this._socket.on("disconnect", () => {
+            console.log("closing socket")
+            this._socket.close()
+          });
+    }
+
+    send(command: string, params: any): void {
+        if (this._socket.connected) {
+            this._socket.emit(command, { path: params.path })
+        } else {
+            console.error("Impossible to emmit command, since socket is closed.")
+        }
     }
 }; 
 
