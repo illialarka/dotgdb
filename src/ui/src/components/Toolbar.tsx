@@ -2,7 +2,7 @@ import Button from "./Button"
 import { useAppDispatch } from "../store/hooks";
 import { loadFileContent } from "../store/store";
 import Dropdown from "./Dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fileDropdownItems = [
   { label: 'Open executable', callback: () => {} },
@@ -56,6 +56,7 @@ const stepOverIcon = (
 
 const Toolbar = () => {
   const dispatch = useAppDispatch();
+  const pathRegex = /^(?:[a-z]:)?[\/\\]{0,2}(?:[.\/\\ ](?![.\/\\\n])|[^<>:"|?*.\n])+$/
   const [executablePath, setExecutablePath] = useState<string>();
   const [sourceCodePath, setSourceCodePath] = useState<string>();
 
@@ -87,7 +88,10 @@ const Toolbar = () => {
           <PathView
             placeholder="Select file to place breakpoints"
             onChange={setSourceCodePath}></PathView>
-          <Button label="File" callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
+          <Button
+            label="File"
+            disabled={!pathRegex.test(sourceCodePath ?? '')}
+            callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
           <Button icon={runIcon}/>
