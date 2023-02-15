@@ -45,41 +45,39 @@ def cli():
         action=argparse.BooleanOptionalAction)
 
     arguments = argument_parser.parse_args()
-    print(arguments)
     utils.configure_logger(arguments)
 
     _session, _agent = Session(), Agent()
 
     # set event handlers
-    _agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint
-    _agent.events_callbacks[EVENT_KIND_VM_START] = event_handlers.on_vm_start
-    _agent.events_callbacks[EVENT_KIND_STEP] = event_handlers.on_step
+    try:
+        if arguments.server:
+            run_server(agent=_agent, session=_session)
+        else: 
+            process_interaction(agent=_agent, session=_session, arguments=arguments)
+    finally:
+        _session.exit(), _agent.stop()
+
+
+def process_interaction(agent, session, arguments):
+    agent.events_callbacks[EVENT_KIND_BREAKPOINT] = event_handlers.on_breakpoint
+    agent.events_callbacks[EVENT_KIND_VM_START] = event_handlers.on_vm_start
+    agent.events_callbacks[EVENT_KIND_STEP] = event_handlers.on_step
 
     try:
-        _session.run(
-            arguments.executable, arguments.port), _agent.start(
-            True, _session.port, 10)
+        session.run(
+            arguments.executable, arguments.port), agent.start(
+            True, session.port, 10)
 
-        _agent.vm.resume(), _agent.vm.suspend()
+        agent.vm.resume(), agent.vm.suspend()
         state_store_service.state.executable_path = arguments.executable
     except exceptions.ExecutableNotFound:
         logger.error(
             f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
 
-    try:
-        if arguments.server:
-            run_server(agent=_agent, session=_session)
-        else: 
-            process_interaction(_agent, _session)
-    finally:
-        _session.exit(), _agent.stop()
-
-
-def process_interaction(agent, session):
     non_blocking_stream_reader = NonBlockingStreamReader(
         session.debug_process.stdout)
-    state_store_service = StateStoreService()
 
     cli_history = FileHistory('.dotgdb-history') 
     cli_session = PromptSession(history=cli_history)
