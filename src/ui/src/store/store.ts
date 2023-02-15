@@ -8,16 +8,22 @@ import ConnectionService from '../services/ConnectionServie';
 
 export interface DebugState {
   sourceCode: string | null;
+  logs: string[];
 };
 
 const initialState: DebugState = {
-  sourceCode: null
+  sourceCode: null,
+  logs: []
 };
 
 const connectionService = new ConnectionService("http://127.0.0.1:5000");
 connectionService.initialize(
   {
-    content_event: (response) => store.dispatch(setSourceCode(response.content))
+    content_event: (response) => {
+      response.ok 
+        ? store.dispatch(setSourceCode(response.content))
+        : store.dispatch(appendLog(response.message));
+    }
   }
 );
 
@@ -28,12 +34,17 @@ export const debugSlice = createSlice({
     // source code
     setSourceCode: (state, action: PayloadAction<string>) => {
       state.sourceCode = action.payload;
+    },
+    appendLog: (state, action: PayloadAction<string>) => {
+      console.log(action)
+      state.logs = [...state.logs, action.payload]; 
     }
   }
 });
 
 export const {
-  setSourceCode
+  setSourceCode,
+  appendLog
 } = debugSlice.actions;
 
 export default debugSlice.reducer;
