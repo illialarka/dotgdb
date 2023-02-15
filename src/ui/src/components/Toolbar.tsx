@@ -2,7 +2,7 @@ import Button from "./Button"
 import { useAppDispatch } from "../store/hooks";
 import { loadFileContent } from "../store/store";
 import Dropdown from "./Dropdown";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const fileDropdownItems = [
   { label: 'Open executable', callback: () => {} },
