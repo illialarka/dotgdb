@@ -67,13 +67,13 @@ def cli():
             f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
 
-    if arguments.server:
-        run_server()
-    else: 
-        try:
+    try:
+        if arguments.server:
+            run_server(agent=_agent, session=_session)
+        else: 
             process_interaction(_agent, _session)
-        finally:
-            _session.exit(), _agent.stop()
+    finally:
+        _session.exit(), _agent.stop()
 
 
 def process_interaction(agent, session):

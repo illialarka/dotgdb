@@ -6,7 +6,6 @@ import { loadFileContent, runDebugger } from "../store/store";
 import { useSearchParams } from "react-router-dom";
 
 const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
-const EXECUTABLE_PATH_PARAM = "executablePath";
 
 const fileDropdownItems = [
   { label: 'Open executable', callback: () => { } },
@@ -63,36 +62,25 @@ const stepOverIcon = (
 const Toolbar = () => {
   const dispatch = useAppDispatch();
   const pathRegex = /^(?:[a-z]:)?[\/\\]{0,2}(?:[.\/\\ ](?![.\/\\\n])|[^<>:"|?*.\n])+$/
-  const [executablePath, setExecutablePath] = useState<string>();
   const [sourceCodePath, setSourceCodePath] = useState<string>();
 
   // params
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // FIXME: Add check an executable is a dll or exe file
   useEffect(() => {
-    if (executablePath && pathRegex.test(executablePath)) {
-      searchParams.set(EXECUTABLE_PATH_PARAM, executablePath)
-    }
-
     if (sourceCodePath && pathRegex.test(sourceCodePath)) {
       searchParams.set(SOURCE_CODE_PATH_PARAM, sourceCodePath)
     }
     setSearchParams(searchParams)
   },
-  [ executablePath, sourceCodePath ]);
+  [ sourceCodePath ]);
 
   useEffect(
     () => {
       const sourceCodePathValue = searchParams.get(SOURCE_CODE_PATH_PARAM); 
-      const executablePathValue = searchParams.get(EXECUTABLE_PATH_PARAM);
 
       if (sourceCodePathValue && pathRegex.test(sourceCodePathValue)) {
         setSourceCodePath(sourceCodePathValue);
-      }
-
-      if (executablePathValue && pathRegex.test(executablePathValue)) {
-        setExecutablePath(executablePathValue);
       }
     },
     [searchParams]);
@@ -106,35 +94,25 @@ const Toolbar = () => {
         </div>
         <div>
           <span className="text-xs text-gray-500">
-            {executablePath}
+            {sourceCodePath}
           </span>
         </div>
         <div>
         </div>
       </div>
       <div className="grid grid-cols-3 space-x-2">
-        <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
-          <PathView
-            placeholder="Select executable"
-            value={executablePath}
-            onChange={setExecutablePath}/>
-          <Button label="Binary"/>
-        </div>	
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row space-x-2 col-span-2">
           <PathView
             placeholder="Select file to place breakpoints"
             value={sourceCodePath}
             onChange={setSourceCodePath}/>
           <Button
-            label="File"
+            label="Load"
             disabled={!pathRegex.test(sourceCodePath ?? '')}
             callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
-          <Button
-            icon={runIcon}
-            disabled={!pathRegex.test(executablePath ?? '')}
-            callback={() => dispatch(runDebugger(executablePath!))}/>
+          <Button icon={runIcon}/>
           <Button icon={stopIcon}/>
           <Button icon={stepInIcon}/>
           <Button icon={stepOverIcon}/>

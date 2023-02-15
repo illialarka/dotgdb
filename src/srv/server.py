@@ -28,6 +28,8 @@ except ImportError:
 
 def run_server(
     *,
+    agent,
+    session,
     host=DEFAULT_HOST,
     port=DEFAULT_PORT,
     private_key=None,

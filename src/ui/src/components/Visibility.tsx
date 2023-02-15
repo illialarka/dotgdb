@@ -44,12 +44,12 @@ const Visibility = () => {
  
         </Tab.List>
         <Tab.Panels className="flex ">
-          <Tab.Panel className="overflow-auto flex flex-col max-h-min ">
+          <Tab.Panel className="overflow-auto flex flex-col max-h-min p-1">
             {logs.map((log, index) => (
               <span key={index}>{log}</span>
             ))}
           </Tab.Panel>
-          <Tab.Panel className="overflow-auto flex flex-col max-h-min ">
+          <Tab.Panel className="overflow-auto flex flex-col max-h-min p-1">
             {output.map((record, index) => (
               <span key={index}>{record}</span>
             ))}
