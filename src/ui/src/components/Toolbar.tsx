@@ -1,18 +1,18 @@
+import { useState } from "react";
 import Button from "./Button"
+import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
 import { loadFileContent } from "../store/store";
-import Dropdown from "./Dropdown";
-import { useState } from "react";
 
 const fileDropdownItems = [
-  { label: 'Open executable', callback: () => {} },
-  { label: 'Open source file', callback: () => {} },
-  { label: 'Clear All', callback: () => {} }
+  { label: 'Open executable', callback: () => { } },
+  { label: 'Open source file', callback: () => { } },
+  { label: 'Clear All', callback: () => { } }
 ];
 
 const helpDropdownItems = [
-  { label: 'GitHub Repo', callback: () => {} },
-  { label: 'Docs', callback: () => {} }
+  { label: 'GitHub Repo', callback: () => { window.open("https://github.com/illialarka/dotgdb", "_blank") } },
+  { label: 'Docs', callback: () => { } }
 ];
 
 const PathView = (props: {
@@ -60,8 +60,6 @@ const Toolbar = () => {
   const [executablePath, setExecutablePath] = useState<string>();
   const [sourceCodePath, setSourceCodePath] = useState<string>();
 
-  // tbd: path validation
-
   return (
     <div className="flex flex-col space-y-2 text-white">
       <div className="flex felx-row text-sm justify-between">
@@ -81,13 +79,13 @@ const Toolbar = () => {
         <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
           <PathView
             placeholder="Select executable"
-            onChange={setExecutablePath}></PathView>
+            onChange={setExecutablePath}/>
           <Button label="Binary"/>
         </div>	
         <div className="flex flex-row space-x-2">
           <PathView
             placeholder="Select file to place breakpoints"
-            onChange={setSourceCodePath}></PathView>
+            onChange={setSourceCodePath}/>
           <Button
             label="File"
             disabled={!pathRegex.test(sourceCodePath ?? '')}
