@@ -2,6 +2,9 @@ import os
 import socket
 import webbrowser
 import logging
+import exceptions
+from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
+from interop.constants import *
 from flask import Flask, request
 from flask_compress import Compress 
 from flask_socketio import SocketIO, emit
@@ -11,11 +14,12 @@ logger = logging.getLogger()
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 5000 
 
+state_store_service = StateStoreService()
+
 application = Flask(__name__)
 socketio = SocketIO(manage_session=False, cors_allowed_origins="*")
 # apply gzip compression 
 Compress(application)
-
 
 try:
     from security import SocketSecurityLayer, define_ssl_context
@@ -26,14 +30,25 @@ except ImportError:
     def define_ssl_context(private_key, certificate):
         return None
 
+agnet = None
+
+def on_vm_start(event, agent):
+    print("from server emitintg")
+    socketio.emit(
+        "std_output",
+        { "message": "Event {0} received with request identifier {1} at the thread {2}." })
+
 def run_server(
     *,
     agent,
     session,
+    arguments,
     host=DEFAULT_HOST,
     port=DEFAULT_PORT,
     private_key=None,
     certificate=None): 
+
+    agent.events_callbacks[EVENT_KIND_VM_START] = on_vm_start
 
     kwargs = {}
 
@@ -53,6 +68,18 @@ def run_server(
 
     socketio.server_options["allow_upgrades"] = False
     socketio.init_app(application)
+
+    try:
+        session.run(
+            arguments.executable, arguments.port), agent.start(
+            True, session.port, 10)
+
+        agent.vm.resume(), agent.vm.suspend()
+        state_store_service.state.executable_path = arguments.executable
+    except exceptions.ExecutableNotFound:
+        logger.error(
+            f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
+        return
 
     if host == DEFAULT_HOST:
         url = (DEFAULT_HOST, port)

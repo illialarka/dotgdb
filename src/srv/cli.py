@@ -52,7 +52,7 @@ def cli():
     # set event handlers
     try:
         if arguments.server:
-            run_server(agent=_agent, session=_session)
+            run_server(agent=_agent, session=_session, arguments=arguments)
         else: 
             process_interaction(agent=_agent, session=_session, arguments=arguments)
     finally:
