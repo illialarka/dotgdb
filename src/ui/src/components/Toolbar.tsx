@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button"
 import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
 import { loadFileContent } from "../store/store";
+import { useSearchParams } from "react-router-dom";
+
+const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
+const EXECUTABLE_PATH_PARAM = "executablePath";
 
 const fileDropdownItems = [
   { label: 'Open executable', callback: () => { } },
@@ -17,14 +21,16 @@ const helpDropdownItems = [
 
 const PathView = (props: {
    placeholder: string | undefined,
+   value: string | undefined,
    onChange: (_: string) => void
   }) => {
-  const { placeholder, onChange } = props;
+  const { placeholder, value, onChange } = props;
 
   return (
     <input
       type="text"
       className="w-full bg-gray-700 truncate py-2 px-3 text-sm font-medium leading-4 darker border border-gray-600"
+      value={value || ""}
       placeholder={placeholder}
       onChange={(event) => onChange(event.target.value)}/>
   );
@@ -60,6 +66,36 @@ const Toolbar = () => {
   const [executablePath, setExecutablePath] = useState<string>();
   const [sourceCodePath, setSourceCodePath] = useState<string>();
 
+  // params
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (executablePath && pathRegex.test(executablePath)) {
+      searchParams.set(EXECUTABLE_PATH_PARAM, executablePath)
+    }
+
+    if (sourceCodePath && pathRegex.test(sourceCodePath)) {
+      searchParams.set(SOURCE_CODE_PATH_PARAM, sourceCodePath)
+    }
+    setSearchParams(searchParams)
+  },
+  [ executablePath, sourceCodePath ]);
+
+  useEffect(
+    () => {
+      const sourceCodePathValue = searchParams.get(SOURCE_CODE_PATH_PARAM); 
+      const executablePathValue = searchParams.get(EXECUTABLE_PATH_PARAM);
+
+      if (sourceCodePathValue && pathRegex.test(sourceCodePathValue)) {
+        setSourceCodePath(sourceCodePathValue);
+      }
+
+      if (executablePathValue && pathRegex.test(executablePathValue)) {
+        setExecutablePath(executablePathValue);
+      }
+    },
+    [searchParams]);
+  
   return (
     <div className="flex flex-col space-y-2 text-white">
       <div className="flex felx-row text-sm justify-between">
@@ -79,12 +115,14 @@ const Toolbar = () => {
         <div className="flex flex-row space-x-2 border-r pr-2 border-gray-600">
           <PathView
             placeholder="Select executable"
+            value={executablePath}
             onChange={setExecutablePath}/>
           <Button label="Binary"/>
         </div>	
         <div className="flex flex-row space-x-2">
           <PathView
             placeholder="Select file to place breakpoints"
+            value={sourceCodePath}
             onChange={setSourceCodePath}/>
           <Button
             label="File"
