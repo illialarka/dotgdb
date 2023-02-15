@@ -13,7 +13,7 @@ const Button = (props: ButtonProps) => {
       disabled={disabled}
       type="button"
       onClick={callback}
-      className="darker px-2 text-sm font-medium leading-4 border border-gray-600">
+      className="darker px-2 text-sm font-medium leading-4 border border-gray-600 disabled:opacity-40">
       {icon}
       {label}
     </button>

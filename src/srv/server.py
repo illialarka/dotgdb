@@ -95,3 +95,16 @@ def content_handler(params):
         emit(
             "content_event",
             { "message": f"Error message: {exc}", "ok": False })
+
+@socketio.on("run_command")
+def run_command_handler(params):
+    logger.debug("[socket/run_command Handler started.")
+    executable_path = params["path"]
+    if executable_path is None or os.path.isfile(executable_path) is False:
+        emit(
+            "std_output",
+            { "message": f"Provided executable path ({executable_path}) does not exist." })
+
+    emit("std_output", { "message": "Stub message for running command" })
+
+

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button"
 import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
-import { loadFileContent } from "../store/store";
+import { loadFileContent, runDebugger } from "../store/store";
 import { useSearchParams } from "react-router-dom";
 
 const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
@@ -69,6 +69,7 @@ const Toolbar = () => {
   // params
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // FIXME: Add check an executable is a dll or exe file
   useEffect(() => {
     if (executablePath && pathRegex.test(executablePath)) {
       searchParams.set(EXECUTABLE_PATH_PARAM, executablePath)
@@ -130,7 +131,10 @@ const Toolbar = () => {
             callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
-          <Button icon={runIcon}/>
+          <Button
+            icon={runIcon}
+            disabled={!pathRegex.test(executablePath ?? '')}
+            callback={() => dispatch(runDebugger(executablePath!))}/>
           <Button icon={stopIcon}/>
           <Button icon={stepInIcon}/>
           <Button icon={stepOverIcon}/>
