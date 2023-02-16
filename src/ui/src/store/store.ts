@@ -63,9 +63,9 @@ export const store = configureStore({
 
 export const loadFileContent =
   (filePath: string): AppThunk =>
-    (dispatch, getState) => {
-      connectionService.send("content", { path: filePath })
-    };
+  (dispatch, getState) => {
+    connectionService.send("content", { path: filePath })
+  };
 
 export const runDebugger =
   (filePath: string): AppThunk => 
