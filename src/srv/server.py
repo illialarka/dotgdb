@@ -3,6 +3,7 @@ import socket
 import webbrowser
 import logging
 import exceptions
+from commands import selector
 from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
 from interop.constants import *
 from flask import Flask, request
@@ -128,11 +129,28 @@ def content_handler(params):
 @socketio.on("run_command")
 def run_command_handler(params):
     logger.debug("[socket/run_command Handler started.")
-    executable_path = params["path"]
-    if executable_path is None or os.path.isfile(executable_path) is False:
+    input_command = params["command"]
+    if input_command is None or len(input_command) == 0 or input_command is not str: 
         emit(
             "std_output",
-            { "message": f"Provided executable path ({executable_path}) does not exist." })
+            { "message": "Provided empty command." })
+
+    command_alias = None
+    command_arguments = None
+
+    if len(input_command) >= 1:
+        command_alias = input_command[0].strip()
+        command_arguments = input_command[1:]
+
+    command = selector.select_command(command_alias)
+
+    if command is None:
+        emit(
+            "std_output",
+            {"message": "Unknown command. Try 'help' or 'supportedcommands' to see all supported commands."})
+        return
+
+    command_result = command.execute(agent, command_arguments)
 
     emit("std_output", { "message": "Stub message for running command" })
 
