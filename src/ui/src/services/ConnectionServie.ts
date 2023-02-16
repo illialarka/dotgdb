@@ -16,15 +16,16 @@ class ConnectionService {
                 timeout: this.timeout * 60 * 1000 
             });
             
-        this._socket.on("connect", () => { console.log("connection successful") })
+        this._socket.on("connect", () => { console.log("Connection successfuly established.") })
 
         Object.keys(eventsHandlers).forEach(key => {
             this._socket.on(key, eventsHandlers[key])
         });
 
         this._socket.on("disconnect", () => {
-            console.log("closing socket")
+            console.log("Closing socket...")
             this._socket.close()
+            window.open("/end-session")
           });
     }
 

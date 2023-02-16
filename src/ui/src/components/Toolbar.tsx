@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button"
 import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
-import { loadFileContent, runDebugger } from "../store/store";
+import { loadFileContent } from "../store/store";
 import { useSearchParams } from "react-router-dom";
 
 const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
