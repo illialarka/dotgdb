@@ -1,12 +1,12 @@
 import os
-import socket
-import webbrowser
 import logging
 import exceptions
+from commands.breakpoint_command import BreakpointCommand
+from commands.resume_command import ResumeCommand
 from commands import selector
-from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXECUTION_STATE_RECORDING
+from state_store_service import StateStoreService
 from interop.constants import *
-from flask import Flask, request
+from flask import Flask
 from flask_compress import Compress 
 from flask_socketio import SocketIO, emit
 
@@ -33,13 +33,7 @@ except ImportError:
 
 agnet = None
 
-def on_vm_start(event, agent):
-    print("from server emitintg")
-    socketio.emit(
-        "std_output",
-        { "message": "Event {0} received with request identifier {1} at the thread {2}." })
-
-def run_server(
+def process_server(
     *,
     agent,
     session,
@@ -49,8 +43,7 @@ def run_server(
     private_key=None,
     certificate=None): 
 
-    agent.events_callbacks[EVENT_KIND_VM_START] = on_vm_start
-
+    application.config["application"] = agent
     kwargs = {}
 
     ssl_context = define_ssl_context(private_key, certificate)
@@ -59,14 +52,7 @@ def run_server(
         SocketSecurityLayer(application)
         kwargs["ssl_context"] = ssl_context
 
-    url = "%s:%s" % (host, port)
-    protocol = "http://"
-    full_url = protocol + url
-
-    if kwargs.get("ssl_context"):
-        protocol = "https://"
-        full_url = protocol + url
-
+    logger.addHandler(SocketLoggerHandler(socketio=socketio))
     socketio.server_options["allow_upgrades"] = False
     socketio.init_app(application)
 
@@ -81,16 +67,6 @@ def run_server(
         logger.error(
             f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
-
-    if host == DEFAULT_HOST:
-        url = (DEFAULT_HOST, port)
-    else:
-        try:
-            url = (socket.gethostbyname(socket.gethostname()), port)
-        except Exception:
-            url = (host, port)
-
-    logger.info(f"Open dotgdb at {full_url}.")
 
     try:
         socketio.run(
@@ -119,39 +95,52 @@ def content_handler(params):
             logger.debug("[socket/connect] Handler returns source code.") 
             emit(
                 "content_event",
-                { "content": source_code, "ok": True })
+                { 
+                    "last_modified_datetime": last_modified_datetime,
+                    "content": source_code,
+                    "ok": True
+                })
 
     except Exception as exc:
         emit(
             "content_event",
             { "message": f"Error message: {exc}", "ok": False })
 
-@socketio.on("run_command")
+@socketio.on("breakpoints")
 def run_command_handler(params):
-    logger.debug("[socket/run_command Handler started.")
+    logger.debug("[socket/breakpoints] Handler started.")
     input_command = params["command"]
+    input_command_arguments = params["arguments"]
     if input_command is None or len(input_command) == 0 or input_command is not str: 
         emit(
             "std_output",
-            { "message": "Provided empty command." })
+            { "message": "Provided invalid command." })
 
     command_alias = None
     command_arguments = None
 
     if len(input_command) >= 1:
-        command_alias = input_command[0].strip()
-        command_arguments = input_command[1:]
+        command_alias = input_command.strip()
+        command_arguments = input_command_arguments.strip()
 
+    # FIXME: Change it to server command selector
     command = selector.select_command(command_alias)
 
     if command is None:
         emit(
             "std_output",
-            {"message": "Unknown command. Try 'help' or 'supportedcommands' to see all supported commands."})
+            { "message": "Unknown command. Try 'help' or 'supportedcommands' to see all supported commands." })
         return
 
-    command_result = command.execute(agent, command_arguments)
+    agent = application.config["application"]; 
+
+    # FIXME: Update branches with updating data scopes
+    if command is BreakpointCommand:
+        # update breakpoints
+        pass 
+    elif command is ResumeCommand:
+        # update state
+        pass 
+    
 
     emit("std_output", { "message": "Stub message for running command" })
-
-

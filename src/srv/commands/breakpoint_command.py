@@ -54,7 +54,7 @@ class BreakpointCommand(Command):
             help=f'Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>',
             type=str)
 
-    def execute(self, agent, args=None):
+    def execute(self, agent, args=None, emiter=None):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
@@ -74,7 +74,7 @@ class BreakpointCommand(Command):
             location.method_name,
             location.line_number)
 
-    def _set_breakpoints(self, agent, type_name, method_name, line_number):
+    def _set_breakpoints(self, agent, type_name, method_name, line_number, emiter):
         assemblies = agent.vm.get_root_appdomain().get_assemblies()
         method_break_on = None
         event_request = None

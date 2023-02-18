@@ -1,7 +1,6 @@
 import os
 import ssl
-
-from flask import redirect, request
+from flask import request
 
 YEAR_SECONDS = 365 * 24 * 60 * 60
 

@@ -23,7 +23,7 @@ class InfoCommand(Command):
         self._argument_parser.add_argument(
             'entity', help='Specifies entity info about', choices=['break'])
 
-    def execute(self, agent, args=None):
+    def execute(self, agent, args=None, writer=None):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
@@ -37,14 +37,20 @@ class InfoCommand(Command):
             self._info_breakpoints()
             return
 
-    def _info_breakpoints(self):
+    def _info_breakpoints(self, writer):
+        kind = "breakpoints"
         state_store_service = StateStoreService()
         event_descriptors = state_store_service.state.event_descriptors
 
         if len(event_descriptors) == 0:
-            logger.info('No breakpoints found.')
+            writer({
+                "kind": kind,
+                "message": "No breakpoints found." })
             return
 
+        writer({
+            "kind": kind,
+            "content": event_descriptors })
         for breakpoint in event_descriptors:
             logger.info(
                 f'Breakpoint {breakpoint.request_id} kind {breakpoint.friendly_event_kind_name} in {breakpoint.method_name}() at {breakpoint.source}:{breakpoint.line_number}.')

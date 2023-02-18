@@ -7,9 +7,8 @@ from session import Session
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory 
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
-from server import run_server
+from server import process_server
 
-import csv
 import argparse
 import logging
 import utils
@@ -49,10 +48,9 @@ def cli():
 
     _session, _agent = Session(), Agent()
 
-    # set event handlers
     try:
         if arguments.server:
-            run_server(agent=_agent, session=_session, arguments=arguments)
+            process_server(agent=_agent, session=_session, arguments=arguments)
         else: 
             process_interaction(agent=_agent, session=_session, arguments=arguments)
     finally:
