@@ -6,15 +6,15 @@ from commands.command import Command
 import logging
 import argparse
 
-LocationParsed = namedtuple(
-    'LocationParsed',
-    ['type_name', 'method_name', 'line_number'])
+ParsedLocation = namedtuple(
+    "ParserLocation",
+    ["type_name", "method_name", "line_number"])
 
 logger = logging.getLogger()
 
 
 class BreakpointCommand(Command):
-    '''
+    """
     The Breakpoint command is responsible for placing breakpoint events at the specific line of source code.
 
     Pattern:
@@ -40,18 +40,18 @@ class BreakpointCommand(Command):
 
     To place a breakpoint at the 8th line, use: 
 
-        breakpoint Utils.Util:Add:9
-    '''
+    breakpoint Utils.Util:Add:9
+    """
 
     def __init__(self):
-        self.aliases = ['breakpoint', 'break', 'bt']
-        self.description = 'Manages breakpoints'
-        self.help = 'Usage: breakpoint <namespace>.<type_name>:<method_name>:<line_number>'
+        self.aliases = ["breakpoint", "break", "bt"]
+        self.description = "Manages breakpoints"
+        self.help = "Usage: breakpoint <namespace>.<type_name>:<method_name>:<line_number>"
 
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
-            'location',
-            help=f'Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>',
+            "location",
+            help=f"Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>",
             type=str)
 
     def execute(self, agent, args=None, emiter=None):
@@ -65,7 +65,7 @@ class BreakpointCommand(Command):
 
         if location is None:
             logger.warn(
-                'Unable to understand specified code location. Please use [-help] to get help information.')
+                "Unable to understand specified code location. Please use [-help] to get help information.")
             return
 
         self._set_breakpoints(
@@ -92,7 +92,7 @@ class BreakpointCommand(Command):
 
         if method_break_on is None:
             logger.warn(
-                'Location was not found. Make sure you are at right location.')
+                "Location was not found. Make sure you are at right location.")
             return
 
         code_location = None
@@ -110,7 +110,7 @@ class BreakpointCommand(Command):
                 break
 
         if code_location is None or event_request is None:
-            logger.info('Could not find code location.')
+            logger.info("Could not find code location.")
             return
 
         il_offset = code_location.il_offset
@@ -122,14 +122,14 @@ class BreakpointCommand(Command):
             event_request, method_file, line_number, method_name)
 
         logger.info(
-            f'Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.')
+            f"Breakpoint {breakpoint_id} has been set at 0x{il_offset:02X}: {method_file}, line {line_number}.")
 
     def _parse_breakpoint_location(self, location):
-        parts = location.split(':')
+        parts = location.split(":")
 
         if len(parts) != 3:
             logger.warn(
-                'Unknown location defined. Please use <type>:<method>:<linenumber> pattern.')
+                "Unknown location defined. Please use <type>:<method>:<linenumber> pattern.")
             return
 
         type_name = parts[0]
@@ -139,7 +139,7 @@ class BreakpointCommand(Command):
         try:
             line_number = int(parts[2])
         except BaseException:
-            logger.warn('Unable to parse line number.')
+            logger.warn("Unable to parse line number.")
             return
 
-        return LocationParsed(type_name, method_name, line_number)
+        return ParsedLocation(type_name, method_name, line_number)
