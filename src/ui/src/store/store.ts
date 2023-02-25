@@ -4,18 +4,21 @@ import {
   createSlice,
   PayloadAction,
   ThunkAction } from '@reduxjs/toolkit';
+import { Breakpoint } from '../models/breakpoints.model';
 import ConnectionService from '../services/ConnectionServie';
 
 export interface DebugState {
   sourceCode: string | null;
   logs: string[];
   output: string[];
+  breakpoints: Breakpoint[];
 };
 
 const initialState: DebugState = {
   sourceCode: null,
   logs: [],
-  output: [] 
+  output: [],
+  breakpoints: [] 
 };
 
 const connectionService = new ConnectionService("http://127.0.0.1:5000");
@@ -26,7 +29,8 @@ connectionService.initialize(
         ? store.dispatch(setSourceCode(response.content))
         : store.dispatch(appendLog(response.message));
     },
-    std_output: (response) => store.dispatch(appendOutput(response.message))
+    std_output: (response) => store.dispatch(appendOutput(response.message)),
+    breakpoints: (response) => store.dispatch(appendBreakpoint(response.content))
   }
 );
 
@@ -43,6 +47,11 @@ export const debugSlice = createSlice({
     },
     appendOutput: (state, action: PayloadAction<string>) => {
       state.output = [...state.output, action.payload];
+    },
+
+    // breakpoints
+    appendBreakpoint: (state, action: PayloadAction<Breakpoint[]>) => {
+      state.breakpoints = [...state.breakpoints, ...action.payload]
     }
   }
 });
@@ -50,7 +59,8 @@ export const debugSlice = createSlice({
 export const {
   setSourceCode,
   appendLog,
-  appendOutput
+  appendOutput,
+  appendBreakpoint
 } = debugSlice.actions;
 
 export default debugSlice.reducer;
@@ -70,8 +80,15 @@ export const loadFileContent =
 export const runDebugger =
   (filePath: string): AppThunk => 
   (dispatch, getState) => {
-    connectionService.send("run_command", { path: filePath })
+    connectionService.send("command", { path: filePath })
   };
+
+export const setBreakpoint =
+  (command: string, args: string): AppThunk => 
+  (dispatch, getState) => {
+    connectionService.send("command", { command: command, arguments: args })
+  };
+
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

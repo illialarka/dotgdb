@@ -1,4 +1,7 @@
 import { Disclosure } from "@headlessui/react";
+import { Breakpoint } from "../models/breakpoints.model";
+import { useAppSelector } from "../store/hooks";
+import { selectBreakpoints } from "../store/selectors";
 
 const Chevron = () => {
   return (
@@ -6,9 +9,22 @@ const Chevron = () => {
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
     </svg>
   );
-}
+};
+
+const BreakpointView = (
+  props: { breakpoint: Breakpoint }
+) => {
+  const { breakpoint } = props;
+  return (
+    <div className="flex flex-row items-center">
+      <span>{breakpoint.id}</span>
+    </div>
+  );
+};
 
 const Sidebar = () => {
+  const breakpoints = useAppSelector(selectBreakpoints);
+  
   return (
     <div className="flex flex-col text-white text-sm">
       <div className="bg-gray-600 p-1">
@@ -25,7 +41,10 @@ const Sidebar = () => {
               </div>
             </Disclosure.Button>
             <Disclosure.Panel>
-              Breakpoints appear there.
+              <div className="flex flex-col">
+                {breakpoints.map((breakpoint, index) =>
+                  <BreakpointView key={index} breakpoint={breakpoint}/>)}
+              </div>
             </Disclosure.Panel>
           </>
         )}

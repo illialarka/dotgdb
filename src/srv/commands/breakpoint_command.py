@@ -6,8 +6,8 @@ from commands.command import Command
 import logging
 import argparse
 
-ParsedLocation = namedtuple(
-    "ParserLocation",
+LocationParsed = namedtuple(
+    "LocationParsed",
     ["type_name", "method_name", "line_number"])
 
 logger = logging.getLogger()
@@ -40,13 +40,14 @@ class BreakpointCommand(Command):
 
     To place a breakpoint at the 8th line, use: 
 
-    breakpoint Utils.Util:Add:9
+        breakpoint Utils.Util:Add:9
     """
 
     def __init__(self):
         self.aliases = ["breakpoint", "break", "bt"]
         self.description = "Manages breakpoints"
         self.help = "Usage: breakpoint <namespace>.<type_name>:<method_name>:<line_number>"
+        self.scopes = ["breakpoints"]
 
         self._argument_parser = argparse.ArgumentParser()
         self._argument_parser.add_argument(
@@ -54,11 +55,12 @@ class BreakpointCommand(Command):
             help=f"Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>",
             type=str)
 
-    def execute(self, agent, args=None, emiter=None):
+    def execute(self, agent, args=None):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except Exception:
+        except Exception as e:
+            logger.error(e)
             return
 
         location = self._parse_breakpoint_location(arguments.location)
@@ -74,7 +76,7 @@ class BreakpointCommand(Command):
             location.method_name,
             location.line_number)
 
-    def _set_breakpoints(self, agent, type_name, method_name, line_number, emiter):
+    def _set_breakpoints(self, agent, type_name, method_name, line_number):
         assemblies = agent.vm.get_root_appdomain().get_assemblies()
         method_break_on = None
         event_request = None
@@ -142,4 +144,4 @@ class BreakpointCommand(Command):
             logger.warn("Unable to parse line number.")
             return
 
-        return ParsedLocation(type_name, method_name, line_number)
+        return LocationParsed(type_name, method_name, line_number)

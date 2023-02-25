@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button"
 import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
-import { loadFileContent } from "../store/store";
+import { loadFileContent, setBreakpoint } from "../store/store";
 import { useSearchParams } from "react-router-dom";
 
 const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
@@ -112,7 +112,7 @@ const Toolbar = () => {
             callback={() => dispatch(loadFileContent(sourceCodePath!))}/>
         </div>	
         <div className="flex flex-row space-x-2 justify-end">
-          <Button icon={runIcon}/>
+          <Button icon={runIcon} callback={() => dispatch(setBreakpoint("break", "Utils.Util:Add:7"))}/>
           <Button icon={stopIcon}/>
           <Button icon={stepInIcon}/>
           <Button icon={stepOverIcon}/>

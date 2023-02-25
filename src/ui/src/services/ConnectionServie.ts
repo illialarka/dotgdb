@@ -31,7 +31,7 @@ class ConnectionService {
 
     send(command: string, params: any): void {
         if (this._socket.connected) {
-            this._socket.emit(command, { path: params.path })
+            this._socket.emit(command, params)
         } else {
             console.error("Impossible to emmit command, since socket is closed.")
         }

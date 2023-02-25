@@ -2,7 +2,7 @@ from state_store_service import StateStoreService, EXECUTION_STATE_RUNNING, EXEC
 from interop.nbstreamreader import NonBlockingStreamReader
 from interop.agent import Agent
 from interop.constants import *
-from commands import selector
+from commands.selector import select_command 
 from session import Session
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory 
@@ -107,7 +107,7 @@ def process_interaction(agent, session, arguments):
                 command_alias = input_command[0].strip()
                 command_arguments = input_command[1:]
 
-            command = selector.select_command(command_alias)
+            command = select_command(command_alias)
 
             if command is None:
                 print(

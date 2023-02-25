@@ -1,9 +1,8 @@
 import os
 import logging
 import exceptions
-from commands.breakpoint_command import BreakpointCommand
-from commands.resume_command import ResumeCommand
-from commands import selector
+from commands.selector import select_command 
+from refreshers.selector import select_refresher 
 from state_store_service import StateStoreService
 from interop.constants import *
 from flask import Flask
@@ -52,7 +51,6 @@ def process_server(
         SocketSecurityLayer(application)
         kwargs["ssl_context"] = ssl_context
 
-    logger.addHandler(SocketLoggerHandler(socketio=socketio))
     socketio.server_options["allow_upgrades"] = False
     socketio.init_app(application)
 
@@ -106,9 +104,9 @@ def content_handler(params):
             "content_event",
             { "message": f"Error message: {exc}", "ok": False })
 
-@socketio.on("breakpoints")
+@socketio.on("command")
 def run_command_handler(params):
-    logger.debug("[socket/breakpoints] Handler started.")
+    logger.debug("[socket/command] Handler started.")
     input_command = params["command"]
     input_command_arguments = params["arguments"]
     if input_command is None or len(input_command) == 0 or input_command is not str: 
@@ -116,15 +114,7 @@ def run_command_handler(params):
             "std_output",
             { "message": "Provided invalid command." })
 
-    command_alias = None
-    command_arguments = None
-
-    if len(input_command) >= 1:
-        command_alias = input_command.strip()
-        command_arguments = input_command_arguments.strip()
-
-    # FIXME: Change it to server command selector
-    command = selector.select_command(command_alias)
+    command = select_command(input_command)
 
     if command is None:
         emit(
@@ -133,14 +123,8 @@ def run_command_handler(params):
         return
 
     agent = application.config["application"]; 
+    command.execute(agent, [input_command_arguments])
+    refreshers = select_refresher(command.scopes) 
 
-    # FIXME: Update branches with updating data scopes
-    if command is BreakpointCommand:
-        # update breakpoints
-        pass 
-    elif command is ResumeCommand:
-        # update state
-        pass 
-    
-
-    emit("std_output", { "message": "Stub message for running command" })
+    for refresher in refreshers:
+        refresher.execute(agent=agent, socket=socketio)

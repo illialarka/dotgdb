@@ -51,6 +51,7 @@ class StateStoreService:
             line_number=line_number,
             event_query=None)
         self.state.event_descriptors.append(event_descriptor)
+        return event_descriptor
 
     def clear_events(self):
         self.state.event_descriptors = []

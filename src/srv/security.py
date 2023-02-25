@@ -5,9 +5,9 @@ from flask import request
 YEAR_SECONDS = 365 * 24 * 60 * 60
 
 class SocketSecurityLayer:
-    '''
+    """
     Secures socket communication.
-    '''
+    """
 
     def __init__(self, application=None, expire_in=YEAR_SECONDS):
         self.application = application
