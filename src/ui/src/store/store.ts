@@ -8,6 +8,7 @@ import { Breakpoint } from '../models/breakpoints.model';
 import ConnectionService from '../services/ConnectionServie';
 
 export interface DebugState {
+  sourceCodeFilePath?: string;
   sourceCode: string | null;
   logs: string[];
   output: string[];
@@ -15,6 +16,7 @@ export interface DebugState {
 };
 
 const initialState: DebugState = {
+  sourceCodeFilePath: undefined,
   sourceCode: null,
   logs: [],
   output: [],
@@ -39,6 +41,9 @@ export const debugSlice = createSlice({
   initialState,
   reducers: {
     // source code
+    setSourceCodeFilePath: (state, action: PayloadAction<string>) => {
+      state.sourceCodeFilePath = action.payload;
+    },
     setSourceCode: (state, action: PayloadAction<string>) => {
       state.sourceCode = action.payload;
     },
@@ -57,6 +62,7 @@ export const debugSlice = createSlice({
 });
 
 export const {
+  setSourceCodeFilePath,
   setSourceCode,
   appendLog,
   appendOutput,

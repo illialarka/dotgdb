@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button"
 import Dropdown from "./Dropdown";
 import { useAppDispatch } from "../store/hooks";
-import { loadFileContent, setBreakpoint } from "../store/store";
+import { loadFileContent, setBreakpoint, setSourceCodeFilePath } from "../store/store";
 import { useSearchParams } from "react-router-dom";
 
 const SOURCE_CODE_PATH_PARAM = "sourceCodePath";
@@ -70,6 +70,7 @@ const Toolbar = () => {
   useEffect(() => {
     if (sourceCodePath && pathRegex.test(sourceCodePath)) {
       searchParams.set(SOURCE_CODE_PATH_PARAM, sourceCodePath)
+      dispatch(setSourceCodeFilePath(sourceCodePath))
     }
     setSearchParams(searchParams)
   },
@@ -80,7 +81,8 @@ const Toolbar = () => {
       const sourceCodePathValue = searchParams.get(SOURCE_CODE_PATH_PARAM); 
 
       if (sourceCodePathValue && pathRegex.test(sourceCodePathValue)) {
-        setSourceCodePath(sourceCodePathValue);
+        setSourceCodePath(sourceCodePathValue)
+        dispatch(setSourceCodeFilePath(sourceCodePathValue))
       }
     },
     [searchParams]);
