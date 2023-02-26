@@ -1,23 +1,21 @@
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectBreakpoints, selectSourceCode, selectSourceCodeFilePath } from "../store/selectors";
+import { setBreakpoint } from '../store/store';
 
-
-const Line = () => {
-  return (
-    <span>A</span>
-  );
-}
 
 const CodeView = () => {
+  const dispatch = useAppDispatch();
   const sourceCode = useAppSelector(selectSourceCode);
   const sourceCodeFilePath = useAppSelector(selectSourceCodeFilePath);
+
   // FIXME: It would not work if path formats are different. Add validation for input path 
   const breakpoints = useAppSelector(selectBreakpoints).filter(breakpoint => breakpoint.source == sourceCodeFilePath);
   const defaulPlaceholder = "// source code here"
 
   let highlightedLines = breakpoints.map(breakpoint => breakpoint.line_number);
+  const placeBreakpoint = (lineNumber: number) => dispatch(setBreakpoint("break", ""))
 
   return (
     <SyntaxHighlighter
@@ -32,23 +30,15 @@ const CodeView = () => {
           style.color = "#fff"
           style.borderRadius = "4px"
           style.padding = "0 4px 0 4px"
+          style.cursor = "default"
+        } else {
+          style.cursor = "pointer"
         }
-        return {style};
+        return { style, onClick: () => placeBreakpoint(lineNumber) };
       }}
       className={"syntax-highlighter"}>
       {sourceCode ?? defaulPlaceholder}
     </SyntaxHighlighter>
-
-    /*    <div style={{ fontFamily: 'IBM Plex Mono' }}>
-          <CodeBlock
-            text={sourceCode ?? defaulPlaceholder}
-            showLineNumbers
-            highlight={breakpoints.map(b => b.line_number).reduce((prev, curr) => prev + `${curr},`, '')}
-            codeContainerStyle={(l:number) =>{ color: 'red'}}
-            language="c"
-            theme={vs2015}
-          />
-        </div>*/
   );
 };
 

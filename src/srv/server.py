@@ -2,7 +2,7 @@ import os
 import logging
 import exceptions
 from commands.selector import select_command 
-from refreshers.selector import select_refresher 
+from refreshers.selector import select_refresher, supporeted_refreshers
 from state_store_service import StateStoreService
 from interop.constants import *
 from flask import Flask
@@ -76,6 +76,12 @@ def process_server(
     except KeyboardInterrupt:
         pass
 
+@socketio.on("connect")
+def connect_handler(params):
+    agent = application.config["application"]; 
+    for refresher in supporeted_refreshers:
+        refresher.execute(agent=agent, socket=socketio)
+
 @socketio.on("content")
 def content_handler(params):
     logger.debug("[socket/connect] Handler started.")
@@ -128,3 +134,4 @@ def run_command_handler(params):
 
     for refresher in refreshers:
         refresher.execute(agent=agent, socket=socketio)
+

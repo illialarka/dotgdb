@@ -3,9 +3,9 @@ import exceptions as exceptions
 
 
 class ExitCommand(cmd.Command):
-    '''
+    """ 
     Exists dotgdb tool.
-    '''
+    """ 
 
     def __init__(self):
         self.aliases = ["exit"]
