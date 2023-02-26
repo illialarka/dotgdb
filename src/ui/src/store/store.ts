@@ -51,7 +51,7 @@ export const debugSlice = createSlice({
 
     // breakpoints
     appendBreakpoint: (state, action: PayloadAction<Breakpoint[]>) => {
-      state.breakpoints = [...state.breakpoints, ...action.payload]
+      state.breakpoints = [...action.payload]
     }
   }
 });

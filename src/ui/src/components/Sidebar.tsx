@@ -11,20 +11,41 @@ const Chevron = () => {
   );
 };
 
-const BreakpointView = (
-  props: { breakpoint: Breakpoint }
-) => {
-  const { breakpoint } = props;
+const BreakpointsTable = () => {
+  const breakpoints = useAppSelector(selectBreakpoints);
+
   return (
-    <div className="flex flex-row items-center">
-      <span>{breakpoint.id}</span>
-    </div>
+    <table className="table-auto w-full cursor-default">
+      <thead className="border-b border-gray-400 text-left">
+        <tr className="text-gray-400 text-xs">
+          <th></th>
+          <th>#</th>
+          <th>Method</th>
+          <th>File</th>
+          <th>Line</th>
+        </tr>
+      </thead>
+      <tbody>
+        {breakpoints.map((breakpoint: Breakpoint, index: number) =>
+          <tr key={index} className="border-b border-gray-500 py-2">
+            <td className="text-red-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                <path fillRule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm5-2.25A.75.75 0 017.75 7h4.5a.75.75 0 01.75.75v4.5a.75.75 0 01-.75.75h-4.5a.75.75 0 01-.75-.75v-4.5z" clipRule="evenodd" />
+              </svg>
+            </td>
+            <td>{breakpoint.id}</td>
+            <td>{breakpoint.method}</td>
+            <td className="truncate cursor-pointer">{breakpoint.source}</td>
+            <td>{breakpoint.line_number}</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   );
 };
 
 const Sidebar = () => {
-  const breakpoints = useAppSelector(selectBreakpoints);
-  
+
   return (
     <div className="flex flex-col text-white text-sm">
       <div className="bg-gray-600 p-1">
@@ -41,10 +62,7 @@ const Sidebar = () => {
               </div>
             </Disclosure.Button>
             <Disclosure.Panel>
-              <div className="flex flex-col">
-                {breakpoints.map((breakpoint, index) =>
-                  <BreakpointView key={index} breakpoint={breakpoint}/>)}
-              </div>
+              <BreakpointsTable />
             </Disclosure.Panel>
           </>
         )}
