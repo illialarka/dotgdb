@@ -4,6 +4,12 @@ import { useAppSelector } from "../store/hooks";
 import { selectBreakpoints, selectSourceCode, selectSourceCodeFilePath } from "../store/selectors";
 
 
+const Line = () => {
+  return (
+    <span>A</span>
+  );
+}
+
 const CodeView = () => {
   const sourceCode = useAppSelector(selectSourceCode);
   const sourceCodeFilePath = useAppSelector(selectSourceCodeFilePath);
@@ -27,7 +33,7 @@ const CodeView = () => {
           style.borderRadius = "4px"
           style.padding = "0 4px 0 4px"
         }
-        return { style };
+        return {style};
       }}
       className={"syntax-highlighter"}>
       {sourceCode ?? defaulPlaceholder}
