@@ -3,7 +3,6 @@ import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectBreakpoints, selectSourceCode, selectSourceCodeFilePath } from "../store/selectors";
 import { setBreakpoint } from '../store/store';
-import './CodeView.css';
 
 const CodeView = () => {
   const dispatch = useAppDispatch();

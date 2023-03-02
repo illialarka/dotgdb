@@ -1,0 +1,19 @@
+.icons-column {
+    width: 10%;
+}
+
+.id-column {
+    width: 10%;
+}
+
+.method-column {
+    width: 30%;
+}
+
+.source-column {
+    width: 40%;
+}
+
+.line-number {
+    width: 10%;
+}
