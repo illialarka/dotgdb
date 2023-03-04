@@ -2,6 +2,7 @@ from collections import namedtuple
 from state_store_service import StateStoreService
 from interop import event_modifiers, constants
 from commands.command import Command
+from cli_argument_parser import CliArgumentParser
 
 import logging
 import argparse
@@ -12,7 +13,7 @@ LocationParsed = namedtuple(
 
 logger = logging.getLogger()
 
-
+# FIXME: Add descriptive doc how it parses and uses arguments 
 class BreakpointCommand(Command):
     """
     The Breakpoint command is responsible for placing breakpoint events at the specific line of source code.
@@ -20,6 +21,7 @@ class BreakpointCommand(Command):
     Pattern:
 
         breakpoint <namespace>.<type_name>:<method_name>:<line_number>
+        breakpoint <full_source_file_path>:<line_number>
 
     Example source code:
 
@@ -40,28 +42,75 @@ class BreakpointCommand(Command):
 
     To place a breakpoint at the 8th line, use: 
 
-        breakpoint Utils.Util:Add:9
+        `breakpoint Utils.Util:Add:9`
+    
+    or
+
+        `breakpoint /src/Utils.cs:9`
+
     """
 
     def __init__(self):
         self.aliases = ["breakpoint", "break", "bt"]
         self.description = "Manages breakpoints"
-        self.help = "Usage: breakpoint <namespace>.<type_name>:<method_name>:<line_number>"
+        self.help = """Usage: 
+            breakpoint <namespace>.<type_name>:<method_name>:<line_number> or
+            breakpoint <source_file_path>:<line_number>
+            """
         self.scopes = ["breakpoints"]
 
-        self._argument_parser = argparse.ArgumentParser()
+        self._argument_parser = CliArgumentParser(
+            prog="breakpoints",
+            usage=self.help)
+
+        type_arguments_group = self._argument_parser.add_argument_group("type")
+
+        type_arguments_group.add_argument(
+            "-n",
+            "--namespace",
+            help="Specifies desired type namespace",
+            type=str,
+            required=True)
+
+        type_arguments_group.add_argument(
+            "-t",
+            "--type",
+            help="Specifies desired type name",
+            type=str,
+            required=True) 
+
+        type_arguments_group.add_argument(
+            "-m",
+            "--method",
+            help="Specifies desired method name",
+            type=str,
+            required=True)
+
+        file_arguments_group = self._argument_parser.add_argument_group("file")
+
+        file_arguments_group.add_argument(
+            "-f",
+            "--file",
+            help="Specifies desired file name",
+            type=str,
+            required=True)
+
         self._argument_parser.add_argument(
-            "location",
-            help=f"Sets breakpoint at specified location. Location should follow patter - <namespace>.<type_name>:<method_name>:<line_number>",
-            type=str)
+            "-l",
+            "--line",
+            help="Specifies desired line number name",
+            type=int,
+            required=True)
+
 
     def execute(self, agent, args=None):
         arguments = None
         try:
             arguments = self._argument_parser.parse_args(args)
-        except Exception as e:
-            logger.error(e)
+        except Exception:
             return
+
+        print(arguments)
 
         location = self._parse_breakpoint_location(arguments.location)
 
@@ -87,6 +136,7 @@ class BreakpointCommand(Command):
                 continue
 
             method = type.get_method_by_name(method_name)
+            print(method.get_source_filename())
             if method is None:
                 continue
 

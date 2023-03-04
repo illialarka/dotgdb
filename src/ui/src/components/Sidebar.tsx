@@ -40,7 +40,7 @@ const BreakpointsTable = () => {
     </table>);
 
   const placeholder = (
-    <div className="flex text-sm">
+    <div className="flex text-sm items-center">
       <span>There is no brekpoints.</span>
     </div>);
 

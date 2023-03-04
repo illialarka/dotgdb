@@ -8,11 +8,12 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory 
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from server import process_server
+from cli_argument_parser import CliArgumentParser
+from exceptions import ExitException, ExecutableNotFound
 
 import argparse
 import logging
 import utils
-import exceptions
 import logging
 import event_handlers
 
@@ -21,7 +22,7 @@ state_store_service = StateStoreService()
 
 
 def cli():
-    argument_parser = argparse.ArgumentParser(
+    argument_parser = CliArgumentParser(
         prog="dotgdb",
         description="Mono Soft Debugger CLI")
 
@@ -69,7 +70,7 @@ def process_interaction(agent, session, arguments):
 
         agent.vm.resume(), agent.vm.suspend()
         state_store_service.state.executable_path = arguments.executable
-    except exceptions.ExecutableNotFound:
+    except ExecutableNotFound:
         logger.error(
             f"Couldn't find an executable to run. Ensure it exists in {arguments.executable}.")
         return
@@ -114,16 +115,17 @@ def process_interaction(agent, session, arguments):
                     "Unknown command. Try 'help' or 'supportedcommands' to see all supported commands.")
                 continue
 
-            command_result = command.execute(agent, command_arguments)
-
-            if command_result is not None:
-                print(command_result)
+            command.execute(agent, command_arguments)
 
         # process domain exceptions
-        except exceptions.ExitException:
+        except ExitException:
             logger.info("Exit requested. Closing session and kill processes.")
             non_blocking_stream_reader.close()
             return
+
+        except Exception as exception:
+            logger.error(exception)
+            continue 
 
 if __name__ == "__main__":
     cli()
