@@ -25,6 +25,7 @@ class VmMirror:
         self.version = stream.get_string()
         self.protocol_version_major = stream.get_int()
         self.protocol_version_minor = stream.get_int()
+        print("version", self.version, self.protocol_version_major, self.protocol_version_minor)
 
         assert (
             self.protocol_version_major >= 2 and
@@ -138,3 +139,17 @@ class VmMirror:
             self._objects_cache[object_id] = mirror
 
         return self._objects_cache[object_id]
+
+    def get_types_for_source_file(self, source_file):
+        params = (
+            sdbtypes.encode_string(source_file) +
+            sdbtypes.encode_byte(0))
+
+        answer = self._agent.send_command(
+            constants.CMDSET_VM,
+            constants.CMD_VM_GET_TYPES_FOR_SOURCE_FILE,
+            params)
+
+        ids = buffer_stream.BufferStream(answer.data).get_array(sdbtypes.decode_int)
+
+        return [self.get_type(id) for id in ids]
